@@ -7,3 +7,23 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+html {
+    background: url('/img/background.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body {
+    background-color: transparent;
+}
+
+.navbar-default {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+main {
+    background-color: rgba(245, 248, 250, 0.8);
+}

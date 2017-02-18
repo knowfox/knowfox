@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/concepts', [
+    'as' => 'concept.index',
+    'uses' => 'ConceptController@index',
+])->middleware('auth');
