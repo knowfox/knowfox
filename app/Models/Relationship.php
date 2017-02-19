@@ -6,17 +6,14 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Relationship extends Pivot
 {
-    public static $types = [
-        'uses' => ['nutzt', 'wird genutzt von'],
-    ];
-
     public function getTypeAttribute($value)
     {
         $result = [ 'type' => $value ];
+        $config = config('knowfox');
 
-        if (!empty(self::$types[$value])) {
+        if (!empty($config['relationships'][$value])) {
             return $result + [
-                'labels' => self::$types[$value],
+                'labels' => $config['relationships'][$value],
             ];
         }
         else {

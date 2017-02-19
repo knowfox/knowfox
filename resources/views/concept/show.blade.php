@@ -6,15 +6,6 @@
 
         <section class="page-header">
 
-            <section class="actions">
-                <ul>
-                    <li><a href="#" data-toggle="modal" data-target="#concept-edit-form">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </a>
-                    </li>
-                </ul>
-            </section>
-
             <ol class="breadcrumb">
                 <li><a href="{{route('concept.index')}}">Concepts</a></li>
 
@@ -27,6 +18,10 @@
 
                 <li class="active">{{$concept->title}}</li>
             </ol>
+
+            <button class="btn btn-default pull-right" data-toggle="modal" data-target="#concept-edit-form">
+                <i class="glyphicon glyphicon-edit"></i> Edit concept
+            </button>
 
             <h1>{{$concept->title}}</h1>
 
