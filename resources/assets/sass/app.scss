@@ -26,4 +26,21 @@ body {
 
 main {
     background-color: rgba(245, 248, 250, 0.8);
+    padding-top: 22px;
+}
+
+p.summary {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+section.meta {
+    border: solid 1px #CCC;
+    border-radius: 4px;
+    padding: 10px;
+
+    float: right;
+    width: 33%;
+    margin-left: 20px;
+    margin-bottom: 10px;
 }

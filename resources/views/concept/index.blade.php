@@ -3,6 +3,11 @@
 @section('content')
 
     <main class="container">
+
+        <ol class="breadcrumb">
+            <li class="active">Concepts</li>
+        </ol>
+
         <table class="table">
             <thead>
             <tr>
@@ -17,11 +22,19 @@
                 <tr>
                     <td>{{$concept->id}}</td>
                     <td>
-                        @foreach ($concept->getAncestors(['title']) as $ancestor)
+                        @if ($concept->depth == 0)
+                            <a href="{{route('concept.show', ['concept' => $concept])}}">
+                                <strong>{{$concept->title}}</strong>
+                            </a>
+                        @else
+                            @foreach ($concept->ancestors()->get() as $ancestor)
                             {{$ancestor->title}} &raquo;
-                        @endforeach
-                        <br>
-                        {{$concept->title}}
+                                @endforeach
+                            <br>
+                            <a href="{{route('concept.show', ['concept' => $concept])}}">
+                                {{$concept->title}}
+                            </a>
+                        @endif
                     </td>
                     <td>{{$concept->updated_at}}</td>
                     <td><a href="#edit" data-id="{{$concept->id}}"><i class="glyphicon glyphicon-edit"></i></a></td>

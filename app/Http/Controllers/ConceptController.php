@@ -15,7 +15,8 @@ class ConceptController extends Controller
      */
     public function index()
     {
-        $concepts = Concept::where('owner_id', Auth::id())
+        $concepts = Concept::withDepth()
+            ->where('owner_id', Auth::id())
             ->orderBy('updated_at')->paginate();
         return view('concept.index', ['concepts' => $concepts]);
     }
@@ -38,7 +39,6 @@ class ConceptController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -49,7 +49,7 @@ class ConceptController extends Controller
      */
     public function show(Concept $concept)
     {
-        //
+        return view('concept.show', ['concept' => $concept]);
     }
 
     /**

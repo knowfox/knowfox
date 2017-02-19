@@ -18,7 +18,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/concepts', [
-    'as' => 'concept.index',
-    'uses' => 'ConceptController@index',
-])->middleware('auth');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/concepts', [
+        'as' => 'concept.index',
+        'uses' => 'ConceptController@index',
+    ]);
+
+    Route::get('/concept/{concept}', [
+        'as' => 'concept.show',
+        'uses' => 'ConceptController@show',
+    ]);
+});
+

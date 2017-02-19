@@ -17,11 +17,10 @@ class CreateConceptsTable extends Migration
         Schema::create('concepts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('summary')->nullable();
+            $table->text('summary')->nullable();
 
             $table->longText('body')->nullable();
             $table->string('body_format')->default('markdown');
-            $table->longText('rendered_body')->nullable();
 
             $table->string('language')->default('de');
             $table->integer('translation_id')->unsigned()->nullable();
