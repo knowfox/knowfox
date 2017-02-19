@@ -2,6 +2,6 @@
 
 return [
     'relationships' => [
-        'uses' => ['nutzt', 'wird genutzt von'],
+        'uses' => ['nutzt', 'wird genu2tzt von'],
     ],
 ];

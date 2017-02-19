@@ -10,7 +10,7 @@
                 <li class="active">Concepts</li>
             </ol>
 
-            <button class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus-sign"></i> New concept</button>
+            <a class="btn btn-default pull-right" href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a>
             <h1>{{$page_title}}</h1>
 
         </section>

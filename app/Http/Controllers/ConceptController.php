@@ -41,7 +41,7 @@ class ConceptController extends Controller
      */
     public function create()
     {
-        //
+        return view('concept.create', ['concept' => new Concept()]);
     }
 
     /**

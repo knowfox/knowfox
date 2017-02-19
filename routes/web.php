@@ -25,6 +25,16 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@index',
     ]);
 
+    Route::get('/concept/create', [
+        'as' => 'concept.create',
+        'uses' => 'ConceptController@create',
+    ]);
+
+    Route::post('/concept/store', [
+        'as' => 'concept.store',
+        'uses' => 'ConceptController@store',
+    ]);
+
     Route::get('/concept/{concept}', [
         'as' => 'concept.show',
         'uses' => 'ConceptController@show',
