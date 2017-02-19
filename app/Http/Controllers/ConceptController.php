@@ -3,7 +3,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+use Knowfox\Http\Requests\ConceptRequest;
 use Knowfox\Models\Concept;
 use Illuminate\Http\Request;
 
@@ -47,17 +47,24 @@ class ConceptController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ConceptRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ConceptRequest $request)
     {
+        $concept = new Concept();
+        $concept->fill($request->all());
+        $concept->owner_id = $request->user()->id;
+        $concept->save();
+
+        return redirect()->route('concept.show', [$concept])
+            ->with('status', 'Concept created');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Knowfox\Models\Concept  $concept
+     * @param  Concept  $concept
      * @return \Illuminate\Http\Response
      */
     public function show(Concept $concept)
@@ -81,20 +88,12 @@ class ConceptController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Knowfox\Models\Concept  $concept
+     * @param  ConceptRequest  $request
+     * @param  Concept  $concept
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Concept $concept)
+    public function update(ConceptRequest $request, Concept $concept)
     {
-        $this->validate($request, [
-            'title' => [
-                'required',
-                Rule::unique('concepts')->ignore($concept->id),
-                'max:255',
-            ]
-        ]);
-
         $concept->fill($request->all());
         $concept->save();
 

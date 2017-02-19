@@ -4,6 +4,8 @@ namespace Knowfox\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Knowfox\Models\Concept;
+use Knowfox\Policies\ConceptPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Knowfox\Model' => 'Knowfox\Policies\ModelPolicy',
+        Concept::class => ConceptPolicy::class,
     ];
 
     /**
