@@ -4,9 +4,15 @@
 
     <main class="container">
 
-        <ol class="breadcrumb">
-            <li class="active">Concepts</li>
-        </ol>
+        <section class="page-header">
+
+            <ol class="breadcrumb">
+                <li class="active">Concepts</li>
+            </ol>
+
+            <h1>Concepts</h1>
+
+        </section>
 
         <table class="table">
             <thead>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c3be986c28ce445f9ac5fadc0ca5729",
+    "content-hash": "fa077064ee38e170fb2cf4ec77226a3a",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -207,6 +207,108 @@
                 "parser"
             ],
             "time": "2016-11-02T15:56:58+00:00"
+        },
+        {
+            "name": "etdsolutions/codemirror",
+            "version": "5.21.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/etd-framework/codemirror.git",
+                "reference": "45fa0b58142928f78addb8305544161ea910fb82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/etd-framework/codemirror/zipball/45fa0b58142928f78addb8305544161ea910fb82",
+                "reference": "45fa0b58142928f78addb8305544161ea910fb82",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marijn Haverbeke"
+                }
+            ],
+            "description": "Shim repository for CodeMirror",
+            "homepage": "http://codemirror.net/",
+            "time": "2016-12-06T16:57:21+00:00"
+        },
+        {
+            "name": "etdsolutions/codemirror-spell-checker",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/etd-framework/codemirror-spell-checker.git",
+                "reference": "f0fb7a9f39a00a9fc00aaf4cdf82d0a76f2de9b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/etd-framework/codemirror-spell-checker/zipball/f0fb7a9f39a00a9fc00aaf4cdf82d0a76f2de9b0",
+                "reference": "f0fb7a9f39a00a9fc00aaf4cdf82d0a76f2de9b0",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Shim repository for CodeMirror Spell Checker",
+            "homepage": "https://github.com/NextStepWebs/codemirror-spell-checker",
+            "time": "2015-11-02T09:41:00+00:00"
+        },
+        {
+            "name": "etdsolutions/marked",
+            "version": "0.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/etd-framework/marked.git",
+                "reference": "0decf8f864dbe551fa949fc3a64d7e201c937018"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/etd-framework/marked/zipball/0decf8f864dbe551fa949fc3a64d7e201c937018",
+                "reference": "0decf8f864dbe551fa949fc3a64d7e201c937018",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Shim repository for Marked",
+            "homepage": "https://github.com/chjj/marked",
+            "time": "2015-11-02T09:51:11+00:00"
+        },
+        {
+            "name": "etdsolutions/simplemde-markdown-editor",
+            "version": "1.11.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/etd-framework/simplemde-markdown-editor.git",
+                "reference": "6b4c7dbb1647e723c3e4a0ad737cdc0155943e4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/etd-framework/simplemde-markdown-editor/zipball/6b4c7dbb1647e723c3e4a0ad737cdc0155943e4f",
+                "reference": "6b4c7dbb1647e723c3e4a0ad737cdc0155943e4f",
+                "shasum": ""
+            },
+            "require": {
+                "etdsolutions/codemirror": ">=5.2.0",
+                "etdsolutions/codemirror-spell-checker": ">=1.0",
+                "etdsolutions/marked": ">=0.3.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple, beautiful, and embeddable JavaScript Markdown editor. Features autosaving and spell checking.",
+            "homepage": "https://github.com/NextStepWebs/simplemde-markdown-editor",
+            "time": "2016-06-22T14:25:16+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

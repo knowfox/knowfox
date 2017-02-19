@@ -2,11 +2,10 @@
 
 namespace Knowfox\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Knowfox\Models\Concept;
+use Knowfox\Models\Relationship;
 use Illuminate\Http\Request;
 
-class ConceptController extends Controller
+class RelationshipController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,7 @@ class ConceptController extends Controller
      */
     public function index()
     {
-        $concepts = Concept::withDepth()
-            ->where('owner_id', Auth::id())
-            ->orderBy('updated_at')->paginate();
-        return view('concept.index', ['concepts' => $concepts]);
+        //
     }
 
     /**
@@ -39,28 +35,27 @@ class ConceptController extends Controller
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Knowfox\Models\Concept  $concept
+     * @param  \Knowfox\Models\Relationship  $relationship
      * @return \Illuminate\Http\Response
      */
-    public function show(Concept $concept)
+    public function show(Relationship $relationship)
     {
-        $concept->load('related', 'inverseRelated');
-
-        return view('concept.show', ['concept' => $concept]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Knowfox\Models\Concept  $concept
+     * @param  \Knowfox\Models\Relationship  $relationship
      * @return \Illuminate\Http\Response
      */
-    public function edit(Concept $concept)
+    public function edit(Relationship $relationship)
     {
         //
     }
@@ -69,10 +64,10 @@ class ConceptController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Knowfox\Models\Concept  $concept
+     * @param  \Knowfox\Models\Relationship  $relationship
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Concept $concept)
+    public function update(Request $request, Relationship $relationship)
     {
         //
     }
@@ -80,10 +75,10 @@ class ConceptController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Knowfox\Models\Concept  $concept
+     * @param  \Knowfox\Models\Relationship  $relationship
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Concept $concept)
+    public function destroy(Relationship $relationship)
     {
         //
     }

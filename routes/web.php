@@ -29,5 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'concept.show',
         'uses' => 'ConceptController@show',
     ]);
+
+    Route::post('/concept/{concept}', [
+        'as' => 'concept.update',
+        'uses' => 'ConceptController@update',
+    ]);
 });
 
