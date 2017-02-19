@@ -8,6 +8,9 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// SimpleMDE
+@import "node_modules/simplemde/dist/simplemde.min";
+
 html {
     background: url('/img/background.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -26,6 +29,7 @@ body {
 
 main {
     background-color: rgba(245, 248, 250, 0.8);
+    padding-bottom: 20px;
 }
 
 p.summary {

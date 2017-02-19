@@ -10,7 +10,8 @@
                 <li class="active">Concepts</li>
             </ol>
 
-            <h1>Concepts</h1>
+            <button class="btn btn-default pull-right"><i class="glyphicon glyphicon-plus-sign"></i> New concept</button>
+            <h1>{{$page_title}}</h1>
 
         </section>
 
@@ -18,9 +19,9 @@
             <thead>
             <tr>
                 <th style="width:5%">Id</th>
-                <th style="width:75%">Title</th>
+                <th style="width:50%">Title</th>
+                <th style="width:35%">Tags</th>
                 <th style="width:10%">Updated</th>
-                <th style="width:10%">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -42,8 +43,12 @@
                             </a>
                         @endif
                     </td>
+                    <td>
+                        @foreach ($concept->tags as $tag)
+                            <a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
+                        @endforeach
+                    </td>
                     <td>{{$concept->updated_at}}</td>
-                    <td><a href="#edit" data-id="{{$concept->id}}"><i class="glyphicon glyphicon-edit"></i></a></td>
                 </tr>
             @endforeach
             </tbody>

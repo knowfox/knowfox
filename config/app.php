@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
 
         /*
          * Application Service Providers...

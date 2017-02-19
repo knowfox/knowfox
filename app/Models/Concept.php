@@ -5,9 +5,13 @@ namespace Knowfox\Models;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
+use Conner\Tagging\Taggable;
 
 class Concept extends Model {
     use NodeTrait;
+    use Taggable;
+
+    protected $fillable = ['title', 'summary', 'body'];
 
     public function getRenderedBodyAttribute($value) {
         $parser = new GithubMarkdown();

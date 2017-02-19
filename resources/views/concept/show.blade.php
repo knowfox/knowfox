@@ -8,7 +8,7 @@
 
             <section class="actions">
                 <ul>
-                    <li><a href="#" data-toggle="modal" data-target="#edit-form">
+                    <li><a href="#" data-toggle="modal" data-target="#concept-edit-form">
                             <i class="glyphicon glyphicon-edit"></i>
                         </a>
                     </li>
@@ -29,6 +29,21 @@
             </ol>
 
             <h1>{{$concept->title}}</h1>
+
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
 
         </section>
 
@@ -85,6 +100,18 @@
 
             @endif
 
+            @if ($concept->tags->count())
+                <h2>Tags</h2>
+
+                <ul>
+                    @foreach ($concept->tags as $tag)
+                        <li><a href="{{route('concept.index', ['tag' => $tag->slug])}}">
+                            {{$tag->name}}
+                        </a></li>
+                    @endforeach
+                </ul>
+            @endif
+
             @if ($concept->related()->count() || $concept->inverseRelated()->count())
 
                 <h2>Related</h2>
@@ -117,7 +144,7 @@
 
     </main>
 
-    <div class="modal fade" id="edit-form" tabindex="-1" role="dialog" aria-labelledby="form-label">
+    <div class="modal fade" id="concept-edit-form" tabindex="-1" role="dialog" aria-labelledby="form-label">
         <div class="modal-dialog" role="document">
             <form class="modal-content" action="{{route('concept.update', ['concept' => $concept])}}" method="POST">
                 {{csrf_field()}}
@@ -128,20 +155,20 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" name="title" id="title-form" value="{{$concept->title}}">
+                        <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
                     </div>
                     <div class="form-group">
                         <label for="summary">Summary</label>
-                        <textarea class="form-control" rows="3" name="summary" id="title-form">{{$concept->summary}}</textarea>
+                        <textarea class="form-control" rows="3" name="summary" id="summary-input">{{$concept->summary}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="summary">Body</label>
-                        <textarea class="form-control" rows="10" name="body" id="title-form">{{$concept->body}}</textarea>
+                        <textarea class="form-control" rows="10" name="body" id="body-input">{{$concept->body}}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

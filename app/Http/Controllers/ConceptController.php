@@ -3,6 +3,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Knowfox\Models\Concept;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,24 @@ class ConceptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $concepts = Concept::withDepth()
+            ->with('tagged')
             ->where('owner_id', Auth::id())
-            ->orderBy('updated_at')->paginate();
-        return view('concept.index', ['concepts' => $concepts]);
+            ->orderBy('updated_at');
+
+        $page_title = 'Concepts';
+
+        if ($request->has('tag')) {
+            $concepts->withAllTags([$request->input('tag')]);
+            $page_title .= ' with tag "' . $request->input('tag') . '"';
+        }
+
+        return view('concept.index', [
+            'concepts' => $concepts->paginate(),
+            'page_title' => $page_title,
+        ]);
     }
 
     /**
@@ -49,7 +62,7 @@ class ConceptController extends Controller
      */
     public function show(Concept $concept)
     {
-        $concept->load('related', 'inverseRelated');
+        $concept->load('related', 'inverseRelated', 'tagged');
 
         return view('concept.show', ['concept' => $concept]);
     }
@@ -74,7 +87,22 @@ class ConceptController extends Controller
      */
     public function update(Request $request, Concept $concept)
     {
-        //
+        $this->validate($request, [
+            'title' => [
+                'required',
+                Rule::unique('concepts')->ignore($concept->id),
+                'max:255',
+            ]
+        ]);
+
+        $concept->fill($request->all());
+        $concept->save();
+
+        // @todo
+        $concept->fixTree();
+
+        return redirect()->route('concept.show', [$concept])
+            ->with('status', 'Concept updated (and tree fixed)');
     }
 
     /**
