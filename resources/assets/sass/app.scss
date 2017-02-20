@@ -11,6 +11,11 @@
 // SimpleMDE
 @import "node_modules/simplemde/dist/simplemde.min";
 
+// Select2
+@import "node_modules/select2/dist/css/select2.min";
+@import "node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min";
+
+
 html {
     background: url('/img/background.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;

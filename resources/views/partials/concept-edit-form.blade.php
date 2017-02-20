@@ -1,4 +1,12 @@
 <div class="form-group">
+    <label for="parent_id">Parent</label>
+    <select style="width:100%" name="parent_id" id="parent-input" data-except="{{$concept->id}}">
+        @if ($concept->parent_id)
+            <option value="{{$concept->parent_id}}" selected="selected">{{$concept->parent->title}}</option>
+        @endif
+    </select>
+</div>
+<div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
 </div>

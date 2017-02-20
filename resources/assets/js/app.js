@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 var SimpleMDE = require('simplemde/dist/simplemde.min');
+require('select2/dist/js/select2');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -88,4 +89,44 @@ $('#concept-edit-form').on('shown.bs.modal', function (e) {
             }
         ]
     });
+});
+
+$('#parent-input').select2({
+    theme: 'bootstrap',
+
+    allowClear: true,
+    placeholder: '(Root)',
+
+    ajax: {
+        url: "/concepts",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+            return {
+                except: $(this).data('except'),
+                q: params.term, // search term
+                page: params.page
+            };
+        },
+        processResults: function (data, params) {
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            return {
+                results: data.data.map(function (item) {
+                    return { id: item.id, text: item.title };
+                }),
+                pagination: {
+                    more: (data.current_page * data.per_page) < data.total
+                }
+            };
+        }
+        //,cache: true
+    },
+    minimumInputLength: 1
+    //escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    //templateResult: formatRepo, // omitted for brevity, see the source of this page
+    //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+
 });

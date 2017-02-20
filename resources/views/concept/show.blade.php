@@ -139,7 +139,7 @@
 
     </main>
 
-    <div class="modal fade" id="concept-edit-form" tabindex="-1" role="dialog" aria-labelledby="form-label">
+    <div class="modal fade" id="concept-edit-form" role="dialog" aria-labelledby="form-label">
         <div class="modal-dialog" role="document">
             <form class="modal-content" action="{{route('concept.update', ['concept' => $concept])}}" method="POST">
                 {{csrf_field()}}

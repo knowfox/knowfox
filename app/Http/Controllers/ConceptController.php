@@ -28,10 +28,26 @@ class ConceptController extends Controller
             $page_title .= ' with tag "' . $request->input('tag') . '"';
         }
 
-        return view('concept.index', [
-            'concepts' => $concepts->paginate(),
-            'page_title' => $page_title,
-        ]);
+        if ($request->has('q')) {
+            $concepts->where('title', 'like', '%' . $request->input('q') . '%');
+        }
+
+        if ($request->has('except')) {
+            $concepts->where('id', '!=', $request->input('except'));
+        }
+
+        if ($request->format() == 'json') {
+            $items = $concepts
+                ->select('id', 'title')
+                ->paginate();
+            return response()->json($items);
+        }
+        else {
+            return view('concept.index', [
+                'concepts' => $concepts->paginate(),
+                'page_title' => $page_title,
+            ]);
+        }
     }
 
     /**
@@ -52,8 +68,7 @@ class ConceptController extends Controller
      */
     public function store(ConceptRequest $request)
     {
-        $concept = new Concept();
-        $concept->fill($request->all());
+        $concept = new Concept($request->all());
         $concept->owner_id = $request->user()->id;
         $concept->save();
 
@@ -95,13 +110,18 @@ class ConceptController extends Controller
     public function update(ConceptRequest $request, Concept $concept)
     {
         $concept->fill($request->all());
+
+        if (!$request->has('parent_id')) {
+            $concept->makeRoot();
+        }
+
         $concept->save();
 
         // @todo
-        $concept->fixTree();
+        //$concept->fixTree();
 
         return redirect()->route('concept.show', [$concept])
-            ->with('status', 'Concept updated (and tree fixed)');
+            ->with('status', 'Concept updated');
     }
 
     /**
