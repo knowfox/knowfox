@@ -54,7 +54,7 @@
             </tbody>
         </table>
 
-        {{ $concepts }}
+        <div class="text-center">{{ $concepts }}</div>
     </main>
 
 @endsection
