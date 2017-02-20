@@ -88,7 +88,10 @@ class ConceptController extends Controller
 
         $concept->load('related', 'inverseRelated', 'tagged');
 
-        return view('concept.show', ['concept' => $concept]);
+        return view('concept.show', [
+            'page_title' => $concept->title,
+            'concept' => $concept,
+        ]);
     }
 
     /**
