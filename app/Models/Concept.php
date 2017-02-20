@@ -11,7 +11,7 @@ class Concept extends Model {
     use NodeTrait;
     use Taggable;
 
-    protected $fillable = ['title', 'summary', 'body', 'parent_id'];
+    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url'];
 
     public function getRenderedBodyAttribute($value) {
         $parser = new GithubMarkdown();

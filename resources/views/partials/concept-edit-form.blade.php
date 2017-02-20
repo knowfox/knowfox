@@ -11,6 +11,10 @@
     <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
 </div>
 <div class="form-group">
+    <label for="title">Source URL</label>
+    <input type="text" class="form-control" name="source_url" id="source_url-input" value="{{$concept->source_url}}">
+</div>
+<div class="form-group">
     <label for="summary">Summary</label>
     <textarea class="form-control" rows="3" name="summary" id="summary-input">{{$concept->summary}}</textarea>
 </div>
