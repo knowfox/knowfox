@@ -30,6 +30,15 @@
                     @endif
                 </select>
             </div>
+
+            <div class="form-group">
+                <label for="tags">Tags</label>
+                <select style="width:100%" name="tags[]" id="tags-input" multiple="multiple">
+                    @foreach ($concept->tags as $tag)
+                        <option value="{{$tag->slug}}" selected="selected">{{$tag->name}}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <div role="tabpanel" class="tab-pane" id="summary">

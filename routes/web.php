@@ -20,6 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/tags', [
+        'as' => 'tags.index',
+        'uses' => 'TagsController@index',
+    ]);
+
     Route::get('/concepts', [
         'as' => 'concept.index',
         'uses' => 'ConceptController@index',

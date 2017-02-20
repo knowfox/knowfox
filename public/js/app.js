@@ -11302,6 +11302,47 @@ $('#parent-input').select2({
     //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
 
 });
+
+$('#tags-input').select2({
+    theme: 'bootstrap',
+
+    tags: true,
+    tokenSeparators: [',', ' '],
+
+    createSearchChoice: function createSearchChoice(term) {
+        return {
+            id: $.trim(term),
+            text: $.trim(term) + ' (new tag)'
+        };
+    },
+
+    ajax: {
+        url: "/tags",
+        dataType: 'json',
+        delay: 250,
+        data: function data(params) {
+            return {
+                q: params.term, // search term
+                page: params.page
+            };
+        },
+        processResults: function processResults(data, params) {
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            return {
+                results: data.data.map(function (item) {
+                    return { id: item.slug, text: item.name };
+                }),
+                pagination: {
+                    more: data.current_page * data.per_page < data.total
+                }
+            };
+        }
+        //,cache: true
+    }
+});
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),

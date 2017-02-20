@@ -122,6 +122,10 @@ class ConceptController extends Controller
 
         $concept->save();
 
+        if ($request->has('tags')) {
+            $concept->retag($request->input('tags'));
+        }
+
         // @todo
         //$concept->fixTree();
 
