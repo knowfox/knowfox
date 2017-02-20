@@ -19,7 +19,7 @@ class ConceptController extends Controller
         $concepts = Concept::withDepth()
             ->with('tagged')
             ->where('owner_id', Auth::id())
-            ->orderBy('updated_at');
+            ->orderBy('updated_at', "desc");
 
         $page_title = 'Concepts';
 
