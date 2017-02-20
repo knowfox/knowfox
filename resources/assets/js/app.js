@@ -7,7 +7,8 @@
 
 require('./bootstrap');
 var SimpleMDE = require('simplemde/dist/simplemde.min');
-require('select2/dist/js/select2');
+
+require('selectize');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -91,83 +92,59 @@ $('#concept-edit-form').on('shown.bs.modal', function (e) {
     });
 });
 
-$('#parent-input').select2({
-    theme: 'bootstrap',
-
-    allowClear: true,
-    placeholder: '(Root)',
-
-    ajax: {
-        url: "/concepts",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-            return {
-                except: $(this).data('except'),
-                q: params.term, // search term
-                page: params.page
-            };
-        },
-        processResults: function (data, params) {
-            // parse the results into the format expected by Select2
-            // since we are using custom formatting functions we do not need to
-            // alter the remote JSON data, except to indicate that infinite
-            // scrolling can be used
-            return {
-                results: data.data.map(function (item) {
-                    return { id: item.id, text: item.title };
-                }),
-                pagination: {
-                    more: (data.current_page * data.per_page) < data.total
-                }
-            };
-        }
-        //,cache: true
-    },
-    minimumInputLength: 1
-    //escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-    //templateResult: formatRepo, // omitted for brevity, see the source of this page
-    //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-
+$('#parent-input').selectize({
+    persist: false,
+    valueField: 'id',
+    labelField: 'title',
+    searchField: 'title',
+    create: false,
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/concepts',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                except: $(this).get(0).$input.data('except'),
+                q: query
+            },
+            error: function() {
+                callback();
+            },
+            success: function(res) {
+                callback(res.data);
+            }
+        });
+    }
 });
 
-$('#tags-input').select2({
-    theme: 'bootstrap',
-
-    tags: true,
-    tokenSeparators: [',', ' '],
-
-    createSearchChoice: function (term) {
+$('#tags-input').selectize({
+    delimiter: ',',
+    persist: false,
+    valueField: 'slug',
+    labelField: 'name',
+    searchField: 'name',
+    create: function(input) {
         return {
-            id: $.trim(term),
-            text: $.trim(term) + ' (new tag)'
-        };
-    },
-
-    ajax: {
-        url: "/tags",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-            return {
-                q: params.term, // search term
-                page: params.page
-            };
-        },
-        processResults: function (data, params) {
-            // parse the results into the format expected by Select2
-            // since we are using custom formatting functions we do not need to
-            // alter the remote JSON data, except to indicate that infinite
-            // scrolling can be used
-            return {
-                results: data.data.map(function (item) {
-                    return { id: item.slug, text: item.name};
-                }),
-                pagination: {
-                    more: (data.current_page * data.per_page) < data.total
-                }
-            };
+            slug: input,
+            name: input
         }
-        //,cache: true
+    },
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/tags',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                q: query
+            },
+            error: function() {
+                callback();
+            },
+            success: function(res) {
+                callback(res.data);
+            }
+        });
     }
 });

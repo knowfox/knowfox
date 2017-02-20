@@ -15,8 +15,7 @@
     "vue": "^2.0.1"
   },
   "dependencies": {
-    "select2": "^4.0.3",
-    "select2-bootstrap-theme": "0.1.0-beta.9",
+    "selectize": "^0.12.4",
     "simplemde": "^1.11.2"
   }
 }
