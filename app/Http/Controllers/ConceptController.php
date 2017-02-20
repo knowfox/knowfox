@@ -84,6 +84,8 @@ class ConceptController extends Controller
      */
     public function show(Concept $concept)
     {
+        $this->authorize('view', $concept);
+
         $concept->load('related', 'inverseRelated', 'tagged');
 
         return view('concept.show', ['concept' => $concept]);
@@ -97,7 +99,7 @@ class ConceptController extends Controller
      */
     public function edit(Concept $concept)
     {
-        //
+        $this->authorize('update', $concept);
     }
 
     /**
@@ -132,6 +134,6 @@ class ConceptController extends Controller
      */
     public function destroy(Concept $concept)
     {
-        //
+        $this->authorize('delete', $concept);
     }
 }
