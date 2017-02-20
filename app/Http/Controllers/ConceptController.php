@@ -72,6 +72,13 @@ class ConceptController extends Controller
         $concept->owner_id = $request->user()->id;
         $concept->save();
 
+        if ($request->has('tags')) {
+            $concept->tag($request->input('tags'));
+        }
+        else {
+            $concept->untag();
+        }
+
         return redirect()->route('concept.show', [$concept])
             ->with('status', 'Concept created');
     }
@@ -124,6 +131,9 @@ class ConceptController extends Controller
 
         if ($request->has('tags')) {
             $concept->retag($request->input('tags'));
+        }
+        else {
+            $concept->untag();
         }
 
         // @todo

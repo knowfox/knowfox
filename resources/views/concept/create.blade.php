@@ -20,3 +20,11 @@
     </main>
 
 @endsection
+
+@section('footer_scripts')
+
+    <script>
+        markdownEditor();
+    </script>
+
+@endsection

@@ -23,7 +23,7 @@ const app = new Vue({
 });
 */
 
-$('#concept-edit-form').on('shown.bs.modal', function (e) {
+window.markdownEditor = function () {
     var simplemde = new SimpleMDE({
         element: $("#body-input")[0],
         autofocus: true,
@@ -90,7 +90,9 @@ $('#concept-edit-form').on('shown.bs.modal', function (e) {
             }
         ]
     });
-});
+}
+
+$('#concept-edit-form').on('shown.bs.modal', markdownEditor);
 
 $('#parent-input').selectize({
     persist: false,
