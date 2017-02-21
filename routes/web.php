@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'TagsController@index',
     ]);
 
-    Route::get('/concepts', [
+    Route::get('/concepts/{flagged?}', [
         'as' => 'concept.index',
         'uses' => 'ConceptController@index',
     ]);

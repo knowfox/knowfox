@@ -74,8 +74,22 @@
                         <td>{{$concept->updated_at}}</td>
                     </tr>
                     <tr>
+                        <th>Weight</th>
+                        <td>{{$concept->weight}}</td>
+                    </tr>
+                    <tr>
                         <th>Language</th>
                         <td>{{$concept->language}}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{$concept->status}}</td>
+                    </tr>
+                    <tr>
+                        <th>Flagged</th>
+                        <td>
+                            <i class="glyphicon glyphicon-heart{{$concept->is_flagged ? '' : '-empty'}}"></i>
+                        </td>
                     </tr>
                     @if ($concept->source_url)
                         <tr>

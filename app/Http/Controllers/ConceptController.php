@@ -23,7 +23,7 @@ class ConceptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $flagged = false)
     {
         $concepts = Concept::withDepth()
             ->with('tagged')
@@ -31,6 +31,11 @@ class ConceptController extends Controller
             ->orderBy('updated_at', "desc");
 
         $page_title = 'Concepts';
+
+        if ($flagged) {
+            $page_title = 'Flagged concepts';
+            $concepts->where('is_flagged', 1);
+        }
 
         if ($request->has('tag')) {
             $concepts->withAllTags([$request->input('tag')]);
@@ -135,6 +140,8 @@ class ConceptController extends Controller
         if (!$request->has('parent_id')) {
             $concept->makeRoot();
         }
+
+        $concept->is_flagged = $request->has('is_flagged');
 
         $concept->save();
 

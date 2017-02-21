@@ -42,6 +42,9 @@
                                 {{$concept->title}}
                             </a>
                         @endif
+                        @if ($concept->is_flagged)
+                            <i class="glyphicon glyphicon-heart"></i>
+                        @endif
                     </td>
                     <td>
                         @foreach ($concept->tags as $tag)

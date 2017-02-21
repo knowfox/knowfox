@@ -17,6 +17,7 @@
         <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
         <li role="presentation"><a href="#links" aria-controls="links" role="tab" data-toggle="tab">Links</a></li>
         <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab">Image</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -54,6 +55,13 @@
                 <input type="text" class="form-control" name="source_url" id="source_url-input" value="{{$concept->source_url}}">
             </div>
             <div class="form-group">
+                <label for="title">Slug</label>
+                <div class="input-group">
+                    <span class="input-group-addon" id="slug-prefix">https://knowfox.com/concept/</span>
+                    <input type="text" class="form-control" name="slug" value="{{$concept->slug}}" aria-describedby="slug-prefix">
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="title">Todoist ID</label>
 
                 <div class="input-group">
@@ -69,7 +77,6 @@
         </div>
 
         <div role="tabpanel" class="tab-pane" id="image">
-
             <div class="row">
                 <div class="col-md-6">
                 @if (!empty($concept->image))
@@ -80,6 +87,33 @@
                     <div class="form-group">
                         <label for="title">Image</label>
                         <input type="file" class="form-control" name="upload" id="upload-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="settings">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input name="is_flagged" @if ($concept->is_flagged)checked="checked" @endif type="checkbox"> Flagged
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="title">Weight</label>
+                        <input type="number" class="form-control" name="weight" value="{{$concept->weight}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Status</label>
+                        <select class="form-control" name="status">
+                            @foreach (['private', 'public'] as $value)
+                                <option @if ($concept->status == $value) selected="selected" @endif>{{$value}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

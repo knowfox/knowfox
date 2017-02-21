@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
-use Knowfox\Models\SluggableTrait;
 
 class Concept extends Model {
     use NodeTrait;
@@ -14,7 +13,7 @@ class Concept extends Model {
     use SluggableTrait;
 
     protected $slugField = 'title';
-    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id'];
+    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'weight', 'status'];
 
     public function getRenderedBodyAttribute($value) {
         $parser = new GithubMarkdown();
