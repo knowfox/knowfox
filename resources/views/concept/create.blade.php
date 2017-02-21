@@ -5,7 +5,9 @@
     <main class="container">
 
         <section class="page-header">
-            <h1>Create concept</h1>
+            <h1>Create {{$concept->parent_id ? 'sub-' : ''}}concept</h1>
+
+            @include('partials.messages')
 
         </section>
 

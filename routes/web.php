@@ -45,6 +45,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@show',
     ]);
 
+    Route::delete('/concept/{concept}', [
+        'as' => 'concept.destroy',
+        'uses' => 'ConceptController@destroy',
+    ]);
+
     Route::post('/concept/{concept}', [
         'as' => 'concept.update',
         'uses' => 'ConceptController@update',

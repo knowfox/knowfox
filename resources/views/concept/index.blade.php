@@ -13,6 +13,8 @@
             <a class="btn btn-default pull-right" href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a>
             <h1>{{$page_title}}</h1>
 
+            @include('partials.messages')
+
         </section>
 
         <table class="table">

@@ -69,9 +69,21 @@ class ConceptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('concept.create', ['concept' => new Concept()]);
+        $concept = new Concept([
+            'weight' => 0,
+        ]);
+
+        if ($request->has('parent_id')) {
+            $parent = Concept::findOrFail($request->input('parent_id'));
+            $this->authorize('view', $parent);
+            $concept->appendToNode($parent);
+        }
+
+        return view('concept.create', [
+            'concept' => $concept,
+        ]);
     }
 
     /**
@@ -174,6 +186,12 @@ class ConceptController extends Controller
     public function destroy(Concept $concept)
     {
         $this->authorize('delete', $concept);
+
+        $title = "#{$concept->id} \"{$concept->title}\"";
+
+        $concept->delete();
+        return redirect()->route('concept.index')
+            ->with('status', 'Concept ' . $title . ' deleted');
     }
 
     public function uploadImage(PictureService $picture, Request $request)

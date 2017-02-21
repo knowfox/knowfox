@@ -21,26 +21,31 @@
                 <li class="active">{{$concept->title}}</li>
             </ol>
 
-            <button class="btn btn-default pull-right" data-toggle="modal" data-target="#concept-edit-form">
-                <i class="glyphicon glyphicon-edit"></i> Edit concept
-            </button>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#concept-edit-form"><i class="glyphicon glyphicon-edit"></i> Edit concept</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{route('concept.create', ['parent_id' => $concept->id])}}"><i class="glyphicon glyphicon-plus-sign"></i> Add child</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="{{route('concept.destroy', [$concept])}}"
+                           onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+
+                        <form id="delete-form" action="{{route('concept.destroy', [$concept])}}" method="POST" style="display: none;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
 
             <h1>{{$concept->title}}</h1>
 
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
+            @include('partials.messages')
 
         </section>
 
