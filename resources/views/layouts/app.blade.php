@@ -48,6 +48,8 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{route('concept.index')}}">All</a></li>
                                 <li><a href="{{route('concept.index', ['flagged'])}}">Flagged</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a></li>
                             </ul>
                         </li>
                     </ul>

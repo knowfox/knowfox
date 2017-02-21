@@ -100,6 +100,15 @@
                             <input name="is_flagged" @if ($concept->is_flagged)checked="checked" @endif type="checkbox"> Flagged
                         </label>
                     </div>
+                    <div class="form-group">
+                        <label for="title">Language</label>
+
+                        @include('partials.select', [
+                            'name' => 'language',
+                            'selected' => $concept->language,
+                            'options' => config('knowfox.languages')
+                        ])
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -109,11 +118,12 @@
 
                     <div class="form-group">
                         <label for="title">Status</label>
-                        <select class="form-control" name="status">
-                            @foreach (['private', 'public'] as $value)
-                                <option @if ($concept->status == $value) selected="selected" @endif>{{$value}}</option>
-                            @endforeach
-                        </select>
+
+                        @include('partials.select', [
+                            'name' => 'status',
+                            'selected' => $concept->status,
+                            'options' => ['private', 'public']
+                        ])
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@ class Concept extends Model {
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $slugField = 'title';
-    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'weight', 'status'];
+    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'weight', 'status', 'language'];
 
     public function getRenderedBodyAttribute($value) {
         $parser = new GithubMarkdown();

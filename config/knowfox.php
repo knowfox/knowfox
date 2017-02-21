@@ -8,4 +8,9 @@ return [
         'teacher' => [ 'ist Lehrer von', 'ist Schüler von' ],
         'translates' => [ 'übersetzt', 'übersetzt' ],
     ],
+
+    'languages' => [
+        'de',
+        'en',
+    ]
 ];
