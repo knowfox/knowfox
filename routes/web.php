@@ -49,5 +49,12 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'concept.update',
         'uses' => 'ConceptController@update',
     ]);
+
+    Route::get('/uploads/{hash}/{style}.jpeg', [
+        'as' => 'concept.medium',
+        'uses' => 'ConceptController@medium'
+    ]);
+
+
 });
 

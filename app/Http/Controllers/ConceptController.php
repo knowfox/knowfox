@@ -6,9 +6,18 @@ use Illuminate\Support\Facades\Auth;
 use Knowfox\Http\Requests\ConceptRequest;
 use Knowfox\Models\Concept;
 use Illuminate\Http\Request;
+use Knowfox\Services\PictureService;
+use Validator;
+use Knowfox\User;
 
 class ConceptController extends Controller
 {
+    const PICTURES_DIR = 'uploads/';
+
+    private static $validateImageRules = [
+        'upload' => 'sometimes|image|mimes:jpeg,png|min:1|max:10000',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -119,7 +128,7 @@ class ConceptController extends Controller
      * @param  Concept  $concept
      * @return \Illuminate\Http\Response
      */
-    public function update(ConceptRequest $request, Concept $concept)
+    public function update(PictureService $picture, ConceptRequest $request, Concept $concept)
     {
         $concept->fill($request->all());
 
@@ -136,11 +145,17 @@ class ConceptController extends Controller
             $concept->untag();
         }
 
-        // @todo
-        //$concept->fixTree();
-
+        $filename = '';
+        if ($request->hasFile('upload')) {
+            $filename = $picture->handleUpload(
+                $request->file('upload'),
+                self::PICTURES_DIR
+            );
+            $concept->image = $filename;
+            $concept->save();
+        }
         return redirect()->route('concept.show', [$concept])
-            ->with('status', 'Concept updated');
+            ->with('status', 'Concept updated ' . $filename);
     }
 
     /**
@@ -152,5 +167,33 @@ class ConceptController extends Controller
     public function destroy(Concept $concept)
     {
         $this->authorize('delete', $concept);
+    }
+
+    public function uploadImage(PictureService $picture, Request $request)
+    {
+        $validation = Validator::make($request->all(), self::$validateImageRules);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withInput()
+                ->with('errors', $validation->errors());
+        }
+
+        if (!$request->hasFile('upload')) {
+            return response()->setContent('No file');
+        }
+
+        $filename = $picture->handleUpload(
+            $request->file('upload'),
+            self::PICTURES_DIR
+        );
+
+        return redirect()->route('concept.show', [$concept])
+            ->with('status', 'Image uploaded: ' . $filename);
+    }
+
+    public function medium(PictureService $picture, $hash, $style_name, $focalpoint = NULL)
+    {
+        $path = self::PICTURES_DIR . $hash . '/original.jpeg';
+        return $picture->image($path, $style_name, $focalpoint);
     }
 }

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@inject('picture', 'Knowfox\Services\PictureService')
+
 @section('content')
 
     <main class="container">
@@ -41,6 +43,10 @@
             @endif
 
         </section>
+
+        @if (!empty($concept->image))
+            <img src="{{ url($picture->asset($concept->image, 'text')) }}">
+        @endif
 
         <section class="meta">
 
@@ -141,7 +147,7 @@
 
     <div class="modal fade" id="concept-edit-form" role="dialog" aria-labelledby="form-label">
         <div class="modal-dialog" role="document">
-            <form class="modal-content" action="{{route('concept.update', ['concept' => $concept])}}" method="POST">
+            <form class="modal-content" enctype="multipart/form-data" action="{{route('concept.update', ['concept' => $concept])}}" method="POST">
                 {{csrf_field()}}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

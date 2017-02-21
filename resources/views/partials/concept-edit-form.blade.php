@@ -16,7 +16,8 @@
         <li role="presentation" class="active"><a href="#parents" aria-controls="parents" role="tab" data-toggle="tab">Parents & Tabs</a></li>
         <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
         <li role="presentation"><a href="#source" aria-controls="source" role="tab" data-toggle="tab">Source</a></li>
-        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab">Image</a></li>
+        <li role="presentation"><a href="#task" aria-controls="task" role="tab" data-toggle="tab">Task</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -55,7 +56,55 @@
             </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="settings">...</div>
+        <div role="tabpanel" class="tab-pane" id="image">
+
+            <div class="row">
+                <div class="col-md-6">
+                @if (!empty($concept->image))
+                    <img class="thumbnail" src="{{ url($picture->asset($concept->image, 'thumbnail')) }}">
+                @endif
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="title">Image</label>
+                        <input type="file" class="form-control" name="upload" id="upload-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="task">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="is_task"> Is a task
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="is_done"> Is done
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="due_at">Due at</label>
+                        <input type="datetime-local" class="form-control" name="due_at" id="due_at-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="remind_at">Remind at</label>
+                        <input type="datetime-local" class="form-control" name="remind_at" id="remind_at-input">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
+

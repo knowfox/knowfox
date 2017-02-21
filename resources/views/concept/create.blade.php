@@ -9,7 +9,7 @@
 
         </section>
 
-        <form action="{{route('concept.store')}}" method="POST">
+        <form action="{{route('concept.store')}}" enctype="multipart/form-data" method="POST">
             {{csrf_field()}}
 
             @include('partials.concept-edit-form')
