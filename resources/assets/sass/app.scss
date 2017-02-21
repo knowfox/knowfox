@@ -42,29 +42,3 @@ p.summary {
     font-size: 1.1em;
 }
 
-section.actions {
-    float: right;
-    width: 33%;
-    margin-left: 20px;
-
-    ul {
-        list-style-type: none;
-        padding: 8px 15px;
-        text-align: right;
-
-        li {
-            display: inline-block;
-        }
-    }
-}
-
-section.meta {
-    border: solid 1px #CCC;
-    border-radius: 4px;
-    padding: 10px;
-
-    float: right;
-    width: 33%;
-    margin-left: 20px;
-    margin-bottom: 10px;
-}

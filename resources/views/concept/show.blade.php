@@ -44,113 +44,115 @@
 
         </section>
 
-        @if (!empty($concept->image))
-            <img src="{{ url($picture->asset($concept->image, 'text')) }}">
-        @endif
-
-        <section class="meta">
-
-            <h2>Meta Data</h2>
-
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Created</th>
-                    <td>{{$concept->created_at}}</td>
-                </tr>
-                <tr>
-                    <th>Updated</th>
-                    <td>{{$concept->updated_at}}</td>
-                </tr>
-                <tr>
-                    <th>Language</th>
-                    <td>{{$concept->language}}</td>
-                </tr>
-                @if ($concept->source_url)
-                    <tr>
-                        <th>Source</th>
-                        <td><a href="{{$concept->source_url}}">{{parse_url($concept->source_url, PHP_URL_HOST)}}</a></td>
-                    </tr>
-                @endif
-                @if ($concept->todoist_id)
-                    <tr>
-                        <th>Todoist-Link</th>
-                        <td><a target="todo" href="https://todoist.com/showTask?id={{$concept->todoist_id}}">{{$concept->todoist_id}}</a></td>
-                    </tr>
+        <div class="row">
+            <div class="col-md-8">
+                @if (!empty($concept->image))
+                    <img src="{{ url($picture->asset($concept->image, 'text')) }}">
                 @endif
 
-                </tbody>
-            </table>
+                @if ($concept->summary)
+                    <p class="summary">{{$concept->summary}}</p>
+                @endif
 
-            @if ($concept->getSiblings()->count())
+                @if ($concept->rendered_body)
+                    <section>
+                        {!! $concept->rendered_body !!}
+                    </section>
+                @endif
+            </div>
+            <div class="col-md-4">
+                <h2>Meta Data</h2>
 
-                <h2>Siblings</h2>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Created</th>
+                        <td>{{$concept->created_at}}</td>
+                    </tr>
+                    <tr>
+                        <th>Updated</th>
+                        <td>{{$concept->updated_at}}</td>
+                    </tr>
+                    <tr>
+                        <th>Language</th>
+                        <td>{{$concept->language}}</td>
+                    </tr>
+                    @if ($concept->source_url)
+                        <tr>
+                            <th>Source</th>
+                            <td><a href="{{$concept->source_url}}">{{parse_url($concept->source_url, PHP_URL_HOST)}}</a></td>
+                        </tr>
+                    @endif
+                    @if ($concept->todoist_id)
+                        <tr>
+                            <th>Todoist-Link</th>
+                            <td><a target="todo" href="https://todoist.com/showTask?id={{$concept->todoist_id}}">{{$concept->todoist_id}}</a></td>
+                        </tr>
+                    @endif
 
-                <ul>
-                @foreach ($concept->getSiblings() as $sibling)
-                    <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
-                        {{$sibling->title}}
-                    </a></li>
-                @endforeach
-                </ul>
+                    </tbody>
+                </table>
 
-            @endif
+                @if ($concept->getSiblings()->count())
 
-            @if ($concept->children()->count())
+                    <h2>Siblings</h2>
 
-                <h2>Children</h2>
+                    <ul>
+                        @foreach ($concept->getSiblings() as $sibling)
+                            <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
+                                    {{$sibling->title}}
+                                </a></li>
+                        @endforeach
+                    </ul>
 
-                <ul>
-                @foreach ($concept->children()->get() as $child)
-                    <li><a href="{{route('concept.show', ['concept' => $child])}}">
-                        {{$child->title}}
-                    </a></li>
-                @endforeach
-                </ul>
+                @endif
 
-            @endif
+                @if ($concept->children()->count())
 
-            @if ($concept->tags->count())
-                <h2>Tags</h2>
+                    <h2>Children</h2>
 
-                <ul>
-                    @foreach ($concept->tags as $tag)
-                        <li><a href="{{route('concept.index', ['tag' => $tag->slug])}}">
-                            {{$tag->name}}
-                        </a></li>
-                    @endforeach
-                </ul>
-            @endif
+                    <ul>
+                        @foreach ($concept->children()->get() as $child)
+                            <li><a href="{{route('concept.show', ['concept' => $child])}}">
+                                    {{$child->title}}
+                                </a></li>
+                        @endforeach
+                    </ul>
 
-            @if ($concept->related()->count() || $concept->inverseRelated()->count())
+                @endif
 
-                <h2>Related</h2>
+                @if ($concept->tags->count())
+                    <h2>Tags</h2>
 
-                <ul>
-                @foreach ($concept->related()->get() as $related)
-                    <li>{{$related->pivot->type['labels'][0]}} <a href="{{route('concept.show', ['concept' => $related])}}">
-                        {{$related->title}}
-                    </a></li>
-                @endforeach
-                @foreach ($concept->inverseRelated()->get() as $related)
-                    <li>{{$related->pivot->type['labels'][1]}} <a href="{{route('concept.show', ['concept' => $related])}}">
-                            {{$related->title}}
-                    </a></li>
-                @endforeach
-                </ul>
+                    <ul>
+                        @foreach ($concept->tags as $tag)
+                            <li><a href="{{route('concept.index', ['tag' => $tag->slug])}}">
+                                    {{$tag->name}}
+                                </a></li>
+                        @endforeach
+                    </ul>
+                @endif
 
-            @endif
-        </section>
+                @if ($concept->related()->count() || $concept->inverseRelated()->count())
 
-        @if ($concept->summary)
-            <p class="summary">{{$concept->summary}}</p>
-        @endif
+                    <h2>Related</h2>
 
-        @if ($concept->rendered_body)
-            <section>
-                {!! $concept->rendered_body !!}
-            </section>
-        @endif
+                    <ul>
+                        @foreach ($concept->related()->get() as $related)
+                            <li>{{$related->pivot->type['labels'][0]}} <a href="{{route('concept.show', ['concept' => $related])}}">
+                                    {{$related->title}}
+                                </a></li>
+                        @endforeach
+                        @foreach ($concept->inverseRelated()->get() as $related)
+                            <li>{{$related->pivot->type['labels'][1]}} <a href="{{route('concept.show', ['concept' => $related])}}">
+                                    {{$related->title}}
+                                </a></li>
+                        @endforeach
+                    </ul>
+
+                @endif
+            </div>
+        </div>
 
     </main>
 
