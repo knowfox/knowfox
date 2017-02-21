@@ -66,10 +66,19 @@
                     <th>Language</th>
                     <td>{{$concept->language}}</td>
                 </tr>
-                <tr>
-                    <th>Source</th>
-                    <td><a href="{{$concept->source_url}}">{{parse_url($concept->source_url, PHP_URL_HOST)}}</a></td>
-                </tr>
+                @if ($concept->source_url)
+                    <tr>
+                        <th>Source</th>
+                        <td><a href="{{$concept->source_url}}">{{parse_url($concept->source_url, PHP_URL_HOST)}}</a></td>
+                    </tr>
+                @endif
+                @if ($concept->todoist_id)
+                    <tr>
+                        <th>Todoist-Link</th>
+                        <td><a target="todo" href="https://todoist.com/showTask?id={{$concept->todoist_id}}">{{$concept->todoist_id}}</a></td>
+                    </tr>
+                @endif
+
                 </tbody>
             </table>
 

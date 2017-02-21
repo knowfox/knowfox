@@ -150,3 +150,16 @@ $('#tags-input').selectize({
         });
     }
 });
+
+$('#todoist_id-input').on('keyup', function () {
+    var id = $(this).val();
+    if (id === '') {
+        $('#todoist-link').on('click', function(e) {
+            e.preventDefault();
+        });
+    }
+    else {
+        $('#todoist-link').off('click');
+    }
+    $('#todoist-link').attr('href', 'https://todoist.com/showTask?id=' + id);
+})

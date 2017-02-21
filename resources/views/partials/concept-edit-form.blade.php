@@ -15,9 +15,8 @@
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#parents" aria-controls="parents" role="tab" data-toggle="tab">Parents & Tabs</a></li>
         <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
-        <li role="presentation"><a href="#source" aria-controls="source" role="tab" data-toggle="tab">Source</a></li>
+        <li role="presentation"><a href="#links" aria-controls="links" role="tab" data-toggle="tab">Links</a></li>
         <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab">Image</a></li>
-        <li role="presentation"><a href="#task" aria-controls="task" role="tab" data-toggle="tab">Task</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -49,10 +48,23 @@
             </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="source">
+        <div role="tabpanel" class="tab-pane" id="links">
             <div class="form-group">
                 <label for="title">Source URL</label>
                 <input type="text" class="form-control" name="source_url" id="source_url-input" value="{{$concept->source_url}}">
+            </div>
+            <div class="form-group">
+                <label for="title">Todoist ID</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" name="todoist_id" id="todoist_id-input" placeholder="Todoist ID" aria-describedby="todoist-link">
+                    @if ($concept->todoist_id)
+                        <a target="todo" href="https://todoist.com/showTask?id={{$concept->todoist_id}}" class="input-group-addon" id="todoist-link">
+                    @else
+                        <a href="#" class="input-group-addon" id="todoist-link">
+                    @endif
+                    <i class="glyphicon glyphicon-eye-open"></i></a>
+                </div>
             </div>
         </div>
 
@@ -71,37 +83,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div role="tabpanel" class="tab-pane" id="task">
-            <div class="row">
-
-                <div class="col-md-6">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="is_task"> Is a task
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="is_done"> Is done
-                        </label>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="due_at">Due at</label>
-                        <input type="datetime-local" class="form-control" name="due_at" id="due_at-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="remind_at">Remind at</label>
-                        <input type="datetime-local" class="form-control" name="remind_at" id="remind_at-input">
-                    </div>
-                </div>
-
-            </div>
-
         </div>
 
     </div>

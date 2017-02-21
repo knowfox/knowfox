@@ -14,7 +14,7 @@ class Concept extends Model {
     use SluggableTrait;
 
     protected $slugField = 'title';
-    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url'];
+    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id'];
 
     public function getRenderedBodyAttribute($value) {
         $parser = new GithubMarkdown();
