@@ -47,6 +47,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Concepts <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{route('concept.index')}}">All</a></li>
+                                <li><a href="{{route('concept.index', ['toplevel'])}}">Toplevel</a></li>
                                 <li><a href="{{route('concept.index', ['flagged'])}}">Flagged</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a></li>

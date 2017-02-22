@@ -21,7 +21,7 @@ class ConceptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $flagged = false)
+    public function index(Request $request, $special = false)
     {
         $concepts = Concept::withDepth()
             ->with('tagged')
@@ -30,9 +30,18 @@ class ConceptController extends Controller
 
         $page_title = 'Concepts';
 
-        if ($flagged) {
-            $page_title = 'Flagged concepts';
-            $concepts->where('is_flagged', 1);
+        if ($special) {
+
+            switch ($special) {
+                case 'flagged':
+                    $page_title = 'Flagged concepts';
+                    $concepts->where('is_flagged', 1);
+                    break;
+                case 'toplevel':
+                    $page_title = 'Toplevel concepts';
+                    $concepts->whereIsRoot();
+                    break;
+            }
         }
 
         if ($request->has('tag')) {
