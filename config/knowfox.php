@@ -2,12 +2,14 @@
 
 return [
     'relationships' => [
-        'uses' => ['nutzt', 'wird genutzt von'],
+        'commission' => [ 'beauftragt', 'beauftragt von' ],
         'written' => [ 'hat geschrieben', 'wurde geschrieben von' ],
         'invented' => [ 'hat erfunden', 'wurde erfunden von' ],
         'similar' => [ 'ähnlich mit', 'ähnlich mit' ],
-        'teacher' => [ 'ist Lehrer von', 'ist Schüler von' ],
+        'supports' => [ 'unterstützt', 'unterstützt von' ],
+        'teacher' => [ 'Lehrer von', 'Schüler von' ],
         'translates' => [ 'übersetzt', 'übersetzt' ],
+        'uses' => ['nutzt', 'wird genutzt von'],
     ],
 
     'languages' => [
