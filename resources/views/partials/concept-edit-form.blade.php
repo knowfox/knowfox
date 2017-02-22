@@ -81,7 +81,7 @@
             <div class="form-group">
                 <label for="relations">Relations</label>
                 <textarea class="form-control" rows="3" name="relations" id="relations-input">{{$concept->relations}}</textarea>
-                <p class="help-block">Defined relationship types: {{ join(', ', array_keys(config('knowfox.relationships'))) }}</p>
+                <p class="help-block">A YAML object. Each entry: <pre>42: { type: uses }</pre>. Defined relationship types: {{ join(', ', array_keys(config('knowfox.relationships'))) }}</p>
             </div>
         </div>
 
