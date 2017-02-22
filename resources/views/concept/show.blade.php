@@ -118,7 +118,7 @@
                     <h2>Siblings</h2>
 
                     <ul>
-                        @foreach ($concept->getSiblings() as $sibling)
+                        @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
                             <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
                                     {{$sibling->title}}
                                 </a></li>
