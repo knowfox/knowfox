@@ -3,11 +3,10 @@
     <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
 </div>
 
-<div class="form-group">
-    <label for="summary">Body</label>
+<div class="form-group>
+    <label for="body">Body</label>
     <textarea class="form-control" rows="10" name="body" id="body-input">{{$concept->body}}</textarea>
 </div>
-
 
 <div class="well">
 
@@ -77,19 +76,9 @@
         </div>
 
         <div role="tabpanel" class="tab-pane" id="image">
-            <div class="row">
-                <div class="col-md-6">
-                @if (!empty($concept->image))
-                    <img class="thumbnail" src="{{ url($picture->asset($concept->image, 'thumbnail')) }}">
-                @endif
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="title">Image</label>
-                        <input type="file" class="form-control" name="upload" id="upload-input">
-                    </div>
-                </div>
-            </div>
+
+            <div id="images" class="clearfix"></div>
+
         </div>
 
         <div role="tabpanel" class="tab-pane" id="settings">

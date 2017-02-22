@@ -8,12 +8,10 @@ use Knowfox\Models\Concept;
 use Illuminate\Http\Request;
 use Knowfox\Services\PictureService;
 use Validator;
-use Knowfox\User;
+use Ramsey\Uuid\Uuid;
 
 class ConceptController extends Controller
 {
-    const PICTURES_DIR = 'uploads/';
-
     private static $validateImageRules = [
         'upload' => 'sometimes|image|mimes:jpeg,png|min:1|max:10000',
     ];
@@ -73,6 +71,7 @@ class ConceptController extends Controller
     {
         $concept = new Concept([
             'weight' => 0,
+            'uuid' => Uuid::uuid1()->toString(),
         ]);
 
         if ($request->has('parent_id')) {
@@ -194,31 +193,20 @@ class ConceptController extends Controller
             ->with('status', 'Concept ' . $title . ' deleted');
     }
 
-    public function uploadImage(PictureService $picture, Request $request)
+    public function image(PictureService $picture, $uuid1, $uuid2, $uuid3, $uuid4, $uuid5, $image, $style)
     {
-        $validation = Validator::make($request->all(), self::$validateImageRules);
-
-        if ($validation->fails()) {
-            return redirect()->back()->withInput()
-                ->with('errors', $validation->errors());
-        }
-
-        if (!$request->hasFile('upload')) {
-            return response()->setContent('No file');
-        }
-
-        $filename = $picture->handleUpload(
-            $request->file('upload'),
-            self::PICTURES_DIR
-        );
-
-        return redirect()->route('concept.show', [$concept])
-            ->with('status', 'Image uploaded: ' . $filename);
+        $uuid = $uuid1 . '-' . $uuid2 . '-' . $uuid3 . '-' . $uuid4 . '-' . $uuid5;
+        return $picture->image($uuid, $image, $style);
     }
 
-    public function medium(PictureService $picture, $hash, $style_name, $focalpoint = NULL)
+    public function upload(PictureService $picture, Request $request, $uuid)
     {
-        $path = self::PICTURES_DIR . $hash . '/original.jpeg';
-        return $picture->image($path, $style_name, $focalpoint);
+        $path = $picture->upload($request->file('file'), $uuid);
+        return response()->json(['success' => $path]);
+    }
+
+    public function attachments(PictureService $picture, Concept $concept)
+    {
+        return response()->json($picture->images($concept->uuid));
     }
 }

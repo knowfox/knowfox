@@ -12,12 +12,13 @@ class Concept extends Model {
     use SoftDeletes;
     use NodeTrait;
     use Taggable;
+    use UuidTrait;
     use SluggableTrait;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $slugField = 'title';
-    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'weight', 'status', 'language'];
+    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'weight', 'status', 'language', 'uuid'];
 
     public function getRenderedBodyAttribute($value) {
         $parser = new GithubMarkdown();

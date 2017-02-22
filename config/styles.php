@@ -1,5 +1,8 @@
 <?php
 return [
+    'h80' => [
+        'height' => 80,
+    ],
     'thumbnail' => [
         'width' => 150,
         'height' => 150,

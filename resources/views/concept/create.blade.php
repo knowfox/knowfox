@@ -27,6 +27,15 @@
 
     <script>
         markdownEditor();
+
+        Dropzone.options.dropzone = {
+            maxFilesize: 30,
+            url: '/upload/{{$concept->uuid}}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            //, previewsContainer: '#dropzone-preview'
+        };
     </script>
 
 @endsection

@@ -15,6 +15,7 @@
 @import "node_modules/selectize/dist/css/selectize";
 @import "node_modules/selectize/dist/css/selectize.bootstrap3";
 
+@import "node_modules/dropzone/dist/min/dropzone.min";
 
 html {
     background: url('/img/background.jpg') no-repeat center center fixed;
@@ -42,3 +43,12 @@ p.summary {
     font-size: 1.1em;
 }
 
+.dropzone {
+    border: none;
+    background-color: rgba(245, 248, 250, 0.8);
+    padding: 0 15px;
+}
+
+.dropzone.dz-drag-hover {
+    border: dashed 4px #CCC;
+}

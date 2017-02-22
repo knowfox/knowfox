@@ -6,9 +6,10 @@
  */
 
 require('./bootstrap');
-var SimpleMDE = require('simplemde/dist/simplemde.min');
-
 require('selectize');
+
+var SimpleMDE = require('simplemde/dist/simplemde.min');
+window.Dropzone = require('dropzone');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -90,9 +91,9 @@ window.markdownEditor = function () {
             }
         ]
     });
-}
+};
 
-$('#concept-edit-form').on('shown.bs.modal', markdownEditor);
+$('#concept-edit-form').one('shown.bs.modal', markdownEditor);
 
 $('#parent-input').selectize({
     persist: false,
@@ -162,4 +163,4 @@ $('#todoist_id-input').on('keyup', function () {
         $('#todoist-link').off('click');
     }
     $('#todoist-link').attr('href', 'https://todoist.com/showTask?id=' + id);
-})
+});

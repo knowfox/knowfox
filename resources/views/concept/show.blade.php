@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <main class="container">
+    <main id="dropzone" class="container dropzone">
 
         <section class="page-header">
 
@@ -42,12 +42,13 @@
                 </ul>
             </div>
 
-
             <h1>{{$concept->title}}</h1>
 
             @include('partials.messages')
 
         </section>
+
+        <div class="dropzone-previews"></div>
 
         <div class="row">
             <div class="col-md-8">
@@ -194,4 +195,29 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+@endsection
+
+@section ('footer_scripts')
+    <script>
+        Dropzone.options.dropzone = {
+            maxFilesize: 30,
+            url: '/upload/{{$concept->uuid}}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            previewsContainer: '.dropzone-previews'
+        };
+
+        $('#concept-edit-form').on('shown.bs.modal', function () {
+            $.get('/attachments/{{$concept->id}}', function (data) {
+                var txt = '';
+                data.forEach(function (img) {
+                    var tiny = img.replace(/rotated\.jpeg$/, 'h80.jpeg');
+                    txt += '<div class="pull-left" style="margin:4px"><a href="' + img + '"><img src="' + tiny + '"></a></div>';
+                });
+                $('#images').html(txt + '');
+            });
+        });
+
+    </script>
 @endsection

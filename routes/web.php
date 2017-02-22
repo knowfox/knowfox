@@ -55,11 +55,21 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@update',
     ]);
 
-    Route::get('/uploads/{hash}/{style}.jpeg', [
-        'as' => 'concept.medium',
-        'uses' => 'ConceptController@medium'
+    // http://knowfox.dev/images/6245dda0/f867/11e6/822e/081cda0f15f6/512x1024/square.jpeg
+
+    Route::get('/images/{uuid1}/{uuid2}/{uuid3}/{uuid4}/{uuid5}/{image}/{style}.jpeg', [
+        'as' => 'concept.image',
+        'uses' => 'ConceptController@image',
     ]);
 
+    Route::post('/upload/{uuid}', [
+        'as' => 'concept.upload',
+        'uses' => 'ConceptController@upload',
+    ]);
 
+    Route::get('/attachments/{concept}', [
+        'as' => 'concept.attachments',
+        'uses' => 'ConceptController@attachments',
+    ]);
 });
 

@@ -6,6 +6,7 @@ use Imagick;
 use Knowfox\Models\FileModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use \Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class PictureService
 {
@@ -38,6 +39,16 @@ class PictureService
         $w = $image->getImageWidth();
         $h = $image->getImageHeight();
 
+        if (empty($new_w)) {
+            $resize_w = $w * $new_h / $h;
+            $resize_h = $new_h;
+        }
+        else
+        if (empty($new_h)) {
+            $resize_w = $new_w;
+            $resize_h = $h * $new_w / $w;
+        }
+        else
         if ($w > $h) {
             $resize_w = $w * $new_h / $h;
             $resize_h = $new_h;
@@ -46,40 +57,52 @@ class PictureService
             $resize_w = $new_w;
             $resize_h = $h * $new_w / $w;
         }
+
         $image->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
     }
 
-    public function handleUpload(UploadedFile $file, $destination_path)
+    public function imageDirectory($uuid, $image_name = null)
     {
-        $destination_path .= md5_file($file->getPathname());
+        return public_path('images') . '/' . str_replace('-', '/', $uuid)
+            . ($image_name ? '/' . $image_name : '');
+    }
 
-        $filename = 'original.' . $file->guessExtension();
-        @mkdir($destination_path, 0775, true);
-        $file->move($destination_path, $filename);
+    public function upload(UploadedFile $file, $uuid)
+    {
+        $directory = $this->imageDirectory(
+            $uuid,
+            Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+        );
 
-        $filename = $destination_path . '/' . $filename;
+        $extension = '.' . $file->guessExtension();
+        $filename = 'original' . $extension;
 
-        $image = new Imagick($filename);
+        $file = $file->move($directory, $filename);
+
+        $image = new Imagick($file->getPathname());
         $this->autoRotateImage($image);
 
         foreach (array_keys(config('styles')) as $style) {
-            @unlink($destination_path . '/' . $style . '.jpeg');
+            @unlink($directory . '/' . $style . '.jpeg');
         }
 
-        $filename = $destination_path . '/rotated.jpeg';
-        $image->writeImage($filename);
+        $path = $directory . '/rotated.jpeg';
+        $image->writeImage($path);
 
-        return $filename;
+        return $path;
     }
 
-    public function image($path, $style_name)
+    public function image($uuid, $image_name, $style_name)
     {
-        $style = config('styles.' . $style_name);
+        $config_prefix = 'styles.' . $style_name;
+        $style_width = config($config_prefix . '.width');
+        $style_height = config($config_prefix . '.height');
+
+        $path = $this->imageDirectory($uuid, $image_name) . '/rotated.jpeg';
+
         $image = new Imagick($path);
 
-        $this->autoRotateImage($image);
-
-        $this->thumbnail($image, $style['width'], $style['height']);
+        $this->thumbnail($image, $style_width, $style_height);
         $image->writeImage(dirname($path) . '/' . $style_name . '.jpeg');
 
         return new Response($image->getImageBlob(), 200, [
@@ -87,12 +110,36 @@ class PictureService
         ]);
     }
 
-    public function asset($filename, $style)
+    public function asset($path, $style)
     {
-        return asset(strtr($filename, [
+        return asset(strtr($path, [
             'rotated' => $style,
             'original' => $style,
             //'.jpeg' => '.png',
         ]));
+    }
+
+    public function images($uuid)
+    {
+        $result = [];
+
+        $dir = $this->imageDirectory($uuid);
+
+        $prefix_len = strlen(public_path('images'));
+
+        $d = dir($dir);
+        while (false !== ($entry = $d->read())) {
+            if (strpos($entry, '.') === 0) {
+                continue;
+            }
+
+            $path = $dir . '/' . $entry . '/rotated.jpeg';
+            if (file_exists($path)) {
+                $result[] = '/images' . substr($path, $prefix_len);
+            }
+        }
+        $d->close();
+
+        return $result;
     }
 }

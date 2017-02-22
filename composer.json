@@ -10,6 +10,7 @@
         "kalnoy/nestedset": "^4.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "ramsey/uuid": "^3.5",
         "rtconner/laravel-tagging": "^2.2"
     },
     "require-dev": {

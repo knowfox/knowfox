@@ -15,6 +15,7 @@
     "vue": "^2.0.1"
   },
   "dependencies": {
+    "dropzone": "^4.3.0",
     "selectize": "^0.12.4",
     "simplemde": "^1.11.2"
   }
