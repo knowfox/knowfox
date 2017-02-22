@@ -22,8 +22,8 @@
             <tr>
                 <th style="width:5%">Id</th>
                 <th style="width:50%">Title</th>
-                <th style="width:35%">Tags</th>
-                <th style="width:10%">Updated</th>
+                <th style="width:25%">Tags</th>
+                <th style="width:20%">Updated</th>
             </tr>
             </thead>
             <tbody>

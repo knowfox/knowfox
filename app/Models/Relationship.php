@@ -6,18 +6,21 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Relationship extends Pivot
 {
-    public function getTypeAttribute($value)
+    public function forwardLabel()
     {
-        $result = [ 'type' => $value ];
         $config = config('knowfox');
 
-        if (!empty($config['relationships'][$value])) {
-            return $result + [
-                'labels' => $config['relationships'][$value],
-            ];
-        }
-        else {
-            return $result;
-        }
+        return !empty($config['relationships'][$this->type][0])
+            ? $config['relationships'][$this->type][0]
+            : $this->type;
+    }
+
+    public function reverseLabel()
+    {
+        $config = config('knowfox');
+
+        return !empty($config['relationships'][$this->type][1])
+            ? $config['relationships'][$this->type][1]
+            : $this->type;
     }
 }

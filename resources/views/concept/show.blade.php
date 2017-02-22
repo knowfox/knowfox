@@ -159,12 +159,12 @@
 
                     <ul>
                         @foreach ($concept->related()->get() as $related)
-                            <li>{{$related->pivot->type['labels'][0]}} <a href="{{route('concept.show', ['concept' => $related])}}">
+                            <li>{{$related->pivot->forwardLabel()}} <a href="{{route('concept.show', ['concept' => $related])}}">
                                     {{$related->title}}
                                 </a></li>
                         @endforeach
                         @foreach ($concept->inverseRelated()->get() as $related)
-                            <li>{{$related->pivot->type['labels'][1]}} <a href="{{route('concept.show', ['concept' => $related])}}">
+                            <li>{{$related->pivot->reverseLabel()}} <a href="{{route('concept.show', ['concept' => $related])}}">
                                     {{$related->title}}
                                 </a></li>
                         @endforeach

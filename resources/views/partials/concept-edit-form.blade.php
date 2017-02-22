@@ -14,15 +14,16 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#parents" aria-controls="parents" role="tab" data-toggle="tab">Parents & Tabs</a></li>
+        <li role="presentation" class="active"><a href="#taxonomy" aria-controls="taxonomy" role="tab" data-toggle="tab">Taxonomy</a></li>
         <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
         <li role="presentation"><a href="#links" aria-controls="links" role="tab" data-toggle="tab">Links</a></li>
+        <li role="presentation"><a href="#relations" aria-controls="relations" role="tab" data-toggle="tab">Relations</a></li>
         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="parents">
+        <div role="tabpanel" class="tab-pane active" id="taxonomy">
             <div class="form-group">
                 <label for="parent_id">Parent</label>
                 <select style="width:100%" name="parent_id" id="parent-input" data-except="{{$concept->id}}">
@@ -73,6 +74,14 @@
                     @endif
                     <i class="glyphicon glyphicon-eye-open"></i></a>
                 </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="relations">
+            <div class="form-group">
+                <label for="relations">Relations</label>
+                <textarea class="form-control" rows="3" name="relations" id="relations-input">{{$concept->relations}}</textarea>
+                <p class="help-block">Defined relationship types: {{ join(', ', array_keys(config('knowfox.relationships'))) }}</p>
             </div>
         </div>
 
