@@ -193,20 +193,26 @@ class ConceptController extends Controller
             ->with('status', 'Concept ' . $title . ' deleted');
     }
 
-    public function image(PictureService $picture, $uuid1, $uuid2, $uuid3, $uuid4, $uuid5, $image, $style)
+    public function image(PictureService $picture, Request $request, Concept $concept, $filename)
     {
-        $uuid = $uuid1 . '-' . $uuid2 . '-' . $uuid3 . '-' . $uuid4 . '-' . $uuid5;
-        return $picture->image($uuid, $image, $style);
+        $this->authorize('view', $concept);
+
+        $style = $request->has('style') ? $request->input('style') : 'original';
+        return $picture->image($concept->uuid, $filename, $style);
     }
 
     public function upload(PictureService $picture, Request $request, $uuid)
     {
+        $concept = Concept::where('uuid', $uuid)->firstOrFail();
+        $this->authorize('update', $concept);
+
         $path = $picture->upload($request->file('file'), $uuid);
         return response()->json(['success' => $path]);
     }
 
-    public function attachments(PictureService $picture, Concept $concept)
+    public function images(PictureService $picture, Concept $concept)
     {
+        $this->authorize('view', $concept);
         return response()->json($picture->images($concept->uuid));
     }
 }

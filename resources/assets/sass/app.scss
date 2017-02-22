@@ -36,6 +36,10 @@ body {
 main {
     background-color: rgba(245, 248, 250, 0.8);
     padding-bottom: 20px;
+
+    img {
+        max-width: 100%;
+    }
 }
 
 p.summary {

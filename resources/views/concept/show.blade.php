@@ -209,11 +209,10 @@
         };
 
         $('#concept-edit-form').on('shown.bs.modal', function () {
-            $.get('/attachments/{{$concept->id}}', function (data) {
+            $.get('/images/{{$concept->id}}', function (data) {
                 var txt = '';
                 data.forEach(function (img) {
-                    var tiny = img.replace(/rotated\.jpeg$/, 'h80.jpeg');
-                    txt += '<div class="pull-left" style="margin:4px"><a href="' + img + '"><img src="' + tiny + '"></a></div>';
+                    txt += '<div class="pull-left" style="margin:4px"><a href="' + img + '"><img src="' + img + '?style=h80"></a></div>';
                 });
                 $('#images').html(txt + '');
             });

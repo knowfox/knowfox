@@ -3,6 +3,8 @@
     <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
 </div>
 
+<div id="images" class="clearfix"></div>
+
 <div class="form-group>
     <label for="body">Body</label>
     <textarea class="form-control" rows="10" name="body" id="body-input">{{$concept->body}}</textarea>
@@ -15,7 +17,6 @@
         <li role="presentation" class="active"><a href="#parents" aria-controls="parents" role="tab" data-toggle="tab">Parents & Tabs</a></li>
         <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
         <li role="presentation"><a href="#links" aria-controls="links" role="tab" data-toggle="tab">Links</a></li>
-        <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab">Image</a></li>
         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
     </ul>
 
@@ -73,12 +74,6 @@
                     <i class="glyphicon glyphicon-eye-open"></i></a>
                 </div>
             </div>
-        </div>
-
-        <div role="tabpanel" class="tab-pane" id="image">
-
-            <div id="images" class="clearfix"></div>
-
         </div>
 
         <div role="tabpanel" class="tab-pane" id="settings">

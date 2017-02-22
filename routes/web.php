@@ -40,7 +40,12 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@store',
     ]);
 
-    Route::get('/concept/{concept}', [
+    Route::get('/concept/{concept}', function ($concept) {
+        return redirect()->route('concept.show', [$concept]);
+    });
+
+    // So that images without a path work
+    Route::get('/concept/{concept}/view', [
         'as' => 'concept.show',
         'uses' => 'ConceptController@show',
     ]);
@@ -55,9 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@update',
     ]);
 
-    // http://knowfox.dev/images/6245dda0/f867/11e6/822e/081cda0f15f6/512x1024/square.jpeg
-
-    Route::get('/images/{uuid1}/{uuid2}/{uuid3}/{uuid4}/{uuid5}/{image}/{style}.jpeg', [
+    Route::get('/concept/{concept}/{filename}', [
         'as' => 'concept.image',
         'uses' => 'ConceptController@image',
     ]);
@@ -67,9 +70,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@upload',
     ]);
 
-    Route::get('/attachments/{concept}', [
-        'as' => 'concept.attachments',
-        'uses' => 'ConceptController@attachments',
+    Route::get('/images/{concept}', [
+        'as' => 'concept.images',
+        'uses' => 'ConceptController@images',
     ]);
+
 });
 

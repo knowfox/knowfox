@@ -10275,6 +10275,10 @@ main {
   padding-bottom: 20px;
 }
 
+main img {
+  max-width: 100%;
+}
+
 p.summary {
   font-weight: bold;
   font-size: 1.1em;

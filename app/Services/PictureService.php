@@ -61,49 +61,40 @@ class PictureService
         $image->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
     }
 
-    public function imageDirectory($uuid, $image_name = null)
+    public function imageDirectory($uuid)
     {
-        return public_path('images') . '/' . str_replace('-', '/', $uuid)
-            . ($image_name ? '/' . $image_name : '');
+        return storage_path('uploads') . '/' . str_replace('-', '/', $uuid);
     }
 
     public function upload(UploadedFile $file, $uuid)
     {
-        $directory = $this->imageDirectory(
-            $uuid,
-            Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-        );
-
-        $extension = '.' . $file->guessExtension();
-        $filename = 'original' . $extension;
+        $directory = $this->imageDirectory($uuid);
+        $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+            . '.' . $file->guessExtension();
 
         $file = $file->move($directory, $filename);
+        $path = $file->getPathname();
 
-        $image = new Imagick($file->getPathname());
+        $image = new Imagick($path);
         $this->autoRotateImage($image);
 
-        foreach (array_keys(config('styles')) as $style) {
-            @unlink($directory . '/' . $style . '.jpeg');
-        }
-
-        $path = $directory . '/rotated.jpeg';
         $image->writeImage($path);
 
         return $path;
     }
 
-    public function image($uuid, $image_name, $style_name)
+    public function image($uuid, $filename, $style_name)
     {
-        $config_prefix = 'styles.' . $style_name;
-        $style_width = config($config_prefix . '.width');
-        $style_height = config($config_prefix . '.height');
-
-        $path = $this->imageDirectory($uuid, $image_name) . '/rotated.jpeg';
-
+        $path = $this->imageDirectory($uuid) . '/' . $filename;
         $image = new Imagick($path);
 
-        $this->thumbnail($image, $style_width, $style_height);
-        $image->writeImage(dirname($path) . '/' . $style_name . '.jpeg');
+        if ($style_name != 'original') {
+            $config_prefix = 'styles.' . $style_name;
+            $style_width = config($config_prefix . '.width');
+            $style_height = config($config_prefix . '.height');
+
+            $this->thumbnail($image, $style_width, $style_height);
+        }
 
         return new Response($image->getImageBlob(), 200, [
             "Content-Type" => "image/jpeg"
@@ -121,25 +112,19 @@ class PictureService
 
     public function images($uuid)
     {
-        $result = [];
+        $images = [];
 
         $dir = $this->imageDirectory($uuid);
-
-        $prefix_len = strlen(public_path('images'));
 
         $d = dir($dir);
         while (false !== ($entry = $d->read())) {
             if (strpos($entry, '.') === 0) {
                 continue;
             }
-
-            $path = $dir . '/' . $entry . '/rotated.jpeg';
-            if (file_exists($path)) {
-                $result[] = '/images' . substr($path, $prefix_len);
-            }
+            $images[] = $entry;
         }
         $d->close();
 
-        return $result;
+        return $images;
     }
 }
