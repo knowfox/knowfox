@@ -16,6 +16,16 @@ class ConceptController extends Controller
         'upload' => 'sometimes|image|mimes:jpeg,png|min:1|max:10000',
     ];
 
+    public function toplevel(Request $request)
+    {
+        return $this->index($request, 'toplevel');
+    }
+
+    public function flagged(Request $request)
+    {
+        return $this->index($request, 'flagged');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -27,12 +27,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/concepts/toplevel', [
         'as' => 'concept.toplevel',
-        'uses' => 'ConceptController@index',
+        'uses' => 'ConceptController@toplevel',
     ]);
 
     Route::get('/concepts/flagged', [
         'as' => 'concept.flagged',
-        'uses' => 'ConceptController@index',
+        'uses' => 'ConceptController@flagged',
     ]);
 
     Route::get('/concepts', [
