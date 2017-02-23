@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Knowfox\Services\PictureService;
 use Validator;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ConceptController extends Controller
 {
@@ -244,6 +245,14 @@ class ConceptController extends Controller
         $this->authorize('update', $concept);
 
         $path = $picture->upload($request->file('file'), $uuid);
+
+        $file = new File($path);
+        if (strpos($file->getMimeType(), 'image/') === 0) {
+            $parts = pathinfo($path);
+            $concept->body .= "\n![{$parts['filename']}]({$parts['basename']})\n";
+            $concept->save();
+        }
+
         return response()->json(['success' => $path]);
     }
 
