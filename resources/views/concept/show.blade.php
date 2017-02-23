@@ -167,7 +167,10 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            previewsContainer: '.dropzone-previews'
+            previewsContainer: '.dropzone-previews',
+            init: function() {
+                this.on("success", function(file) { location.reload(); });
+            }
         };
 
         $('#concept-edit-form').on('shown.bs.modal', function () {
