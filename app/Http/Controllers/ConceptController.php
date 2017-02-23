@@ -225,10 +225,18 @@ class ConceptController extends Controller
         $this->authorize('delete', $concept);
 
         $title = "#{$concept->id} \"{$concept->title}\"";
+        $parent_id = $concept->getParentId();
 
         $concept->delete();
-        return redirect()->route('concept.index')
-            ->with('status', 'Concept ' . $title . ' deleted');
+
+        if ($parent_id) {
+            return redirect()->route('concept.show', [$parent_id])
+                ->with('status', 'Concept ' . $title . ' deleted');
+        }
+        else {
+            return redirect()->route('concept.index')
+                ->with('status', 'Concept ' . $title . ' deleted');
+        }
     }
 
     public function image(PictureService $picture, Request $request, Concept $concept, $filename)
