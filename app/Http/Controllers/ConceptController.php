@@ -136,6 +136,24 @@ class ConceptController extends Controller
     }
 
     /**
+     * Display the specified resource using Graphviz.
+     *
+     * @param  Concept  $concept
+     * @return \Illuminate\Http\Response
+     */
+    public function graph(Concept $concept)
+    {
+        $this->authorize('view', $concept);
+
+        $concept->load('related', 'inverseRelated', 'tagged');
+
+        return view('concept.graph', [
+            'page_title' => $concept->title,
+            'concept' => $concept,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Knowfox\Models\Concept  $concept

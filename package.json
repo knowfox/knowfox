@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "dropzone": "^4.3.0",
+    "fs": "0.0.1-security",
     "selectize": "^0.12.4",
     "simplemde": "^1.11.2"
   }

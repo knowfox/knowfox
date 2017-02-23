@@ -25,7 +25,17 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'TagsController@index',
     ]);
 
-    Route::get('/concepts/{special?}', [
+    Route::get('/concepts/toplevel', [
+        'as' => 'concept.toplevel',
+        'uses' => 'ConceptController@index',
+    ]);
+
+    Route::get('/concepts/flagged', [
+        'as' => 'concept.flagged',
+        'uses' => 'ConceptController@index',
+    ]);
+
+    Route::get('/concepts', [
         'as' => 'concept.index',
         'uses' => 'ConceptController@index',
     ]);
@@ -48,6 +58,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/concept/{concept}/view', [
         'as' => 'concept.show',
         'uses' => 'ConceptController@show',
+    ]);
+
+    Route::get('/concept/{concept}/graph', [
+        'as' => 'concept.graph',
+        'uses' => 'ConceptController@graph',
     ]);
 
     Route::delete('/concept/{concept}', [
