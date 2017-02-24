@@ -22,6 +22,8 @@
 
 @import "node_modules/concord/concord";
 
+@import "node_modules/jquery-ui/themes/base/autocomplete";
+
 html {
     background: url('/img/background.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -75,4 +77,15 @@ p.summary {
     overflow: auto;
     padding: 6px;
     background-color: white;
+}
+
+.home.container {
+    margin-top: 100px;
+}
+
+ul.ui-autocomplete {
+    z-index: 1001;
+    background: white;
+    border: solid 1px #EEE;
+    list-style-type: none;
 }

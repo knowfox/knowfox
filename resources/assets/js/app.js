@@ -9,10 +9,11 @@ require('./bootstrap');
 require('selectize');
 require('concord/concord');
 
-
 var SimpleMDE = require('simplemde/dist/simplemde.min');
 window.Dropzone = require('dropzone');
 
+require('jquery-ui/ui/widgets/autocomplete');
+require('jquery-ui/ui/widgets/autocomplete');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -153,6 +154,23 @@ $('#tags-input').selectize({
             }
         });
     }
+});
+
+$.widget( "custom.kfAutocomplete", $.ui.autocomplete, {
+    _normalize: function (items) {
+        return $.map(items.data, function(item) {
+            return {
+                value: item.title,
+                label: item.title
+            };
+        });
+    }
+});
+
+$('#search-input').kfAutocomplete({
+    source: '/concepts?limit=10',
+    minLength: 2,
+
 });
 
 $('#todoist_id-input').on('keyup', function () {

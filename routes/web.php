@@ -12,12 +12,19 @@
 */
 
 Route::get('/', function () {
+
+    if (Auth::check()) {
+        return redirect()->route('home');
+    }
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', [
+    'as' => 'home',
+    'uses' => 'HomeController@index'
+]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/tags', [

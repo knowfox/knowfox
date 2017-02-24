@@ -55,6 +55,10 @@
                         </li>
                     </ul>
 
+                    @if (Route::currentRouteName() != 'home')
+                        @include('partials.search-form', ['class' => 'navbar-form navbar-left'])
+                    @endif
+
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->

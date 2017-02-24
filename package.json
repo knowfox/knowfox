@@ -19,6 +19,7 @@
     "concord": "git+https://github.com/oschettler/concord.git",
     "dropzone": "^4.3.0",
     "fs": "0.0.1-security",
+    "jquery-ui": "^1.12.1",
     "selectize": "^0.12.4",
     "simplemde": "^1.11.2"
   }

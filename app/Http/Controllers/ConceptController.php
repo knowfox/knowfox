@@ -60,12 +60,25 @@ class ConceptController extends Controller
             $page_title .= ' with tag "' . $request->input('tag') . '"';
         }
 
+        $search_term = '';
+
         if ($request->has('q')) {
-            $concepts->where('title', 'like', '%' . $request->input('q') . '%');
+            $search_term = $request->input('q');
+            $concepts->where('title', 'like', '%' . $search_term . '%');
+        }
+
+        // jquery-ui.autocomplete
+        if ($request->has('term')) {
+            $search_term = $request->input('term');
+            $concepts->where('title', 'like', '%' . $search_term . '%');
         }
 
         if ($request->has('except')) {
             $concepts->where('id', '!=', $request->input('except'));
+        }
+
+        if ($request->has('limit')) {
+            $concepts->limit((int)$request->input('limit'));
         }
 
         if ($request->format() == 'json') {
@@ -78,6 +91,7 @@ class ConceptController extends Controller
             return view('concept.index', [
                 'concepts' => $concepts->paginate(),
                 'page_title' => $page_title,
+                'search_term' => $search_term,
             ]);
         }
     }
