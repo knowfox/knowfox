@@ -22,8 +22,8 @@
             $("#outliner").concord ({
                 "prefs": {
                     "outlineFont": "Hack, monospace",
-                    "outlineFontSize": 18,
-                    "outlineLineHeight": 24,
+                    "outlineFontSize": 14,
+                    "outlineLineHeight": 22,
                     "renderMode": false,
                     "readonly": false,
                     "typeIcons": appTypeIcons
