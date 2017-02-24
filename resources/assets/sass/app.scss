@@ -88,4 +88,18 @@ ul.ui-autocomplete {
     background: white;
     border: solid 1px #EEE;
     list-style-type: none;
+    padding: 0 12px;
 }
+
+.collapse.navbar-collapse {
+    display: flex !important;
+}
+
+.navbar-form {
+    flex-grow: 1;
+
+    .input-group {
+        width: 100%;
+    }
+}
+

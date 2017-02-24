@@ -160,7 +160,7 @@ $.widget( "custom.kfAutocomplete", $.ui.autocomplete, {
     _normalize: function (items) {
         return $.map(items.data, function(item) {
             return {
-                value: item.title,
+                value: item.id,
                 label: item.title
             };
         });
@@ -170,7 +170,12 @@ $.widget( "custom.kfAutocomplete", $.ui.autocomplete, {
 $('#search-input').kfAutocomplete({
     source: '/concepts?limit=10',
     minLength: 2,
+    select: function(event, ui) {
+        var url = '/concept/' + ui.item.value;
 
+        event.preventDefault();
+        location.href = url;
+    }
 });
 
 $('#todoist_id-input').on('keyup', function () {
