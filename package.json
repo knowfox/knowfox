@@ -12,9 +12,11 @@
     "jquery": "^3.1.0",
     "laravel-mix": "^0.6.0",
     "lodash": "^4.16.2",
+    "napa": "^2.3.0",
     "vue": "^2.0.1"
   },
   "dependencies": {
+    "concord": "git+https://github.com/oschettler/concord.git",
     "dropzone": "^4.3.0",
     "fs": "0.0.1-security",
     "selectize": "^0.12.4",

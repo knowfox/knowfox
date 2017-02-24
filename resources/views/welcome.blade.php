@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="links">
-                    <p>Personal Knowldege Manamenent</p>
+                    <p>Personal Knowledge Manamenent</p>
                 </div>
             </div>
         </div>

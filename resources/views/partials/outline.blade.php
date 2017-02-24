@@ -1,0 +1,1 @@
+<outline text="{{$concept->title}}">{!! $descendants !!}</outline>

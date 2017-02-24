@@ -60,9 +60,14 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@show',
     ]);
 
-    Route::get('/concept/{concept}/graph', [
-        'as' => 'concept.graph',
-        'uses' => 'ConceptController@graph',
+    Route::get('/concept/{concept}/outline', [
+        'as' => 'concept.outline',
+        'uses' => 'ConceptController@outline',
+    ]);
+
+    Route::get('/concept/{concept}/opml', [
+        'as' => 'concept.opml',
+        'uses' => 'ConceptController@opml',
     ]);
 
     Route::delete('/concept/{concept}', [

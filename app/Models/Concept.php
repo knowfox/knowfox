@@ -7,6 +7,7 @@ use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Knowfox\User;
 use Symfony\Component\Yaml\Yaml;
 
 class Concept extends Model {
@@ -39,13 +40,15 @@ class Concept extends Model {
         $this->related()->sync(Yaml::parse($value));
     }
 
-    public function getRenderedBodyAttribute($value) {
+    public function getRenderedBodyAttribute($value)
+    {
         $parser = new GithubMarkdown();
         $parser->html5 = TRUE;
         return $parser->parse($this->body);
     }
 
-    public function related() {
+    public function related()
+    {
         return $this->belongsToMany(Concept::class, 'relationships', 'source_id', 'target_id')
             ->withPivot('type')
             ->using(Relationship::class)
@@ -53,11 +56,18 @@ class Concept extends Model {
 
     }
 
-    public function inverseRelated() {
+    public function inverseRelated()
+    {
         return $this->belongsToMany(Concept::class, 'relationships', 'target_id', 'source_id')
             ->withPivot('type')
             ->using(Relationship::class)
             ->withTimestamps();
 
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
 }
