@@ -21,7 +21,7 @@
         <script>
             $("#outliner").concord ({
                 "prefs": {
-                    "outlineFont": "Georgia",
+                    "outlineFont": "Hack, monospace",
                     "outlineFontSize": 18,
                     "outlineLineHeight": 24,
                     "renderMode": false,
