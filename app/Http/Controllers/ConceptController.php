@@ -68,7 +68,7 @@ class ConceptController extends Controller
             $search_term = $request->input('q');
             $concepts->where('title', 'like', $search_term . '%');
             $concepts->orWhereRaw(
-                'MATCH(title,summary,body) AGAINST(? WITH QUERY EXPANSION)', [$search_term]
+                'MATCH(title,summary,body) AGAINST(? IN NATURAL LANGUAGE MODE)', [$search_term]
             );
         }
 
@@ -77,7 +77,7 @@ class ConceptController extends Controller
             $search_term = $request->input('term');
             $concepts->where('title', 'like', $search_term . '%');
             $concepts->orWhereRaw(
-                'MATCH(title,summary,body) AGAINST(? WITH QUERY EXPANSION)', [$search_term]
+                'MATCH(title,summary,body) AGAINST(? IN NATURAL LANGUAGE MODE)', [$search_term]
             );
         }
 
