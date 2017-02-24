@@ -39,7 +39,7 @@ class ConceptController extends Controller
             ->where('owner_id', Auth::id())
             ->orderBy('updated_at', "desc");
 
-        $page_title = 'Concepts';
+        $page_title = '';
 
         if ($special) {
 
@@ -88,9 +88,13 @@ class ConceptController extends Controller
             return response()->json($items);
         }
         else {
+            $result = $concepts->paginate();
+            $page_title = 'Concept' . ($result->total() != 1 ? 's' : '') . $page_title;
+
             return view('concept.index', [
-                'concepts' => $concepts->paginate(),
+                'concepts' => $result,
                 'page_title' => $page_title,
+                'sub_title' => $result->firstItem() . ' &hellip; ' . $result->lastItem() . ' of ' . $result->total(),
                 'search_term' => $search_term,
             ]);
         }
