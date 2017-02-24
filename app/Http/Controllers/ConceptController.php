@@ -62,15 +62,23 @@ class ConceptController extends Controller
 
         $search_term = '';
 
+        // https://dev.mysql.com/doc/refman/5.7/en/fulltext-query-expansion.html
+
         if ($request->has('q')) {
             $search_term = $request->input('q');
-            $concepts->where('title', 'like', '%' . $search_term . '%');
+            $concepts->where('title', 'like', $search_term . '%');
+            $concepts->orWhereRaw(
+                'MATCH(title,summary,body) AGAINST(? WITH QUERY EXPANSION)', [$search_term]
+            );
         }
 
         // jquery-ui.autocomplete
         if ($request->has('term')) {
             $search_term = $request->input('term');
-            $concepts->where('title', 'like', '%' . $search_term . '%');
+            $concepts->where('title', 'like', $search_term . '%');
+            $concepts->orWhereRaw(
+                'MATCH(title,summary,body) AGAINST(? WITH QUERY EXPANSION)', [$search_term]
+            );
         }
 
         if ($request->has('except')) {
