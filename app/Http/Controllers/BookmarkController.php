@@ -46,7 +46,7 @@ class BookmarkController extends Controller
         // https://mercury.postlight.com/web-parser/
         $client = new Client([
             'base_uri' => 'https://mercury.postlight.com/',
-            'timeout'  => 2.0,
+            'timeout'  => 10.0,
         ]);
         $response = $client->get('parser', [
             'query' => ['url' => $concept->source_url],
