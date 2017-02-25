@@ -363,7 +363,7 @@ class ConceptController extends Controller
         if (!$concept) {
             $concept = Concept::create([
                 'parent_id' => $month->id,
-                'title' => date('Y-m-d') . ' Journal',
+                'title' => date('Y-m-d (l)') . ' Journal',
                 'owner_id' => Auth::id(),
             ]);
         }
