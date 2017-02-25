@@ -366,6 +366,7 @@ class ConceptController extends Controller
                 'title' => date('Y-m-d l:') . ' Journal',
                 'owner_id' => Auth::id(),
             ]);
+            $concept->tag('Journal')
         }
 
         return redirect()->route('concept.show', [$concept]);
