@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6fdcac1f0062d5f81a8203fd46ccf72b",
+    "content-hash": "1d5f427a2d3f59d3e4027c47c0eaf8c9",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -207,6 +207,48 @@
                 "parser"
             ],
             "time": "2016-11-02T15:56:58+00:00"
+        },
+        {
+            "name": "evernote/evernote",
+            "version": "1.26.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/evernote/evernote-sdk-php.git",
+                "reference": "177e10b9fd56ed6ff8857cf937408f069bc5c7e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/evernote/evernote-sdk-php/zipball/177e10b9fd56ed6ff8857cf937408f069bc5c7e9",
+                "reference": "177e10b9fd56ed6ff8857cf937408f069bc5c7e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache"
+            ],
+            "authors": [
+                {
+                    "name": "Evernote and contributors",
+                    "homepage": "https://github.com/evernote/evernote-sdk-php/contributors"
+                }
+            ],
+            "description": "Evernote PHP SDK",
+            "homepage": "https://github.com/evernote/evernote-sdk-php",
+            "keywords": [
+                "api",
+                "evernote",
+                "sdk"
+            ],
+            "time": "2016-04-04T20:41:16+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

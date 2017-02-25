@@ -4,6 +4,7 @@ namespace Knowfox\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Knowfox\Console\Commands\ImportEvernote;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        ImportEvernote::class,
     ];
 
     /**
