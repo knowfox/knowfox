@@ -53,6 +53,8 @@
                                 <li><a href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a></li>
                             </ul>
                         </li>
+
+                        <li><a href="{{ route('journal') }}"><i class="glyphicon glyphicon-grain"></i> Journal</a></li>
                     </ul>
 
                     @if (Route::currentRouteName() != 'home')
@@ -97,7 +99,7 @@
             <div class="container">
                 <p class="text-muted">
                     &copy; {{ date('Y') }} Dr. Olav Schettler |
-                    <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='https://knowfox.com/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()">Bookmarklet</a>
+                    <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='https://knowfox.com/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()"><i class="glyphicon glyphicon-bookmark"></i> Bookmarklet</a>
                 </p>
             </div>
         </footer>

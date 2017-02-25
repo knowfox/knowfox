@@ -112,5 +112,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'BookmarkController@store',
     ]);
 
+    Route::get('/journal', [
+        'as' => 'journal',
+        'uses' => 'ConceptController@journal',
+    ]);
+
 });
 

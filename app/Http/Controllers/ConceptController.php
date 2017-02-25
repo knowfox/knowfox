@@ -337,4 +337,37 @@ class ConceptController extends Controller
         $this->authorize('view', $concept);
         return response()->json($picture->images($concept->uuid));
     }
+
+    public function journal()
+    {
+        $root = Concept::whereIsRoot()->where('title', 'Journal')->first();
+        if (!$root) {
+            return back()->withErrors('No "Journal" root');
+        }
+
+        $year = Concept::firstOrCreate([
+            'parent_id' => $root->id,
+            'title' => date('Y'),
+            'owner_id' => Auth::id(),
+        ]);
+
+        $month = Concept::firstOrCreate([
+            'parent_id' => $year->id,
+            'title' => date('m'),
+            'owner_id' => Auth::id(),
+        ]);
+
+        $concept = Concept::where('parent_id', $month->id)
+            ->where('title', 'like', date('Y-m-d') . '%')
+            ->first();
+        if (!$concept) {
+            $concept = Concept::create([
+                'parent_id' => $month->id,
+                'title' => date('Y-m-d') . ' Journal',
+                'owner_id' => Auth::id(),
+            ]);
+        }
+
+        return redirect()->route('concept.show', [$concept]);
+    }
 }
