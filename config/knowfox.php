@@ -16,5 +16,7 @@ return [
     'languages' => [
         'de',
         'en',
-    ]
+    ],
+
+    'mercury_key' => env('MERCURY_KEY', 'secret key for https://mercury.postlight.com/web-parser/'),
 ];

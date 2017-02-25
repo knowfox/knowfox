@@ -7,6 +7,7 @@
     "require": {
         "php": ">=5.6.4",
         "cebe/markdown": "^1.1",
+        "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",

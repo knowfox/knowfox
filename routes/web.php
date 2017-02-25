@@ -102,5 +102,15 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@images',
     ]);
 
+    Route::get('/bookmark', [
+        'as' => 'bookmark.create',
+        'uses' => 'BookmarkController@create',
+    ]);
+
+    Route::post('/bookmark', [
+        'as' => 'bookmark.store',
+        'uses' => 'BookmarkController@store',
+    ]);
+
 });
 
