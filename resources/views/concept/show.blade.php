@@ -23,7 +23,7 @@
                 @endif
 
                 @if ($concept->rendered_body)
-                    <section>
+                    <section class="body">
                         {!! $concept->rendered_body !!}
                     </section>
                 @endif

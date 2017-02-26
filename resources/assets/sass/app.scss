@@ -121,3 +121,7 @@ ul.ui-autocomplete {
     position: absolute;
     bottom: 0;
 }
+
+section.body table {
+    @extend .table;
+}
