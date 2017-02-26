@@ -10525,7 +10525,7 @@ ul.ui-autocomplete {
   padding: 0 12px;
 }
 
-.collapse.navbar-collapse {
+.not-home .collapse.navbar-collapse {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;

@@ -20,7 +20,7 @@
         ]) !!};
     </script>
 </head>
-<body class="{{ str_replace('.', '-', Route::currentRouteName()) }}">
+<body class="{{ str_replace('.', '-', Route::currentRouteName()) }}{{ Route::currentRouteName() != 'home' ? ' not-home' : '' }}">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
