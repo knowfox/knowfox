@@ -10,6 +10,9 @@
 
     <title>@if (!empty($page_title)){{$page_title}} | @endif{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="shortcut icon" type="image/x-icon" href="/img/knowfox-icon.ico">
+    <link rel=”icon” type=”image/png” href=”/img/knowfox-icon.png”>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 

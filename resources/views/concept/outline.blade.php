@@ -24,7 +24,7 @@
                     "outlineFont": "Hack, monospace",
                     "outlineFontSize": 14,
                     "outlineLineHeight": 22,
-                    "renderMode": false,
+                    "renderMode": true,
                     "readonly": false,
                     "typeIcons": appTypeIcons
                 },
