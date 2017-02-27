@@ -39,7 +39,7 @@ class ConceptController extends Controller
             ->where('owner_id', Auth::id())
             ->orderBy('updated_at', "desc");
 
-        $page_title = '';
+        $page_title = 'Concepts';
 
         if ($special) {
 
@@ -97,7 +97,6 @@ class ConceptController extends Controller
         }
         else {
             $result = $concepts->paginate();
-            $page_title = 'Concept' . ($result->total() != 1 ? 's' : '') . $page_title;
 
             return view('concept.index', [
                 'concepts' => $result,

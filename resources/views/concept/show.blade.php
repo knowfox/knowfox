@@ -42,10 +42,6 @@
                         <td>{{$concept->updated_at}}</td>
                     </tr>
                     <tr>
-                        <th>Weight</th>
-                        <td>{{$concept->weight}}</td>
-                    </tr>
-                    <tr>
                         <th>Language</th>
                         <td>{{$concept->language}}</td>
                     </tr>
@@ -94,7 +90,7 @@
                     <h2>Children</h2>
 
                     <ul>
-                        @foreach ($concept->children()->get() as $child)
+                        @foreach ($concept->children()->defaultOrder()->get() as $child)
                             <li><a href="{{route('concept.show', ['concept' => $child])}}">
                                     {{$child->title}}
                                 </a></li>

@@ -88,11 +88,6 @@
         <div role="tabpanel" class="tab-pane" id="settings">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="checkbox">
-                        <label>
-                            <input name="is_flagged" @if ($concept->is_flagged)checked="checked" @endif type="checkbox"> Flagged
-                        </label>
-                    </div>
                     <div class="form-group">
                         <label for="title">Language</label>
 
@@ -102,13 +97,13 @@
                             'options' => config('knowfox.languages')
                         ])
                     </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="is_flagged" @if ($concept->is_flagged)checked="checked" @endif type="checkbox"> Flagged
+                        </label>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="title">Weight</label>
-                        <input type="number" class="form-control" name="weight" value="{{$concept->weight}}">
-                    </div>
-
                     <div class="form-group">
                         <label for="title">Status</label>
 
