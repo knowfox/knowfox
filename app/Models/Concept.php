@@ -23,7 +23,7 @@ class Concept extends Model {
     ];
 
     protected $slugField = 'title';
-    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'weight', 'status', 'language', 'uuid', 'relations', 'owner_id'];
+    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'status', 'language', 'uuid', 'relations', 'owner_id'];
 
     public function getRelationsAttribute()
     {
