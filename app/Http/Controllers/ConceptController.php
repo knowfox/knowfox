@@ -173,66 +173,6 @@ class ConceptController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Concept  $concept
-     * @return \Illuminate\Http\Response
-     */
-    public function opml(Concept $concept)
-    {
-        $this->authorize('view', $concept);
-
-        $concept->load('descendants');
-
-        $traverse = function ($tree) use (&$traverse) {
-
-            $concepts = [];
-            foreach ($tree as $concept) {
-                $concepts[] = view('partials.outline', [
-                    'concept' => $concept,
-                    'descendants' => $traverse($concept->children),
-                ]);
-            }
-            return join("\n", $concepts);
-        };
-
-        /*
-        $concepts = \Kalnoy\Nestedset\Collection::make()
-            ->add($concept)
-            ->toTree();
-        */
-
-
-        return response(
-            view('concept.opml', [
-                'concept' => $concept,
-                'tree' => view('partials.outline', [
-                    'concept' => $concept,
-                    'descendants' => $traverse($concept->descendants->toTree()),
-                ]),
-            ]), 200)
-            ->header('Content-type', 'text/x-opml');
-    }
-
-    /**
-     * Display the specified resource using Graphviz.
-     *
-     * @param  Concept  $concept
-     * @return \Illuminate\Http\Response
-     */
-    public function outline(Concept $concept)
-    {
-        $this->authorize('view', $concept);
-
-        $concept->load('related', 'inverseRelated', 'tagged');
-
-        return view('concept.outline', [
-            'page_title' => $concept->title,
-            'concept' => $concept,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Knowfox\Models\Concept  $concept

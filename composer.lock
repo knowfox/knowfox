@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d5f427a2d3f59d3e4027c47c0eaf8c9",
+    "content-hash": "0b6e84b60eb2b62598dc358c74edd2f0",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -2249,6 +2249,61 @@
             "time": "2016-09-20T12:50:39+00:00"
         },
         {
+            "name": "vipnytt/opmlparser",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VIPnytt/OPMLParser.git",
+                "reference": "cf5d670fddd42a51198d170d128133ccc4e953ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VIPnytt/OPMLParser/zipball/cf5d670fddd42a51198d170d128133ccc4e953ae",
+                "reference": "cf5d670fddd42a51198d170d128133ccc4e953ae",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-simplexml": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": ">=0.2.0",
+                "phpunit/phpunit": ">=4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "vipnytt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "VIP nytt",
+                    "email": "vipnytt@gmail.com",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Jan-Petter Gundersen",
+                    "email": "europe.jpg@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OPML parser",
+            "homepage": "https://github.com/VIPnytt/OPMLParser",
+            "keywords": [
+                "opml",
+                "parser",
+                "render",
+                "xml"
+            ],
+            "time": "2016-05-06 23:10:54"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v2.4.0",
             "source": {
@@ -3769,7 +3824,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "vipnytt/opmlparser": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

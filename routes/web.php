@@ -67,16 +67,6 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@show',
     ]);
 
-    Route::get('/concept/{concept}/outline', [
-        'as' => 'concept.outline',
-        'uses' => 'ConceptController@outline',
-    ]);
-
-    Route::get('/concept/{concept}/opml', [
-        'as' => 'concept.opml',
-        'uses' => 'ConceptController@opml',
-    ]);
-
     Route::delete('/concept/{concept}', [
         'as' => 'concept.destroy',
         'uses' => 'ConceptController@destroy',
@@ -85,6 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/concept/{concept}', [
         'as' => 'concept.update',
         'uses' => 'ConceptController@update',
+    ]);
+
+    Route::get('/concept/{concept}/outline', [
+        'as' => 'concept.outline',
+        'uses' => 'OutlineController@outline',
     ]);
 
     Route::get('/concept/{concept}/{filename}', [
@@ -100,6 +95,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/images/{concept}', [
         'as' => 'concept.images',
         'uses' => 'ConceptController@images',
+    ]);
+
+    Route::get('/opml/{concept}', [
+        'as' => 'outline.opml',
+        'uses' => 'OutlineController@opml',
+    ]);
+
+    Route::post('/opml/{concept}', [
+        'as' => 'outline.update',
+        'uses' => 'OutlineController@update',
     ]);
 
     Route::get('/bookmark', [

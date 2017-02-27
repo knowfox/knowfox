@@ -10654,10 +10654,16 @@ a [class*=" icon-"] {
 html {
   background: url("/img/background.jpg") no-repeat center center fixed;
   background-size: cover;
+  /* Sticky footer */
+  position: relative;
+  min-height: 100%;
 }
 
 body {
   background-color: transparent;
+  /* Sticky footer
+       Margin bottom by footer height */
+  margin-bottom: 60px;
 }
 
 .navbar-default {
@@ -10732,6 +10738,8 @@ ul.ui-autocomplete {
 }
 
 .footer {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 60px;
   background-color: #f5f5f5;
@@ -10744,9 +10752,4 @@ ul.ui-autocomplete {
 
 .footer .text-muted {
   color: #777;
-}
-
-.home .footer {
-  position: absolute;
-  bottom: 0;
 }
