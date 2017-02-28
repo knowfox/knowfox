@@ -58,18 +58,6 @@
 
                 @endif
 
-                @if ($concept->tags->count())
-                    <h2>Tags</h2>
-
-                    <ul>
-                        @foreach ($concept->tags as $tag)
-                            <li><a href="{{route('concept.index', ['tag' => $tag->slug])}}">
-                                    {{$tag->name}}
-                                </a></li>
-                        @endforeach
-                    </ul>
-                @endif
-
                 @if ($concept->related()->count() || $concept->inverseRelated()->count())
 
                     <h2>Related</h2>
