@@ -29,47 +29,6 @@
                 @endif
             </div>
             <div class="col-md-4">
-                <h2>Meta Data</h2>
-
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>Created</th>
-                        <td>{{$concept->created_at}}</td>
-                    </tr>
-                    <tr>
-                        <th>Updated</th>
-                        <td>{{$concept->updated_at}}</td>
-                    </tr>
-                    <tr>
-                        <th>Language</th>
-                        <td>{{$concept->language}}</td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td>{{$concept->status}}</td>
-                    </tr>
-                    <tr>
-                        <th>Flagged</th>
-                        <td>
-                            <i class="glyphicon glyphicon-heart{{$concept->is_flagged ? '' : '-empty'}}"></i>
-                        </td>
-                    </tr>
-                    @if ($concept->source_url)
-                        <tr>
-                            <th>Source</th>
-                            <td><a href="{{$concept->source_url}}">{{parse_url($concept->source_url, PHP_URL_HOST)}}</a></td>
-                        </tr>
-                    @endif
-                    @if ($concept->todoist_id)
-                        <tr>
-                            <th>Todoist-Link</th>
-                            <td><a target="todo" href="https://todoist.com/showTask?id={{$concept->todoist_id}}">{{$concept->todoist_id}}</a></td>
-                        </tr>
-                    @endif
-
-                    </tbody>
-                </table>
 
                 @if ($concept->getSiblings()->count())
 

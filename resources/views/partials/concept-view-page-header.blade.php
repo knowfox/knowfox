@@ -34,7 +34,30 @@
         </ul>
     </div>
 
-    <h1>{{$concept->title}}</h1>
+    <h1>
+        {{$concept->title}}
+        @if ($concept->is_flagged)
+            <i class="glyphicon glyphicon-heart"></i>
+        @endif
+        @if ($concept->source_url)
+            <a href="{{$concept->source_url}}">
+                <i class="glyphicon glyphicon-link"></i>
+            </a>
+        @endif
+    </h1>
+
+    <p class="meta">
+        Created {{ strftime('%Y-%m-%d', strtotime($concept->created_at)) }},
+        updated {{ strftime('%Y-%m-%d', strtotime($concept->updated_at)) }}
+
+        @if ($concept->tags->count())
+            @foreach ($concept->tags as $tag)
+                <a class="label label-default" href="{{route('concept.index', ['tag' => $tag->slug])}}">
+                    {{$tag->name}}
+                </a>
+            @endforeach
+        @endif
+    </p>
 
     @include('partials.messages')
 
