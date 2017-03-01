@@ -20,6 +20,7 @@
             <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu">
+            <li><a href="#" data-toggle="modal" data-target="#concept-share-form"><i class="glyphicon glyphicon-share"></i> Share</a></li>
             <li><a href="{{route('concept.create', ['parent_id' => $concept->id])}}"><i class="glyphicon glyphicon-plus-sign"></i> Add child</a></li>
             <li role="separator" class="divider"></li>
             <li>

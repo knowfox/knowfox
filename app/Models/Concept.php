@@ -70,4 +70,9 @@ class Concept extends Model {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
+    public function circles()
+    {
+        return $this->belongsToMany(Circle::class)->withPivot('view', 'edit');
+    }
+
 }
