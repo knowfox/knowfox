@@ -122,25 +122,5 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@journal',
     ]);
 
-    Route::get('/circles', [
-        'as' => 'circle.index',
-        'uses' => 'CircleController@index',
-    ]);
-
-    Route::get('/circle/{circle}/edit', [
-        'as' => 'circle.edit',
-        'uses' => 'CircleController@edit',
-    ]);
-
-    Route::post('/circle/{circle}', [
-        'as' => 'circle.store',
-        'uses' => 'CircleController@store',
-    ]);
-
-    Route::get('/share/{concept}', [
-        'as' => 'concept.share',
-        'uses' => 'CircleController@share',
-    ]);
-
 });
 

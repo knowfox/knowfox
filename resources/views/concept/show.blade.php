@@ -100,25 +100,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal fade" id="concept-share-form" role="dialog" aria-labelledby="form-label">
-        <div class="modal-dialog" role="document">
-            <form class="modal-content" action="{{route('concept.share', [$concept])}}" method="POST">
-                {{csrf_field()}}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="form-label">Share "{{$concept->title}}"</h4>
-                </div>
-                <div class="modal-body">
-                    @include('partials.concept-share-form')
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 @endsection
 
 @section ('footer_scripts')
