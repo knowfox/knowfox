@@ -10725,20 +10725,28 @@ ul.ui-autocomplete {
   padding: 0 12px;
 }
 
-.not-home .collapse.navbar-collapse {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
+@media (min-width: 768px) {
+  .not-home .collapse.navbar-collapse {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+
+  .navbar-form {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+  }
+
+  .navbar-form .input-group {
+    width: 100%;
+  }
 }
 
-.navbar-form {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-}
-
-.navbar-form .input-group {
-  width: 100%;
+@media (max-width: 767px) {
+  .navbar-form {
+    display: none;
+  }
 }
 
 .footer {

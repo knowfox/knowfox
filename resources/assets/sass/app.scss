@@ -103,17 +103,26 @@ ul.ui-autocomplete {
     padding: 0 12px;
 }
 
-.not-home .collapse.navbar-collapse {
-    display: flex !important;
-}
+@media (min-width: $grid-float-breakpoint) {
+    .not-home .collapse.navbar-collapse {
+        display: flex !important;
+    }
 
-.navbar-form {
-    flex-grow: 1;
+    .navbar-form {
+        flex-grow: 1;
 
-    .input-group {
-        width: 100%;
+        .input-group {
+            width: 100%;
+        }
     }
 }
+
+@media (max-width: $grid-float-breakpoint-max) {
+    .navbar-form {
+        display: none;
+    }
+}
+
 
 .footer {
     position: absolute;
