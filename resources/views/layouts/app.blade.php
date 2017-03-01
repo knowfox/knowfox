@@ -61,7 +61,7 @@
                     </ul>
 
                     @if (Route::currentRouteName() != 'home')
-                        @include('partials.search-form', ['class' => 'navbar-form navbar-left'])
+                        @include('partials.search-form', ['class' => 'desktop-only navbar-form navbar-left'])
                     @endif
 
                     <!-- Right Side Of Navbar -->
@@ -102,7 +102,7 @@
             <div class="container">
                 <p class="text-muted">
                     &copy; {{ date('Y') }} Dr. Olav Schettler |
-                    <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='https://knowfox.com/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()"><i class="glyphicon glyphicon-bookmark"></i> Bookmarklet</a>
+                    <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='https://knowfox.com/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()"><i class="glyphicon glyphicon-bookmark"></i><span class="desktop-only"> Bookmarklet</span></a>
                 </p>
             </div>
         </footer>

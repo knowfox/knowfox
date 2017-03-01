@@ -118,7 +118,7 @@ ul.ui-autocomplete {
 }
 
 @media (max-width: $grid-float-breakpoint-max) {
-    .navbar-form {
+    .desktop-only {
         display: none;
     }
 }

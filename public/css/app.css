@@ -10744,7 +10744,7 @@ ul.ui-autocomplete {
 }
 
 @media (max-width: 767px) {
-  .navbar-form {
+  .desktop-only {
     display: none;
   }
 }
