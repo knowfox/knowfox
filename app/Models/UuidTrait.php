@@ -15,9 +15,6 @@ trait UuidTrait
         });
 
         static::updating(function ($model) {
-            if (empty($model->uuid)) {
-                $model->uuid = Uuid::uuid1()->toString();
-            }
         });
     }
 
