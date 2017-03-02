@@ -57,15 +57,19 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@store',
     ]);
 
+    Route::get('/{concept}', function ($concept) {
+        return redirect()->route('concept.show', [$concept]);
+    })->where('concept', '[0-9]+');
+
     Route::get('/concept/{concept}', function ($concept) {
         return redirect()->route('concept.show', [$concept]);
-    });
+    })->where('concept', '[0-9]+');
 
     // So that images without a path work
-    Route::get('/concept/{concept}/view', [
+    Route::get('/{concept}/view', [
         'as' => 'concept.show',
         'uses' => 'ConceptController@show',
-    ]);
+    ])->where('concept', '[0-9]+');
 
     Route::delete('/concept/{concept}', [
         'as' => 'concept.destroy',
@@ -77,15 +81,15 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@update',
     ]);
 
-    Route::get('/concept/{concept}/outline', [
+    Route::get('/{concept}/outline', [
         'as' => 'concept.outline',
         'uses' => 'OutlineController@outline',
-    ]);
+    ])->where('concept', '[0-9]+');
 
-    Route::get('/concept/{concept}/{filename}', [
+    Route::get('/{concept}/{filename}', [
         'as' => 'concept.image',
         'uses' => 'ConceptController@image',
-    ]);
+    ])->where('concept', '[0-9]+');
 
     Route::post('/upload/{uuid}', [
         'as' => 'concept.upload',
