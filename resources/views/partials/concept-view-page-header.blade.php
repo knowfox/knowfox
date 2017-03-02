@@ -47,8 +47,12 @@
     </h1>
 
     <p class="meta">
-        Created {{ strftime('%Y-%m-%d', strtotime($concept->created_at)) }}@if ($concept->updated_at > $concept->created_at),
-            updated {{ strftime('%Y-%m-%d', strtotime($concept->updated_at)) }}
+        <?php
+        $created = strftime('%Y-%m-%d', strtotime($concept->created_at));
+        $updated = strftime('%Y-%m-%d', strtotime($concept->updated_at));
+        ?>
+        Created {{ $created }}@if ($created != $updated),
+            updated {{ $updated }}
         @endif
 
         @if ($concept->tags->count())
