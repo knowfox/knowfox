@@ -3,8 +3,9 @@
 namespace Knowfox\Http\Controllers;
 
 use Knowfox\Models\Concept;
-use Knowfox\Models\Share;
+use Knowfox\Models\EmailLogin;
 use Knowfox\User;
+use Knowfox\Jobs\SendInviteMail;
 use Illuminate\Http\Request;
 
 class ShareController extends Controller
@@ -47,7 +48,7 @@ class ShareController extends Controller
                 'concept' => $concept->id,
             ]);
 
-            $this->dispatch(new SendInviteMail($owner, $concept, $url));
+            $this->dispatch(new SendInviteMail($owner, $user, $concept, $url));
         }
 
         return response()->json(['success' => true]);

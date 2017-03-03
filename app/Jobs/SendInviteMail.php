@@ -8,11 +8,13 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendLoginMail extends Job implements ShouldQueue
+class SendInviteMail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    private $owner;
     private $user;
+    private $concept;
     private $url;
 
     /**
@@ -22,7 +24,7 @@ class SendLoginMail extends Job implements ShouldQueue
      */
     public function __construct($owner, $user, $concept, $url)
     {
-        $this->owner = $user;
+        $this->owner = $owner;
         $this->user = $user;
         $this->concept = $concept;
         $this->url = $url;
@@ -40,7 +42,7 @@ class SendLoginMail extends Job implements ShouldQueue
         $concept = $this->concept;
         $url = $this->url;
 
-        Mail::send('auth.emails.email-login', [
+        Mail::send('email.invited', [
             'owner' => $owner,
             'user' => $user,
             'concept' => $concept,
