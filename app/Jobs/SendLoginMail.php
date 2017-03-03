@@ -37,7 +37,8 @@ class SendLoginMail extends Job implements ShouldQueue
         $url = $this->url;
 
         Mail::send('auth.emails.email-login', [
-            'url' => $url
+            'user' => $user,
+            'url' => $url,
         ], function ($m) use ($user) {
             $m->from('hello@post.knowfox.com', 'Knowfox');
             $m->to($user->email)->subject('Hello ' . $user->name . ', here your login link to Knowfox!');
