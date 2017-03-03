@@ -52,6 +52,16 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@flagged',
     ]);
 
+    Route::get('/concepts/shares', [
+        'as' => 'concept.shares',
+        'uses' => 'ConceptController@shares',
+    ]);
+
+    Route::get('/concepts/shared', [
+        'as' => 'concept.shared',
+        'uses' => 'ConceptController@shared',
+    ]);
+
     Route::get('/concepts', [
         'as' => 'concept.index',
         'uses' => 'ConceptController@index',

@@ -52,6 +52,8 @@
                             <li><a href="{{route('concept.index')}}">All</a></li>
                             <li><a href="{{route('concept.toplevel')}}">Toplevel</a></li>
                             <li><a href="{{route('concept.flagged')}}">Flagged</a></li>
+                            <li><a href="{{route('concept.shares')}}">Shared by me</a></li>
+                            <li><a href="{{route('concept.shared')}}">Shared with me</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a></li>
                         </ul>

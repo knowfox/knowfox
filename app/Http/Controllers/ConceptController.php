@@ -27,6 +27,16 @@ class ConceptController extends Controller
         return $this->index($request, 'flagged');
     }
 
+    public function shares(Request $request)
+    {
+        return $this->index($request, 'shares');
+    }
+
+    public function shared(Request $request)
+    {
+        return $this->index($request, 'shared');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -51,6 +61,16 @@ class ConceptController extends Controller
                 case 'toplevel':
                     $page_title = 'Toplevel concepts';
                     $concepts->whereIsRoot();
+                    break;
+                case 'shares':
+                    $page_title = 'Concepts shared by me';
+                    $concepts->has('shares');
+                    break;
+                case 'shared':
+                    $page_title = 'Concepts shared with me';
+                    $concepts->whereHas('shares', function ($query) {
+                        $query->where('users.id', Auth::id());
+                    });
                     break;
             }
         }
@@ -163,7 +183,7 @@ class ConceptController extends Controller
     {
         $this->authorize('view', $concept);
 
-        $concept->load('related', 'inverseRelated', 'tagged');
+        $concept->load('related', 'inverseRelated', 'tagged', 'shares');
 
         return view('concept.show', [
             'page_title' => $concept->title,
