@@ -190,6 +190,7 @@ class ConceptController extends Controller
         return view('concept.show', [
             'page_title' => $concept->title,
             'concept' => $concept,
+            'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
         ]);
     }

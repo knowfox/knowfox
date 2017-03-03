@@ -24,25 +24,29 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#concept-share-form">
-                        <i class="glyphicon glyphicon-share"></i> Share
-                        @if ($concept->shares->count() > 0)
-                            <span class="badge">{{ $concept->shares->count() }}</span>
-                        @endif
-                    </a>
-                </li>
+                @if ($is_owner)
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#concept-share-form">
+                            <i class="glyphicon glyphicon-share"></i> Share
+                            @if ($concept->shares->count() > 0)
+                                <span class="badge">{{ $concept->shares->count() }}</span>
+                            @endif
+                        </a>
+                    </li>
+                @endif
                 <li><a href="{{route('concept.create', ['parent_id' => $concept->id])}}"><i class="glyphicon glyphicon-plus-sign"></i> Add child</a></li>
-                <li role="separator" class="divider"></li>
-                <li>
-                    <a href="{{route('concept.destroy', [$concept])}}"
-                       onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+                @if ($is_owner)
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="{{route('concept.destroy', [$concept])}}"
+                           onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i class="glyphicon glyphicon-remove"></i> Delete</a>
 
-                    <form id="delete-form" action="{{route('concept.destroy', [$concept])}}" method="POST" style="display: none;">
-                        <input type="hidden" name="_method" value="DELETE">
-                        {{ csrf_field() }}
-                    </form>
-                </li>
+                        <form id="delete-form" action="{{route('concept.destroy', [$concept])}}" method="POST" style="display: none;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                @endif
             </ul>
         </div>
 

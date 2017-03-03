@@ -18,6 +18,11 @@ class ShareController extends Controller
      */
     public function update(Request $request, Concept $concept)
     {
+        // Only owners are allowed to share
+        if ($concept->owner_id != $request->user()->id) {
+            return response()->json(['success' => false, 'message' => 'Not permitted']);
+        }
+
         $shares = [];
 
         foreach ($request->input('shares') as $data) {
@@ -31,7 +36,10 @@ class ShareController extends Controller
             $shares[$share->id] = ['permissions' => $data['pivot']['permissions']];
         }
 
-        $concept->shares()->sync($shares);
+        $changes = $concept->shares()->sync($shares);
+        foreach ($changes['attached'] as $attached) {
+            $v = $attached;
+        }
 
         return response()->json(['success' => true]);
     }
