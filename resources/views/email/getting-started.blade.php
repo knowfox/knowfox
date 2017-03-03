@@ -1,13 +1,12 @@
 @extends('layouts.email')
 
 @section('content')
-    Hello {{$user->name}},
+Hello {{$user->name}},
 
-    thank you for registering with Knowfox, the Personal Knowledge Management app.
+thank you for registering with Knowfox, the Personal Knowledge Management app.
 
-    Cheers,
-
-    -- The Knowfox Messenger
+Cheers,
+-- The Knowfox Messenger
 @endsection
 
 @section('cancel')
