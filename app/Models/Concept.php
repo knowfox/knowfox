@@ -70,4 +70,12 @@ class Concept extends Model {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
+    public function shares()
+    {
+        return $this->belongsToMany(User::class, 'shares', 'concept_id', 'user_id')
+            ->withPivot('permissions')
+            ->using(Share::class)
+            ->withTimestamps();
+    }
+
 }

@@ -156,6 +156,37 @@ $('#tags-input').selectize({
     }
 });
 
+$('#emails-input').selectize({
+    delimiter: ',',
+    persist: false,
+    valueField: 'email',
+    labelField: 'name',
+    searchField: 'name',
+    create: function(input) {
+        return {
+            email: input,
+            name: input
+        }
+    },
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/emails',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                q: query
+            },
+            error: function() {
+                callback();
+            },
+            success: function(res) {
+                callback(res.data);
+            }
+        });
+    }
+});
+
 $.widget( "custom.kfAutocomplete", $.ui.autocomplete, {
     _normalize: function (items) {
         return $.map(items.data, function(item) {

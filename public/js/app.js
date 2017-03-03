@@ -13425,6 +13425,37 @@ $('#tags-input').selectize({
     }
 });
 
+$('#emails-input').selectize({
+    delimiter: ',',
+    persist: false,
+    valueField: 'email',
+    labelField: 'name',
+    searchField: 'name',
+    create: function create(input) {
+        return {
+            email: input,
+            name: input
+        };
+    },
+    load: function load(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/emails',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                q: query
+            },
+            error: function error() {
+                callback();
+            },
+            success: function success(res) {
+                callback(res.data);
+            }
+        });
+    }
+});
+
 $.widget("custom.kfAutocomplete", $.ui.autocomplete, {
     _normalize: function _normalize(items) {
         return $.map(items.data, function (item) {

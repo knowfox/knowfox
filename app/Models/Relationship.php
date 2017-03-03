@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Relationship extends Pivot
 {
+    protected $table = 'relationships';
+
     public function forwardLabel()
     {
         $config = config('knowfox');

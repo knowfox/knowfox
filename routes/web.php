@@ -19,7 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('cancel/{what}/{email}', [
+    'as' => 'cancel',
+    'uses' => 'UserController@cancel',
+]);
+
 Auth::routes();
+
+Route::get('auth/email-authenticate/{token}', [
+    'as' => 'auth.email-authenticate',
+    'uses' => 'Auth\LoginController@authenticateEmail'
+]);
 
 Route::get('/home', [
     'as' => 'home',
@@ -124,6 +134,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/journal', [
         'as' => 'journal',
         'uses' => 'ConceptController@journal',
+    ]);
+
+    Route::post('/share/{concept}', [
+        'as' => 'share',
+        'uses' => 'ShareController@store',
+    ]);
+
+    Route::get('/emails', [
+        'as' => 'emails',
+        'uses' => 'ShareController@emails',
     ]);
 
 });

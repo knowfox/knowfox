@@ -10,6 +10,12 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
+
+                        @if (Auth::guest())
+                            <p>On Knowfox, all content is private by default. To verify your identity, we need to send you an email with a link. Click this link and you get access to your account and the content you created yourself or that has been shared with you.</p>
+                            <p><strong>Please enter your email address to log into Knowfox.</strong></p>
+                        @endif
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
@@ -24,41 +30,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
                             </div>
                         </div>
+
+                        <p><strong>Why do we have to send you an email?</strong> We use email to log you into Knowfox. This way, you don't have to remember a password. You stay logged in until you explicitly log out.</p>
+
+                        <p><strong>Is this secure?</strong> Totally! To log into Knowfox, you have to click on that link in the email we send you. This way, nowbody has access to your Knowfox account, without also having access to your email account.</p>
+                    </form>
+
                     </form>
                 </div>
             </div>
