@@ -101,15 +101,14 @@
     </div><!-- /.modal -->
 
     <div class="modal fade" id="concept-share-form" role="dialog" aria-labelledby="form-label">
-        <div class="modal-dialog" role="document">
-            <form class="modal-content" action="{{route('share', [$concept])}}" method="POST">
-                {{csrf_field()}}
+        <div id="app" class="modal-dialog" role="document">
+            <form v-on:submit.prevent="updateShares" class="modal-content" action="{{route('share', [$concept])}}" method="POST">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="form-label">Share "{{$concept->title}}"</h4>
                 </div>
                 <div class="modal-body">
-                    @include('partials.concept-share-form')
+                    <shares :shares="shares"></shares>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -142,6 +141,33 @@
                     txt += '<div class="pull-left" style="margin:4px"><a href="' + img + '"><img src="' + img + '?style=h80"></a></div>';
                 });
                 $('#images').html(txt + '');
+            });
+        });
+
+        $('#concept-share-form').one('shown.bs.modal', function () {
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    shares: {!! json_encode($concept->shares) !!}
+                },
+                methods: {
+                    updateShares: function (e) {
+                        $.ajax({
+                            url: '/share/{{$concept->id}}',
+                            type: 'POST',
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                shares: this.shares
+                            },
+                            success: function (res) {
+                                location.href = '/{{$concept->id}}';
+                            }
+                        })
+                    }
+                }
             });
         });
 

@@ -15,18 +15,8 @@ window.Dropzone = require('dropzone');
 require('jquery-ui/ui/widgets/autocomplete');
 require('jquery-ui/ui/widgets/autocomplete');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- *
-
-Vue.component('example', require('./components/Example.vue'));
-
-const app = new Vue({
-    el: '#app'
-});
-*/
+Vue.component('shares', require('./components/Shares.vue'));
+//Vue.component('shares', require('./components/Example.vue'));
 
 window.markdownEditor = function () {
     var simplemde = new SimpleMDE({
@@ -141,37 +131,6 @@ $('#tags-input').selectize({
         if (!query.length) return callback();
         $.ajax({
             url: '/tags',
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                q: query
-            },
-            error: function() {
-                callback();
-            },
-            success: function(res) {
-                callback(res.data);
-            }
-        });
-    }
-});
-
-$('#emails-input').selectize({
-    delimiter: ',',
-    persist: false,
-    valueField: 'email',
-    labelField: 'name',
-    searchField: 'name',
-    create: function(input) {
-        return {
-            email: input,
-            name: input
-        }
-    },
-    load: function(query, callback) {
-        if (!query.length) return callback();
-        $.ajax({
-            url: '/emails',
             type: 'GET',
             dataType: 'json',
             data: {

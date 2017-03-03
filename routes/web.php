@@ -138,7 +138,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/share/{concept}', [
         'as' => 'share',
-        'uses' => 'ShareController@store',
+        'uses' => 'ShareController@update',
     ]);
 
     Route::get('/emails', [
