@@ -36,9 +36,18 @@ class ShareController extends Controller
             $shares[$share->id] = ['permissions' => $data['pivot']['permissions']];
         }
 
+        $owner = $request->user();
         $changes = $concept->shares()->sync($shares);
-        foreach ($changes['attached'] as $attached) {
-            $v = $attached;
+        foreach ($changes['attached'] as $user_id) {
+            $user = User::find($user_id);
+            $email_login = EmailLogin::createForEmail($user->email);
+
+            $url = route('auth.email-authenticate', [
+                'token' => $email_login->token,
+                'concept' => $concept->id,
+            ]);
+
+            $this->dispatch(new SendInviteMail($owner, $concept, $url));
         }
 
         return response()->json(['success' => true]);

@@ -26,7 +26,7 @@ Route::get('cancel/{what}/{email}', [
 
 Auth::routes();
 
-Route::get('auth/email-authenticate/{token}', [
+Route::get('auth/email-authenticate/{token}/{?concept}', [
     'as' => 'auth.email-authenticate',
     'uses' => 'Auth\LoginController@authenticateEmail'
 ]);
