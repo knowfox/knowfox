@@ -8,7 +8,7 @@
                 <div class="panel-heading">Register with Knowfox - No obligations or hidden costs</div>
                 <div class="panel-body">
                     <p>
-                        Knowfox is private by default. To use out service, you need an account with us.<br>
+                        Knowfox is private by default. To use our service, you need an account with us.
                         Here you can create such an account. Please fill in all the fields.
                     </p>
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
