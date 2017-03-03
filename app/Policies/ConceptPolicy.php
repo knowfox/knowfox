@@ -20,7 +20,7 @@ class ConceptPolicy
     public function view(User $user, Concept $concept)
     {
         return $user->id === $concept->owner_id
-            || $concept->shares
+            || $concept->shares()
                 ->where('user_id', $user->id)
                 ->count() > 0;
     }
@@ -46,7 +46,7 @@ class ConceptPolicy
     public function update(User $user, Concept $concept)
     {
         return $user->id === $concept->owner_id
-            || $concept->shares
+            || $concept->shares()
                 ->where('user_id', $user->id)
                 ->wherePivot('permissions', 1)
                 ->count() > 0;

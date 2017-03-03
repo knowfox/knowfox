@@ -46,13 +46,11 @@ class ConceptController extends Controller
     {
         $concepts = Concept::withDepth()
             ->with('tagged')
-            ->where('owner_id', Auth::id())
             ->orderBy('updated_at', "desc");
 
         $page_title = 'Concepts';
 
         if ($special) {
-
             switch ($special) {
                 case 'flagged':
                     $page_title = 'Flagged concepts';
@@ -73,6 +71,10 @@ class ConceptController extends Controller
                     });
                     break;
             }
+        }
+
+        if (!$special || $special != 'shared') {
+            $concepts->where('owner_id', Auth::id());
         }
 
         if ($request->has('tag')) {
@@ -179,7 +181,7 @@ class ConceptController extends Controller
      * @param  Concept  $concept
      * @return \Illuminate\Http\Response
      */
-    public function show(Concept $concept)
+    public function show(Request $request, Concept $concept)
     {
         $this->authorize('view', $concept);
 
@@ -188,6 +190,7 @@ class ConceptController extends Controller
         return view('concept.show', [
             'page_title' => $concept->title,
             'concept' => $concept,
+            'can_update' => $request->user()->can('update', $concept),
         ]);
     }
 
