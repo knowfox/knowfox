@@ -4,6 +4,7 @@ namespace Knowfox\Http\Controllers\Auth;
 
 use Knowfox\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Knowfox\Models\EmailLogin;
 use Knowfox\Jobs\SendLoginMail;

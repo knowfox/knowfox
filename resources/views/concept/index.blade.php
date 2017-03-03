@@ -17,49 +17,54 @@
 
         </section>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th style="width:5%">Id</th>
-                <th style="width:50%">Title</th>
-                <th style="width:25%">Tags</th>
-                <th style="width:20%">Updated</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($concepts as $concept)
-                <tr>
-                    <td>{{$concept->id}}</td>
-                    <td>
-                        @if ($concept->depth == 0)
-                            <a href="{{route('concept.show', ['concept' => $concept])}}">
-                                <strong>{{$concept->title}}</strong>
-                            </a>
-                        @else
-                            @foreach ($concept->ancestors()->get() as $ancestor)
-                            {{$ancestor->title}} &raquo;
-                                @endforeach
-                            <br>
-                            <a href="{{route('concept.show', ['concept' => $concept])}}">
-                                {{$concept->title}}
-                            </a>
-                        @endif
-                        @if ($concept->is_flagged)
-                            <i class="glyphicon glyphicon-heart"></i>
-                        @endif
-                    </td>
-                    <td>
-                        @foreach ($concept->tags as $tag)
-                            <a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
-                        @endforeach
-                    </td>
-                    <td>{{$concept->updated_at}}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+        @if ($concepts->count() == 0)
+            <p>Nothing here.</p>
+        @else
 
-        <div class="text-center">{{ $concepts }}</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:5%">Id</th>
+                    <th style="width:50%">Title</th>
+                    <th style="width:25%">Tags</th>
+                    <th style="width:20%">Updated</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($concepts as $concept)
+                    <tr>
+                        <td>{{$concept->id}}</td>
+                        <td>
+                            @if ($concept->depth == 0)
+                                <a href="{{route('concept.show', ['concept' => $concept])}}">
+                                    <strong>{{$concept->title}}</strong>
+                                </a>
+                            @else
+                                @foreach ($concept->ancestors()->get() as $ancestor)
+                                {{$ancestor->title}} &raquo;
+                                    @endforeach
+                                <br>
+                                <a href="{{route('concept.show', ['concept' => $concept])}}">
+                                    {{$concept->title}}
+                                </a>
+                            @endif
+                            @if ($concept->is_flagged)
+                                <i class="glyphicon glyphicon-heart"></i>
+                            @endif
+                        </td>
+                        <td>
+                            @foreach ($concept->tags as $tag)
+                                <a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
+                            @endforeach
+                        </td>
+                        <td>{{$concept->updated_at}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
+            <div class="text-center">{{ $concepts }}</div>
+        @endif
     </main>
 
 @endsection

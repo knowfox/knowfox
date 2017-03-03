@@ -6,6 +6,7 @@ use Knowfox\User;
 use Knowfox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Knowfox\Jobs\SendRegisterMail;
 
 class RegisterController extends Controller
 {

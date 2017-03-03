@@ -46,6 +46,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                    @if (Auth::check())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Concepts <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
@@ -58,9 +59,10 @@
                         </li>
 
                         <li><a href="{{ route('journal') }}"><i class="glyphicon glyphicon-grain"></i> Journal</a></li>
+                    @endif
                     </ul>
 
-                    @if (Route::currentRouteName() != 'home')
+                    @if (Auth::check() && Route::currentRouteName() != 'home')
                         @include('partials.search-form', ['class' => 'desktop-only navbar-form navbar-left'])
                     @endif
 

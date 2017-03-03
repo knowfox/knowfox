@@ -80,6 +80,9 @@
             @endif
 
             <div class="content">
+
+                @include('partials.messages')
+
                 <div class="title m-b-md">
                     Knowfox
                 </div>

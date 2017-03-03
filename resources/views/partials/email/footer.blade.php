@@ -1,8 +1,7 @@
 <hr>
 
-<p>We improve Knowfox every day.<br>
-    If you have suggestions, we love to hear from you.
-    <a href="mailto:hallo@knowfox.com">hallo@knowfox.com</a>
+<p>We improve Knowfox every day. If you have suggestions, we love to hear from you.
+    <a href="mailto:hello@post.knowfox.com">hello@post.knowfox.com</a>
 </p>
 
 @yield('cancel')
