@@ -36,6 +36,7 @@
     ln -s {{ $root_dir }}/shared/{{ $env }} .env
     rm -rf public/system
     ln -s {{ $root_dir }}/shared/uploads public/uploads
+    ln -s {{ $root_dir }}/shared/presentation public/presentation
 
     composer install --ignore-platform-reqs
 
