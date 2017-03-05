@@ -8,6 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @if (!empty($uuid))
+        <meta name="uuid" content="{{$uuid}}">
+    @endif
+
     <title>@if (!empty($page_title)){{$page_title}} | @endif{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="/img/knowfox-icon.ico">
@@ -59,7 +63,7 @@
                         </ul>
                     </li>
 
-                    <li><a href="{{ route('journal') }}"><i class="glyphicon glyphicon-grain"></i> Journal</a></li>
+                    <li><a href="{{ route('journal') }}"><i class="glyphicon glyphicon-grain"></i> {{ strftime('%Y-%m-%d') }}</a></li>
                 @endif
                 </ul>
 

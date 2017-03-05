@@ -23,7 +23,8 @@ window.markdownEditor = function () {
         element: $("#body-input")[0],
         autofocus: true,
         autosave: {
-            enabled: true
+            enabled: true,
+            uniqueId: $('meta[name="uuid"]').attr('content')
         },
         spellChecker: false,
         toolbar: [

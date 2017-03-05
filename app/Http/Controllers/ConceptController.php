@@ -190,6 +190,7 @@ class ConceptController extends Controller
 
         return view('concept.show', [
             'page_title' => $concept->title,
+            'uuid' => $concept->uuid,
             'concept' => $concept,
             'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
@@ -275,8 +276,19 @@ class ConceptController extends Controller
     {
         $this->authorize('view', $concept);
 
-        $style = $request->has('style') ? $request->input('style') : 'original';
-        return $picture->image($concept->uuid, $filename, $style);
+        $args = [];
+        if ($request->has('style')) {
+            $style = $request->input('style');
+        }
+        else
+        if ($request->has('width')) {
+            $style = 'width';
+            $args[] = $request->input('width');
+        }
+        else {
+            $style = 'original';
+        }
+        return $picture->image($concept->uuid, $filename, $style, $args);
     }
 
     public function upload(PictureService $picture, Request $request, $uuid)
