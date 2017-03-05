@@ -88,13 +88,13 @@ class PublishPresentation implements ShouldQueue
                 $filename = $url['path'];
             }
 
-            $query = [];
-            parse_str($url['query'], $query);
-            if (isset($query['style'])) {
-                $style = $query['style'];
-            }
-            else {
-                $style = 'original';
+            $style = 'original';
+            if (!empty($url['query'])) {
+                $query = [];
+                parse_str($url['query'], $query);
+                if (isset($query['style'])) {
+                    $style = $query['style'];
+                }
             }
 
             file_put_contents(
