@@ -49,6 +49,8 @@ class PublishPresentation implements ShouldQueue
      */
     public function handle(PictureService $picture, OutlineService $outline)
     {
+        @mkdir($this->directory, 0755, true);
+
         $markup = $outline->renderDescendents(
             $this->concept, 'presentation.layout', 'presentation.slides'
         );
@@ -109,7 +111,6 @@ class PublishPresentation implements ShouldQueue
             $text .= $dom->saveHTML($node);
         }
 
-        @mkdir($this->directory, 0755, true);
         file_put_contents($this->directory . '/index.html', $text);
     }
 }
