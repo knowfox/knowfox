@@ -64,7 +64,7 @@ class OutlineController extends Controller
      * @param  Concept  $concept
      * @return \Illuminate\Http\Response
      */
-    public function outline(Concept $concept)
+    public function outline(Request $request, Concept $concept)
     {
         $this->authorize('view', $concept);
 
@@ -73,6 +73,8 @@ class OutlineController extends Controller
         return view('concept.outline', [
             'page_title' => $concept->title,
             'concept' => $concept,
+            'is_owner' => $concept->owner_id == $request->user()->id,
+            'can_update' => $request->user()->can('update', $concept),
         ]);
     }
 }
