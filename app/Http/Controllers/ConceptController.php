@@ -4,6 +4,7 @@ namespace Knowfox\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Knowfox\Http\Requests\ConceptRequest;
+use Knowfox\Jobs\PublishPresentation;
 use Knowfox\Models\Concept;
 use Illuminate\Http\Request;
 use Knowfox\Services\PictureService;
@@ -333,5 +334,15 @@ class ConceptController extends Controller
         }
 
         return redirect()->route('concept.show', [$concept]);
+    }
+
+    public function slides(Concept $concept)
+    {
+        $this->dispatch(new PublishPresentation($concept));
+
+        $url = '/presentation/' . str_replace('-', '/', $concept->uuid) . '/index.html';
+
+        return back()
+            ->with('status', '<a href="' . $url . '">Slides</a> generated');
     }
 }

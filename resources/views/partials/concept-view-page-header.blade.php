@@ -33,6 +33,11 @@
                             @endif
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('concept.slides', [$concept]) }}">
+                            <i class="glyphicon glyphicon-blackboard"></i> Slides
+                        </a>
+                    </li>
                 @endif
                 <li><a href="{{route('concept.create', ['parent_id' => $concept->id])}}"><i class="glyphicon glyphicon-plus-sign"></i> Add child</a></li>
                 @if ($is_owner)

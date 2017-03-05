@@ -83,7 +83,7 @@ class PictureService
         return $path;
     }
 
-    public function image($uuid, $filename, $style_name)
+    public function imageData($uuid, $filename, $style_name)
     {
         $path = $this->imageDirectory($uuid) . '/' . $filename;
         $image = new Imagick($path);
@@ -96,7 +96,12 @@ class PictureService
             $this->thumbnail($image, $style_width, $style_height);
         }
 
-        return new Response($image->getImageBlob(), 200, [
+        return $image->getImageBlob();
+    }
+
+    public function image($uuid, $filename, $style_name)
+    {
+        return new Response($this->imageData($uuid, $filename, $style_name), 200, [
             "Content-Type" => "image/jpeg"
         ]);
     }

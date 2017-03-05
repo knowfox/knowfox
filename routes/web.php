@@ -91,6 +91,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@show',
     ])->where('concept', '[0-9]+');
 
+    Route::get('/{concept}/slides', [
+        'as' => 'concept.slides',
+        'uses' => 'ConceptController@slides',
+    ])->where('concept', '[0-9]+');
+
     Route::delete('/concept/{concept}', [
         'as' => 'concept.destroy',
         'uses' => 'ConceptController@destroy',

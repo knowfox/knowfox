@@ -4,6 +4,7 @@ namespace Knowfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Knowfox\Models\Concept;
+use Knowfox\Services\OutlineService;
 use vipnytt\OPMLParser;
 
 class OutlineController extends Controller
@@ -14,33 +15,15 @@ class OutlineController extends Controller
      * @param  Concept  $concept
      * @return \Illuminate\Http\Response
      */
-    public function opml(Concept $concept)
+    public function opml(OutlineService $outline, Concept $concept)
     {
         $this->authorize('view', $concept);
 
-        $concept->load('descendants');
-
-        $traverse = function ($tree) use (&$traverse) {
-
-            $concepts = [];
-            foreach ($tree as $concept) {
-                $concepts[] = view('partials.outline', [
-                    'concept' => $concept,
-                    'descendants' => $traverse($concept->children),
-                ]);
-            }
-            return join("\n", $concepts);
-        };
-
         return response(
-            view('concept.opml', [
-                'concept' => $concept,
-                'tree' => view('partials.outline', [
-                    'concept' => $concept,
-                    'descendants' => $traverse($concept->descendants->toTree()),
-                ]),
-            ]), 200)
-            ->header('Content-type', 'text/x-opml');
+            $outline->render($concept, 'concept.opml', 'partials.outline'),
+            200
+        )
+        ->header('Content-type', 'text/x-opml');
     }
 
     private function convertArray(&$ary)
