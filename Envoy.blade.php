@@ -42,7 +42,7 @@
     php artisan cache:clear
     php artisan migrate
 
-    npm install
+    npm install --no-optional
     npm run production
 
     #chmod 777 storage/logs/laravel.log
