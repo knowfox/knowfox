@@ -6,10 +6,12 @@ use EDAM\NoteStore\NoteFilter;
 use EDAM\NoteStore\NotesMetadataResultSpec;
 use Evernote\Client;
 use Illuminate\Console\Command;
+use Illuminate\Http\File;
 use Knowfox\Models\Concept;
 use Knowfox\Services\PictureService;
 use DOMDocument;
 use DOMXpath;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser;
 
 class ImportEvernote extends Command
 {
@@ -64,7 +66,7 @@ class ImportEvernote extends Command
             $type = $media->getAttribute('type');
             $hash = $media->getAttribute('hash');
 
-            $this->info(" - Replacing {$type} {$hash}");
+            $this->info("   - Replacing {$type} {$hash}");
 
             if (strpos($type, 'image/') === 0) {
                 $replacement = $dom->createElement('img');
@@ -115,9 +117,13 @@ class ImportEvernote extends Command
         $concept = Concept::firstOrNew([
             'uuid' => $note->guid,
         ]);
+        $concept->load('tagged');
 
         $concept->parent_id = $month_concept->id;
         $concept->title = $note->title;
+        if ($note->title == 'electric imp') {
+            $this->info("IMP");
+        }
         $concept->source_url = $note->attributes->sourceURL;
         $concept->owner_id = self::OWNER_ID;
         $concept->created_at = strftime('%Y-%m-%d %H:%M:%S', $note->created / 1000);
@@ -128,11 +134,16 @@ class ImportEvernote extends Command
         $attachments = [];
         if ($note->resources) {
             foreach ($note->resources as $resource) {
-                $filename = $resource->attributes->fileName;
                 $hash = bin2hex($resource->data->bodyHash);
+                $filename = $resource->attributes->fileName;
+                if (!$filename) {
+                    $guesser = new MimeTypeExtensionGuesser();
+                    $filename = $hash . '.' . $guesser->guess($resource->mime);
+                }
+
                 $attachments[$hash] = $filename;
 
-                $this->info(" - Saving {$filename} {$hash}");
+                $this->info("   - Saving {$filename} {$hash}");
 
                 $directory = $this->picture->imageDirectory($concept->uuid);
 
@@ -141,12 +152,7 @@ class ImportEvernote extends Command
             }
         }
 
-        if ($attachments) {
-            $concept->body = $this->replaceMedia($note->content, $attachments);
-        }
-        else {
-            $concept->body = $note->content;
-        }
+        $concept->body = $this->replaceMedia($note->content, $attachments);
 
         $concept->save();
     }
