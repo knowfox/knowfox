@@ -114,7 +114,7 @@ class ImportEvernote extends Command
             'owner_id' => self::OWNER_ID,
         ]);
 
-        $concept = Concept::firstOrNew([
+        $concept = Concept::with('tagged')->firstOrNew([
             'uuid' => $note->guid,
         ]);
         $concept->load('tagged');
