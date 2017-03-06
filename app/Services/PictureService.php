@@ -93,7 +93,7 @@ class PictureService
                 break;
 
             case 'width':
-                $this->thumbnail($image, $args[0], null);
+                $this->thumbnail($image, (int)$args[0], null);
                 break;
 
             default:

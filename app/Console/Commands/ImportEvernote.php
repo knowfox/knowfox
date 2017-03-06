@@ -2,6 +2,8 @@
 
 namespace Knowfox\Console\Commands;
 
+use EDAM\Error\EDAMErrorCode;
+use EDAM\Error\EDAMSystemException;
 use EDAM\NoteStore\NoteFilter;
 use EDAM\NoteStore\NotesMetadataResultSpec;
 use Evernote\Client;
@@ -118,17 +120,25 @@ class ImportEvernote extends Command
             'uuid' => $note->guid,
         ]);
 
+        if (!empty($concept->updated_at) && strtotime($concept->updated_at) <= $note->updated / 1000) {
+            $this->comment('   - skipped');
+            return;
+        }
+
         $concept->parent_id = $month_concept->id;
         $concept->title = $note->title;
-        if ($note->title == 'electric imp') {
-            $this->info("IMP");
+
+        /*
+         * Debugging
+         *
+        if ($note->title == 'PICAXE-Projekte') {
+            $this->info("PICAXE-Projekte");
         }
+         */
         $concept->source_url = $note->attributes->sourceURL;
         $concept->owner_id = self::OWNER_ID;
         $concept->created_at = strftime('%Y-%m-%d %H:%M:%S', $note->created / 1000);
         $concept->updated_at = strftime('%Y-%m-%d %H:%M:%S', $note->updated / 1000);
-
-        $concept->retag($note->tagNames);
 
         $attachments = [];
         if ($note->resources) {
@@ -154,6 +164,18 @@ class ImportEvernote extends Command
         $concept->body = $this->replaceMedia($note->content, $attachments);
 
         $concept->save();
+
+        $concept->retag($note->tagNames);
+    }
+
+    private function getErrorDetails($e)
+    {
+        $details = '';
+        // @see https://dev.evernote.com/doc/articles/rate_limits.php
+        if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
+            $details = sprintf(': Rate limit reached. Retry in %0.2d min', $e->rateLimitDuration / 60);
+        }
+        return $details;
     }
 
     /**
@@ -167,13 +189,20 @@ class ImportEvernote extends Command
 
         $token = env('EVERNOTE_DEVTOKEN');
 
-        $client = new Client([
-            'token' => $token,
-            'sandbox' => false
-        ]);
-        $store = $client->getNoteStore();
+        try {
+            $client = new Client([
+                'token' => $token,
+                'sandbox' => false
+            ]);
+            $store = $client->getNoteStore();
 
-        $notebooks = $store->listNotebooks();
+            $notebooks = $store->listNotebooks();
+        }
+        catch (EDAMSystemException $e) {
+            $details = $this->getErrorDetails($e);
+            $this->error('Failed to get notebooks' . $details);
+            return;
+        }
         $this->info("Found " . count($notebooks) . " notebooks");
 
         $found = false;
@@ -219,9 +248,16 @@ class ImportEvernote extends Command
             $next_offset = min(($page + 1) * $page_size, $count);
             $batch_size = $next_offset - $offset;
 
-            $this->info('Page ' . $page . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
+            $this->info('Page ' . $page . '/' . $count . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
 
-            $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
+            try {
+                $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
+            }
+            catch (EDAMSystemException $e) {
+                $details = $this->getErrorDetails($e);
+                $this->error("{$concept->title}: " . $details);
+                continue;
+            }
             foreach ($notes->notes as $note_proxy) {
                 $this->info(' * ' . $note_proxy->title);
 
