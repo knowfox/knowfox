@@ -104,10 +104,11 @@ class PublishPresentation implements ShouldQueue
                 }
             }
 
-            $path = $this->directory . '/' . $filename;
+            $target_path = $this->directory . '/' . $filename;
+            $source_path = $picture->imageDirectory($uuid) . '/' . $filename;
             file_put_contents(
-                $path,
-                $picture->imageData($path, $style, $args)
+                $target_path,
+                $picture->imageData($source_path, $style, $args)
             );
 
             $image->setAttribute('src', $filename);
