@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser;
 class ImportEvernote extends Command
 {
     const OWNER_ID = 1;
+    const PAGE_SIZE = 100;
 
     /**
      * The name and signature of the console command.
@@ -100,7 +101,7 @@ class ImportEvernote extends Command
         return $text;
     }
 
-    protected function importNote($notebook_concept, $note)
+    protected function importNote($notebook_concept, $concept, $note)
     {
         $year = date('Y', $note->created / 1000);
         $year_concept = Concept::firstOrCreate([
@@ -115,15 +116,6 @@ class ImportEvernote extends Command
             'title' => $month,
             'owner_id' => self::OWNER_ID,
         ]);
-
-        $concept = Concept::with('tagged')->firstOrNew([
-            'uuid' => $note->guid,
-        ]);
-
-        if (!empty($concept->updated_at) && strtotime($concept->updated_at) <= $note->updated / 1000) {
-            $this->comment('   - skipped');
-            return;
-        }
 
         $concept->parent_id = $month_concept->id;
         $concept->title = $note->title;
@@ -225,8 +217,15 @@ class ImportEvernote extends Command
         $spec->includeUpdated = TRUE;
         $spec->includeDeleted = TRUE;
 
-        $counts = $store->findNoteCounts($token, $filter, false);
-        $count = $counts->notebookCounts[$notebook->guid];
+        try {
+            $counts = $store->findNoteCounts($token, $filter, false);
+            $count = $counts->notebookCounts[$notebook->guid];
+        }
+        catch (EDAMSystemException $e) {
+            $details = $this->getErrorDetails($e);
+            $this->error('Failed to get note counts' . $details);
+            return;
+        }
 
         $root = Concept::whereIsRoot()->where('title', 'Evernote')->first();
         if (!$root) {
@@ -242,10 +241,9 @@ class ImportEvernote extends Command
         $notebook_concept->owner_id = self::OWNER_ID;
         $notebook_concept->save();
 
-        $page_size = 10;
-        for ($page = 0; $page < $count / $page_size; $page++) {
-            $offset = $page * $page_size;
-            $next_offset = min(($page + 1) * $page_size, $count);
+        for ($page = 0; $page < $count / self::PAGE_SIZE; $page++) {
+            $offset = $page * self::PAGE_SIZE;
+            $next_offset = min(($page + 1) * self::PAGE_SIZE, $count);
             $batch_size = $next_offset - $offset;
 
             $this->info('Page ' . $page . '/' . $count . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
@@ -256,22 +254,48 @@ class ImportEvernote extends Command
             catch (EDAMSystemException $e) {
                 $details = $this->getErrorDetails($e);
                 $this->error("{$concept->title}: " . $details);
+
+                if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
+                    return;
+                }
+
                 continue;
             }
             foreach ($notes->notes as $note_proxy) {
                 $this->info(' * ' . $note_proxy->title);
 
-                $note = $store->getNote(
-                    $token,
-                    $note_proxy->guid,
-                    true, // withContent
-                    true, // withResourcesData
-                    false, // withResourcesRecognition
-                    false // withResourcesAlternateData
-                );
-                $note->tagNames = $store->getNoteTagNames($token, $note_proxy->guid);
+                $concept = Concept::with('tagged')->firstOrNew([
+                    'uuid' => $note_proxy->guid,
+                ]);
 
-                $this->importNote($notebook_concept, $note);
+                if (!empty($concept->updated_at) && strtotime($concept->updated_at) <= $note_proxy->updated / 1000) {
+                    $this->comment('   - skipped');
+                    continue;
+                }
+
+                try {
+                    $note = $store->getNote(
+                        $token,
+                        $note_proxy->guid,
+                        true, // withContent
+                        true, // withResourcesData
+                        false, // withResourcesRecognition
+                        false // withResourcesAlternateData
+                    );
+                    $note->tagNames = $store->getNoteTagNames($token, $note_proxy->guid);
+                }
+                catch (EDAMSystemException $e) {
+                    $details = $this->getErrorDetails($e);
+                    $this->error("{$concept->title}: " . $details);
+
+                    if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
+                        return;
+                    }
+
+                    continue;
+                }
+
+                $this->importNote($notebook_concept, $concept, $note);
             }
         }
 
