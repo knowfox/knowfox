@@ -117,7 +117,6 @@ class ImportEvernote extends Command
         $concept = Concept::with('tagged')->firstOrNew([
             'uuid' => $note->guid,
         ]);
-        $concept->load('tagged');
 
         $concept->parent_id = $month_concept->id;
         $concept->title = $note->title;
