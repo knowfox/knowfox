@@ -7,6 +7,9 @@ use EDAM\NoteStore\NotesMetadataResultSpec;
 use Evernote\Client;
 use Illuminate\Console\Command;
 use Knowfox\Models\Concept;
+use Knowfox\Services\PictureService;
+use DOMDocument;
+use DOMXpath;
 
 class ImportEvernote extends Command
 {
@@ -31,9 +34,66 @@ class ImportEvernote extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PictureService $picture)
     {
         parent::__construct();
+
+        $this->picture = $picture;
+    }
+
+    private function replaceMedia($markup, $attachments)
+    {
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument;
+
+        // @see http://de1.php.net/manual/en/domdocument.loadhtml.php
+        if (!$dom->loadHTML('<?xml version="1.0" encoding="UTF-8" ?>' . $markup)) {
+            $messages = [];
+            foreach(libxml_get_errors() as $error) {
+                $messages[] = $error->message;
+            }
+            throw new Exception("XML: " . join(', ', $messages));
+        }
+
+        /* Does not find all en-media
+           foreach ($dom->getElementsByTagName('en-media') as $i => $media) {
+         */
+        $xpath = new DOMXpath($dom);
+        foreach ($xpath->query('//en-media') as $i => $media) {
+
+            $type = $media->getAttribute('type');
+            $hash = $media->getAttribute('hash');
+
+            $this->info(" - Replacing {$type} {$hash}");
+
+            if (strpos($type, 'image/') === 0) {
+                $replacement = $dom->createElement('img');
+
+                $filename = $attachments[$hash];
+                $width = $media->getAttribute('width');
+
+                if ($width) {
+                    $filename .= '?width=' . $width;
+                }
+
+                $replacement->setAttribute('src', $filename);
+            }
+            else {
+                $replacement = $dom->createElement('a');
+                $replacement->setAttribute('href', $attachments[$hash]);
+                $replacement->appendChild(
+                    $dom->createTextNode($attachments[$hash])
+                );
+            }
+            $media->parentNode->replaceChild($replacement, $media);
+        }
+
+        $text = '';
+        $html = $dom->getElementsByTagName('en-note')->item(0);
+        foreach ($html->childNodes as $node) {
+            $text .= $dom->saveHTML($node);
+        }
+        return $text;
     }
 
     protected function importNote($notebook_concept, $note)
@@ -62,6 +122,32 @@ class ImportEvernote extends Command
         $concept->owner_id = self::OWNER_ID;
         $concept->created_at = strftime('%Y-%m-%d %H:%M:%S', $note->created / 1000);
         $concept->updated_at = strftime('%Y-%m-%d %H:%M:%S', $note->updated / 1000);
+
+        $concept->retag($note->tagNames);
+
+        $attachments = [];
+        if ($note->resources) {
+            foreach ($note->resources as $resource) {
+                $filename = $resource->attributes->fileName;
+                $hash = bin2hex($resource->data->bodyHash);
+                $attachments[$hash] = $filename;
+
+                $this->info(" - Saving {$filename} {$hash}");
+
+                $directory = $this->picture->imageDirectory($concept->uuid);
+
+                @mkdir($directory, 0755, true);
+                file_put_contents($directory . '/' . $filename, $resource->data->body);
+            }
+        }
+
+        if ($attachments) {
+            $concept->body = $this->replaceMedia($note->content, $attachments);
+        }
+        else {
+            $concept->body = $note->content;
+        }
+
         $concept->save();
     }
 
@@ -110,7 +196,7 @@ class ImportEvernote extends Command
 
         $root = Concept::whereIsRoot()->where('title', 'Evernote')->first();
         if (!$root) {
-            $this->error('No "Journal" root');
+            $this->error('No "Evernote" root');
             return;
         }
 

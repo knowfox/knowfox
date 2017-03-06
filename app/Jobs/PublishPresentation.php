@@ -63,7 +63,7 @@ class PublishPresentation implements ShouldQueue
         $dom = new DOMDocument;
 
         // @see http://de1.php.net/manual/en/domdocument.loadhtml.php
-        if (!$dom->loadHTML('<?xml encoding="UTF-8">' . $markup)) {
+        if (!$dom->loadHTML('<?xml version="1.0" encoding="UTF-8" ?>' . $markup)) {
             $messages = [];
             foreach(libxml_get_errors() as $error) {
                 $messages[] = $error->message;
@@ -89,17 +89,25 @@ class PublishPresentation implements ShouldQueue
             }
 
             $style = 'original';
+            $args = [];
             if (!empty($url['query'])) {
                 $query = [];
                 parse_str($url['query'], $query);
+
+                if (isset($query['width'])) {
+                    $style = 'width';
+                    $args[] = $query['width'];
+                }
+                else
                 if (isset($query['style'])) {
                     $style = $query['style'];
                 }
             }
 
+            $path = $this->directory . '/' . $filename;
             file_put_contents(
-                $this->directory . '/' . $filename,
-                $picture->imageData($uuid, $filename, $style)
+                $path,
+                $picture->imageData($path, $style, $args)
             );
 
             $image->setAttribute('src', $filename);

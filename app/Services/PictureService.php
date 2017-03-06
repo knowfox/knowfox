@@ -2,6 +2,7 @@
 
 namespace Knowfox\Services;
 
+use Illuminate\Http\File;
 use Imagick;
 use Knowfox\Models\FileModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -83,27 +84,54 @@ class PictureService
         return $path;
     }
 
-    public function imageData($uuid, $filename, $style_name)
+    public function imageData($path, $style_name, $args = [])
     {
-        $path = $this->imageDirectory($uuid) . '/' . $filename;
         $image = new Imagick($path);
 
-        if ($style_name != 'original') {
-            $config_prefix = 'styles.' . $style_name;
-            $style_width = config($config_prefix . '.width');
-            $style_height = config($config_prefix . '.height');
+        switch ($style_name) {
+            case 'original':
+                break;
 
-            $this->thumbnail($image, $style_width, $style_height);
+            case 'width':
+                $this->thumbnail($image, $args[0], null);
+                break;
+
+            default:
+                $config_prefix = 'styles.' . $style_name;
+                $style_width = config($config_prefix . '.width');
+                $style_height = config($config_prefix . '.height');
+
+                $this->thumbnail($image, $style_width, $style_height);
         }
 
         return $image->getImageBlob();
     }
 
-    public function image($uuid, $filename, $style_name)
+    public function image($uuid, $filename, $style_name, $args)
     {
-        return new Response($this->imageData($uuid, $filename, $style_name), 200, [
-            "Content-Type" => "image/jpeg"
-        ]);
+        $path = $this->imageDirectory($uuid) . '/' . $filename;
+        $file = new File($path);
+        $type = $file->getMimeType();
+
+        if (strpos($type, 'image/') === 0) {
+            return new Response($this->imageData($path, $style_name, $args), 200, [
+                "Content-Type" => "image/jpeg",
+            ]);
+        }
+        else
+        // Image preview in edit form
+        if ($style_name == 'h80') {
+            $sub_type = preg_replace('#^[^/]*/#', '', $type);
+            return new Response('<?xml version="1.0" encoding="UTF-8" ?><svg xmlns="http://www.w3.org/2000/svg"  width="80" height="80" fill="red"><text text-anchor="middle" x="40" y="40">'
+                . $sub_type . '</text></svg>', 200, [
+                "Content-Type" => 'image/svg+xml',
+            ]);
+        }
+        else {
+            return new Response(file_get_contents($path), 200, [
+                "Content-Type" => $type,
+            ]);
+        }
     }
 
     public function asset($path, $style)
