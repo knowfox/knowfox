@@ -154,7 +154,7 @@ class ImportEvernote extends Command
             foreach ($note->resources as $resource) {
                 $hash = bin2hex($resource->data->bodyHash);
                 $filename = Str::slug($resource->attributes->fileName);
-                if (!$filename) {
+                if (!$filename || strlen($filename) > 100) {
                     $guesser = new MimeTypeExtensionGuesser();
                     $filename = $hash . '.' . $guesser->guess($resource->mime);
                 }
