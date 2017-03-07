@@ -53,4 +53,7 @@
     cd {{ $root_dir }};
     ln -s {{ $release_dir }} {{ $target }}-{{ $now }}
     mv -T {{ $target }}-{{ $now }} {{ $target }}
+
+    sudo service php7.0-fpm restart
+    cd {{ $root_dir }}; php artisan queue:restart
 @endtask
