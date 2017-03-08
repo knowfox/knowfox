@@ -5,7 +5,9 @@ Hello {{$user->name}},
 
 Your Evernote notebook "{{$notebook_name}}" has been imported:
 
-    {{$info}}
+````
+{{$info}}
+````
 
 Cheers,
 -- The Knowfox Messenger

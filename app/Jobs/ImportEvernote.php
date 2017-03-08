@@ -302,9 +302,19 @@ class ImportEvernote implements ShouldQueue
                     ->delay(Carbon::now()->addSeconds($e->rateLimitDuration));
                 dispatch($job);
             }
+
+            $info = [
+                'status' => 'ERROR',
+                'count' => $count,
+                'page' => $page,
+                'page_count' => $page_count,
+                'message' => $details,
+            ];
+            dispatch(new SendImportCompleteMail($this->user, $this->notebook_name, $info));
         }
 
         $info = [
+            'status' => 'COMPLETE',
             'count' => $count,
             'page' => $page,
             'page_count' => $page_count,
