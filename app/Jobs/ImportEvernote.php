@@ -18,6 +18,7 @@ use EDAM\NoteStore\NoteFilter;
 use EDAM\NoteStore\NotesMetadataResultSpec;
 use Evernote\Client;
 
+use Knowfox\User;
 use Knowfox\Models\Concept;
 use Knowfox\Services\PictureService;
 
@@ -32,6 +33,7 @@ class ImportEvernote implements ShouldQueue
 
     protected $notebook_name;
     protected $user;
+    protected $picture;
 
     /**
      * Create a new job instance.
@@ -40,7 +42,7 @@ class ImportEvernote implements ShouldQueue
      */
     public function __construct(User $user, $notebook_name)
     {
-        $thus->user = $user;
+        $this->user = $user;
         $this->notebook_name = $notebook_name;
     }
 
@@ -159,7 +161,7 @@ class ImportEvernote implements ShouldQueue
 
                 $this->info("   - Saving {$filename} {$hash}");
 
-                $directory = $picture->imageDirectory($concept->uuid);
+                $directory = $this->picture->imageDirectory($concept->uuid);
 
                 @mkdir($directory, 0755, true);
                 file_put_contents($directory . '/' . $filename, $resource->data->body);
@@ -190,6 +192,7 @@ class ImportEvernote implements ShouldQueue
      */
     public function handle(PictureService $picture)
     {
+        $this->picture = $picture;
         $token = env('EVERNOTE_DEVTOKEN');
 
         $count = 0;
@@ -228,7 +231,7 @@ class ImportEvernote implements ShouldQueue
 
             $counts = $store->findNoteCounts($token, $filter, false);
             $count = $counts->notebookCounts[$notebook->guid];
-            $page_count = $count / self::PAGE_SIZE;
+            $page_count = (int)ceil($count / self::PAGE_SIZE);
 
             $root = Concept::whereIsRoot()->where('title', 'Evernote')->first();
             if (!$root) {
