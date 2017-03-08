@@ -28,18 +28,19 @@ class ImportEvernote implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    const OWNER_ID = 1;
     const PAGE_SIZE = 100;
 
     protected $notebook_name;
+    protected $user;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($notebook_name)
+    public function __construct(User $user, $notebook_name)
     {
+        $thus->user = $user;
         $this->notebook_name = $notebook_name;
     }
 
@@ -119,14 +120,14 @@ class ImportEvernote implements ShouldQueue
         $year_concept = Concept::firstOrCreate([
             'parent_id' => $notebook_concept->id,
             'title' => $year,
-            'owner_id' => self::OWNER_ID,
+            'owner_id' => $this->user->id,
         ]);
 
         $month = date('m', $note->created / 1000);
         $month_concept = Concept::firstOrCreate([
             'parent_id' => $year_concept->id,
             'title' => $month,
-            'owner_id' => self::OWNER_ID,
+            'owner_id' => $this->user->id,
         ]);
 
         $concept->parent_id = $month_concept->id;
@@ -140,7 +141,7 @@ class ImportEvernote implements ShouldQueue
         }
          */
         $concept->source_url = $note->attributes->sourceURL;
-        $concept->owner_id = self::OWNER_ID;
+        $concept->owner_id = $this->user->id;
         $concept->created_at = strftime('%Y-%m-%d %H:%M:%S', $note->created / 1000);
         $concept->updated_at = strftime('%Y-%m-%d %H:%M:%S', $note->updated / 1000);
 
@@ -191,6 +192,10 @@ class ImportEvernote implements ShouldQueue
     {
         $token = env('EVERNOTE_DEVTOKEN');
 
+        $count = 0;
+        $page = 0;
+        $page_count = 0;
+
         try {
             $client = new Client([
                 'token' => $token,
@@ -223,6 +228,7 @@ class ImportEvernote implements ShouldQueue
 
             $counts = $store->findNoteCounts($token, $filter, false);
             $count = $counts->notebookCounts[$notebook->guid];
+            $page_count = $count / self::PAGE_SIZE;
 
             $root = Concept::whereIsRoot()->where('title', 'Evernote')->first();
             if (!$root) {
@@ -235,15 +241,15 @@ class ImportEvernote implements ShouldQueue
                 'title' => $notebook->name,
                 'uuid' => $notebook->guid
             ]);
-            $notebook_concept->owner_id = self::OWNER_ID;
+            $notebook_concept->owner_id = $this->user->id;
             $notebook_concept->save();
 
-            for ($page = 0; $page < $count / self::PAGE_SIZE; $page++) {
+            for ($page = 0; $page < $page_count; $page++) {
                 $offset = $page * self::PAGE_SIZE;
                 $next_offset = min(($page + 1) * self::PAGE_SIZE, $count);
                 $batch_size = $next_offset - $offset;
 
-                $this->info('Page ' . $page . '/' . ($count / self::PAGE_SIZE) . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
+                $this->info('Page ' . $page . '/' . $page_count . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
 
                 $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
 
@@ -294,5 +300,13 @@ class ImportEvernote implements ShouldQueue
                 dispatch($job);
             }
         }
+
+        $info = [
+            'count' => $count,
+            'page' => $page,
+            'page_count' => $page_count,
+        ];
+
+        dispatch(new SendImportCompleteMail($this->user, $this->notebook_name, $info));
     }
 }

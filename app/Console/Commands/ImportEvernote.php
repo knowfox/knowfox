@@ -20,9 +20,12 @@ namespace Knowfox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Knowfox\Jobs\ImportEvernote as ImportJob;
+use Knowfox\User;
 
 class ImportEvernote extends Command
 {
+    const OWNER_ID = 1;
+
     /**
      * The name and signature of the console command.
      *
@@ -51,7 +54,10 @@ class ImportEvernote extends Command
     public function handle()
     {
         $notebook_name = $this->argument('notebook');
-        dispatch(new ImportJob($notebook_name));
-        $this->info("Import of {$notebook_name} initiated");
+
+        $user = User::find(self::OWNER_ID);
+
+        dispatch(new ImportJob($user, $notebook_name));
+        $this->info("Import of {$notebook_name} for {$user->email} initiated");
     }
 }
