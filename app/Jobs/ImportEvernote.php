@@ -243,21 +243,10 @@ class ImportEvernote implements ShouldQueue
                 $next_offset = min(($page + 1) * self::PAGE_SIZE, $count);
                 $batch_size = $next_offset - $offset;
 
-                $this->info('Page ' . $page . '/' . $count . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
+                $this->info('Page ' . $page . '/' . ($count / self::PAGE_SIZE) . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
 
                 $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
-                try {
-                }
-                catch (EDAMSystemException $e) {
-                    $details = $this->getErrorDetails($e);
-                    $this->error("{$concept->title}: " . $details);
 
-                    if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
-                        return;
-                    }
-
-                    continue;
-                }
                 foreach ($notes->notes as $note_proxy) {
                     $this->info(' * ' . $note_proxy->title);
 
@@ -297,7 +286,7 @@ class ImportEvernote implements ShouldQueue
         }
         catch (EDAMSystemException $e) {
             $details = $this->getErrorDetails($e);
-            $this->error("{$concept->title}: " . $details);
+            $this->error("System exception: " . $details);
 
             if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
                 dispatch(new ImportEvernote($this->notebook_name))
