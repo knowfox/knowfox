@@ -45,7 +45,7 @@ class ImportEvernote implements ShouldQueue
 
     private function log($what, $txt)
     {
-        error_log(strftime("[%Y-%m-%d %H:%M:%S] {$what}: {$txt}\n", 3, "/tmp/knowfox.log"));
+        error_log(strftime("[%Y-%m-%d %H:%M:%S] {$what}: {$txt}\n"), 3, "/tmp/knowfox.log");
     }
 
     private function info($txt)
