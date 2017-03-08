@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Knowfox\User;
 use Symfony\Component\Yaml\Yaml;
 
-class SendimportCompleteMail implements ShouldQueue
+class SendImportCompleteMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
