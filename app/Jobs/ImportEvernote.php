@@ -295,10 +295,10 @@ class ImportEvernote implements ShouldQueue
         }
         catch (EDAMSystemException $e) {
             $details = $this->getErrorDetails($e);
-            $this->error("System exception: " . $details);
+            $this->error("System exception" . $details);
 
             if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
-                $job = (new ImportEvernote($this->notebook_name))
+                $job = (new ImportEvernote($this->user, $this->notebook_name))
                     ->delay(Carbon::now()->addSeconds($e->rateLimitDuration));
                 dispatch($job);
             }
