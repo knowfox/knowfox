@@ -88,7 +88,26 @@
                 </div>
 
                 <div class="links">
-                    <p>Personal Knowledge Management</p>
+                    <p><strong>Personal Knowledge Management</strong></p>
+
+                    <p>
+                        <a href="https://github.com/oschettler/knowfox/wiki">Install</a> locally or on your own server
+                        | <a href="https://github.com/oschettler/knowfox">Open Source</a> Software
+                    </p>
+
+                    <p>
+                        Hierarchies, outlining, and tags<br>
+                        Typed, bidirektional relationships<br>
+                        Markdown<br>
+                        Full text search<br>
+                        Upload images and attachments<br>
+                        Bookmarking<br>
+                        Private as default<br>
+                        Easy journalling<br>
+                        Sharing and publishing as slide deck<br>
+                        Import from Evernote
+                    </p>
+
                 </div>
             </div>
         </div>
