@@ -64,6 +64,19 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .alert-success {
+                background-color: #dff0d8;
+                border-color: #d6e9c6;
+                color: #3c763d;
+            }
+
+            .alert {
+                padding: 15px;
+                margin-bottom: 22px;
+                border: 1px solid transparent;
+                border-radius: 4px;
+            }
         </style>
     </head>
     <body>

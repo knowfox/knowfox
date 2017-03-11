@@ -57,7 +57,7 @@ class LoginController extends Controller
 
         // show the users a view saying "check your email"
         return redirect('/')
-            ->with('message', 'We have sent you an email. It contains a link for you to login.');
+            ->with('status', 'We have sent you an email. It contains a link for you to login.');
     }
 
     public function authenticateEmail($token, $cid = null)
