@@ -67,6 +67,13 @@ class PublishWebsite implements ShouldQueue
         $publish_index = function ($rendered_concepts)
             use ($domain_concept, $directory, $website_dir)
             {
+                $rendered_concepts = array_filter($rendered_concepts,
+                    function ($concept)
+                    {
+                        return in_array('Post', $concept->concept->tagNames());
+                    }
+                );
+
                 $page_count = ceil(count($rendered_concepts) / 10);
                 for ($page = 0; $page < $page_count; $page++) {
 
