@@ -25,22 +25,28 @@ class OutlineService
         ]);
     }
 
-    private function traverse(Concept $concept, $outline_view)
+    private function traverse(Concept $concept, $outline_view, $callback = null)
     {
         $concept->load('descendants');
 
-        $traverse = function ($tree) use (&$traverse, $outline_view) {
+        $traverse = function ($tree) use (&$traverse, $outline_view, $callback) {
 
             $concepts = [];
             foreach ($tree as $concept) {
                 $concepts[] = view($outline_view, [
                     'concept' => $concept,
-                    'descendants' => $traverse($concept->children),
+                    'descendants' => call_user_func($traverse, $concept->children),
                 ]);
             }
-            return join("\n", $concepts);
+
+            if ($callback) {
+                return call_user_func($callback, $concepts);
+            }
+            else {
+                return join("\n", $concepts);
+            }
         };
 
-        return $traverse($concept->descendants->toTree());
+        return call_user_func($traverse, $concept->descendants->toTree());
     }
 }

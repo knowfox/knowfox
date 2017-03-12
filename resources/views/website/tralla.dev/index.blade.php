@@ -1,0 +1,1 @@
+TRALLA: {{$slug}}

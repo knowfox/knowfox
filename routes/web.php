@@ -11,6 +11,13 @@
 |
 */
 
+Route::group(['domain' => 'tralla.dev'], function () {
+    Route::get('/{slug}', function ($account, $id) {
+        return view('website.tralla_dev.index', ['slug' => $slug]);
+    });
+});
+
+
 Route::get('/', function () {
 
     if (Auth::check()) {
