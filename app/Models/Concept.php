@@ -47,6 +47,11 @@ class Concept extends Model {
         return $parser->parse($this->body);
     }
 
+    public function getConfigAttribute($value)
+    {
+        return (object)Yaml::parse($this->data);
+    }
+
     public function related()
     {
         return $this->belongsToMany(Concept::class, 'relationships', 'source_id', 'target_id')

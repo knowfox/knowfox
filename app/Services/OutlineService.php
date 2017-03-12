@@ -25,7 +25,7 @@ class OutlineService
         ]);
     }
 
-    private function traverse(Concept $concept, $outline_view, $callback = null)
+    public function traverse(Concept $concept, $outline_view, $callback = null)
     {
         $concept->load('descendants');
 
@@ -33,17 +33,23 @@ class OutlineService
 
             $concepts = [];
             foreach ($tree as $concept) {
-                $concepts[] = view($outline_view, [
+                $concepts[] = (object)[
                     'concept' => $concept,
-                    'descendants' => call_user_func($traverse, $concept->children),
-                ]);
+                    'rendered' => view($outline_view, [
+                        'concept' => $concept,
+                        'descendants' => call_user_func($traverse, $concept->children),
+                    ]),
+                ];
             }
 
             if ($callback) {
                 return call_user_func($callback, $concepts);
             }
             else {
-                return join("\n", $concepts);
+                return join("\n", array_map(
+                    function ($item) { return $item->rendered; },
+                    $concepts
+                ));
             }
         };
 
