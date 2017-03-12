@@ -49,7 +49,7 @@ class PublishWebsite implements ShouldQueue
 
         $website_dir = str_replace('.', '_', $domain_concept->title);
 
-        @mkdir($directory . '/css', 755, true);
+        @mkdir($directory . '/css', 0755, true);
         copy(base_path('resources/views/website/' . $website_dir . '/css/blog.css'), $directory . '/css/blog.css');
 
         View::share('config', $domain_concept->config);
