@@ -114,6 +114,13 @@
                         ])
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <textarea class="form-control" rows="3" name="data" id="data-input">{{$concept->data}}</textarea>
+                        <p class="help-block">A YAML object.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
