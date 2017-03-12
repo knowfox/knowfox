@@ -31,11 +31,6 @@ class ConceptRequest extends FormRequest
             'max:255',
         ];
 
-        $concept = $this->route('concept');
-        if ($concept) {
-            $title_rule[] = Rule::unique('concepts')->ignore($concept->id);
-        }
-
         return [
             'title' => $title_rule,
         ];
