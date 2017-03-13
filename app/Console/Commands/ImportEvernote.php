@@ -57,7 +57,7 @@ class ImportEvernote extends Command
 
         $user = User::find(self::OWNER_ID);
 
-        dispatch(new ImportJob($user, $notebook_name));
+        dispatch(new ImportJob($user, 'notebook_name', $notebook_name));
         $this->info("Import of {$notebook_name} for {$user->email} initiated");
     }
 }
