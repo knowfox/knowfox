@@ -31,27 +31,19 @@ class ImportEvernote implements ShouldQueue
 
     const PAGE_SIZE = 100;
 
-    protected $scope;
-    protected $notebook;
-    protected $note;
+    protected $notebook_name;
     protected $user;
     protected $picture;
-    protected $token;
 
     /**
      * Create a new job instance.
      *
-     * @param $scope notebook_name | notebook_uuid | note_uuid
-     * @param $selector notebook_name | [ 'notebook_uuid' => 123, 'note_uuid' => 456 ]
-     *
      * @return void
      */
-    public function __construct(User $user, $scope, $notebook, $note = null)
+    public function __construct(User $user, $notebook_name)
     {
         $this->user = $user;
-        $this->scope = $scope;
-        $this->notebook = $notebook;
-        $this->note = $note;
+        $this->notebook_name = $notebook_name;
     }
 
     private function log($what, $txt)
@@ -193,171 +185,6 @@ class ImportEvernote implements ShouldQueue
         return $details;
     }
 
-    protected function findNotebook($store)
-    {
-        $notebooks = $store->listNotebooks();
-        $this->info("Found " . count($notebooks) . " notebooks");
-
-        $found = false;
-        foreach ($notebooks as $notebook) {
-            switch ($this->scope)
-            {
-                case 'notebook_name':
-                    if ($notebook->name == $this->notebook) {
-                        $found = true;
-                        break;
-                    }
-
-                case 'notebook_uuid':
-                case 'note_uuid':
-                    if ($notebook->guid == $this->notebook) {
-                        $found = true;
-                        break;
-                    }
-            }
-        }
-        if (!$found) {
-            $this->error('No such notebook');
-            return null;
-        }
-
-        $root = Concept::whereIsRoot()->where('title', 'Evernote')->first();
-        if (!$root) {
-            $this->error('No "Evernote" root');
-            return null;
-        }
-
-        $notebook_concept = Concept::firstOrNew([
-            'parent_id' => $root->id,
-            'title' => $notebook->name,
-            'uuid' => $notebook->guid
-        ]);
-        $notebook_concept->owner_id = $this->user->id;
-        $notebook_concept->save();
-
-        return $notebook_concept;
-    }
-
-    protected function importNotebook($store)
-    {
-        $notebook_concept = $this->findNotebook($store);
-        if (!$notebook_concept) {
-            return;
-        }
-
-        /*
-         * Handle a single note
-         */
-        if ($this->scope == 'note_uuid') {
-            $concept = Concept::with('tagged')->firstOrNew([
-                'uuid' => $this->note,
-            ]);
-
-            try {
-                $note = $store->getNote(
-                    $this->token,
-                    $this->note,
-                    true, // withContent
-                    true, // withResourcesData
-                    false, // withResourcesRecognition
-                    false // withResourcesAlternateData
-                );
-                $note->tagNames = $store->getNoteTagNames($this->token, $this->note);
-
-                $this->importNote($notebook_concept, $concept, $note);
-            }
-            catch (EDAMSystemException $e) {
-                $details = $this->getErrorDetails($e);
-                $this->error("{$concept->title}: " . $details);
-
-                if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
-                    throw $e;
-                }
-            }
-
-            $info = [
-                'status' => 'NOTE',
-                'note' => $this->note,
-            ];
-
-            dispatch(new SendImportCompleteMail($this->user, $this->scope . ':' . $this->notebook, $info));
-            
-            return;
-        }
-
-        /*
-         * No single note was specified. Import the whole notebook, paginated
-         */
-        $spec = new NotesMetadataResultSpec();
-        $spec->includeTitle = TRUE;
-        $spec->includeCreated = TRUE;
-        $spec->includeUpdated = TRUE;
-        $spec->includeDeleted = TRUE;
-
-        $filter = new NoteFilter([
-            'notebookGuid' => $notebook_concept->uuid,
-        ]);
-
-        $counts = $store->findNoteCounts($this->token, $filter, false);
-        $count = $counts->notebookCounts[$notebook_concept->uuid];
-        $page_count = (int)ceil($count / self::PAGE_SIZE);
-
-        for ($page = 0; $page < $page_count; $page++) {
-            $offset = $page * self::PAGE_SIZE;
-            $next_offset = min(($page + 1) * self::PAGE_SIZE, $count);
-            $batch_size = $next_offset - $offset;
-
-            $this->info('Page ' . $page . '/' . $page_count . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
-
-            $notes = $store->findNotesMetadata($this->token, $filter, $offset, $batch_size, $spec);
-
-            foreach ($notes->notes as $note_proxy) {
-                $this->info(' * ' . $note_proxy->title);
-
-                $concept = Concept::with('tagged')->firstOrNew([
-                    'uuid' => $note_proxy->guid,
-                ]);
-
-                if (!empty($concept->updated_at) && strtotime($concept->updated_at) <= $note_proxy->updated / 1000) {
-                    $this->info('   - skipped');
-                    continue;
-                }
-
-                try {
-                    $note = $store->getNote(
-                        $this->token,
-                        $note_proxy->guid,
-                        true, // withContent
-                        true, // withResourcesData
-                        false, // withResourcesRecognition
-                        false // withResourcesAlternateData
-                    );
-                    $note->tagNames = $store->getNoteTagNames($this->token, $note_proxy->guid);
-
-                    $this->importNote($notebook_concept, $concept, $note);
-                }
-                catch (EDAMSystemException $e) {
-                    $details = $this->getErrorDetails($e);
-                    $this->error("{$concept->title}: " . $details);
-
-                    if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
-                        throw $e;
-                    }
-                    continue;
-                }
-            }
-        }
-
-        $info = [
-            'status' => 'COMPLETE',
-            'count' => $count,
-            'page' => $page,
-            'page_count' => $page_count,
-        ];
-
-        dispatch(new SendImportCompleteMail($this->user, $this->scope . ':' . $this->notebook, $info));
-    }
-
     /**
      * Execute the job.
      *
@@ -366,15 +193,105 @@ class ImportEvernote implements ShouldQueue
     public function handle(PictureService $picture)
     {
         $this->picture = $picture;
-        $this->token = env('EVERNOTE_DEVTOKEN');
+        $token = env('EVERNOTE_DEVTOKEN');
+
+        $count = 0;
+        $page = 0;
+        $page_count = 0;
 
         try {
             $client = new Client([
-                'token' => $this->token,
+                'token' => $token,
                 'sandbox' => false
             ]);
             $store = $client->getNoteStore();
-            $this->importNotebook($store);
+
+            $notebooks = $store->listNotebooks();
+            $this->info("Found " . count($notebooks) . " notebooks");
+
+            $found = false;
+            foreach ($notebooks as $notebook) {
+                if ($notebook->name == $this->notebook_name) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $this->error('No such notebook');
+            }
+            $filter = new NoteFilter([
+                'notebookGuid' => $notebook->guid,
+            ]);
+
+            $spec = new NotesMetadataResultSpec();
+            $spec->includeTitle = TRUE;
+            $spec->includeCreated = TRUE;
+            $spec->includeUpdated = TRUE;
+            $spec->includeDeleted = TRUE;
+
+            $counts = $store->findNoteCounts($token, $filter, false);
+            $count = $counts->notebookCounts[$notebook->guid];
+            $page_count = (int)ceil($count / self::PAGE_SIZE);
+
+            $root = Concept::whereIsRoot()->where('title', 'Evernote')->first();
+            if (!$root) {
+                $this->error('No "Evernote" root');
+                return;
+            }
+
+            $notebook_concept = Concept::firstOrNew([
+                'parent_id' => $root->id,
+                'title' => $notebook->name,
+                'uuid' => $notebook->guid
+            ]);
+            $notebook_concept->owner_id = $this->user->id;
+            $notebook_concept->save();
+
+            for ($page = 0; $page < $page_count; $page++) {
+                $offset = $page * self::PAGE_SIZE;
+                $next_offset = min(($page + 1) * self::PAGE_SIZE, $count);
+                $batch_size = $next_offset - $offset;
+
+                $this->info('Page ' . $page . '/' . $page_count . ': ' . $offset . ' .. ' . ($next_offset - 1) . ', batch: ' . $batch_size);
+
+                $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
+
+                foreach ($notes->notes as $note_proxy) {
+                    $this->info(' * ' . $note_proxy->title);
+
+                    $concept = Concept::with('tagged')->firstOrNew([
+                        'uuid' => $note_proxy->guid,
+                    ]);
+
+                    if (!empty($concept->updated_at) && strtotime($concept->updated_at) <= $note_proxy->updated / 1000) {
+                        $this->info('   - skipped');
+                        continue;
+                    }
+
+                    try {
+                        $note = $store->getNote(
+                            $token,
+                            $note_proxy->guid,
+                            true, // withContent
+                            true, // withResourcesData
+                            false, // withResourcesRecognition
+                            false // withResourcesAlternateData
+                        );
+                        $note->tagNames = $store->getNoteTagNames($token, $note_proxy->guid);
+
+                        $this->importNote($notebook_concept, $concept, $note);
+                    }
+                    catch (EDAMSystemException $e) {
+                        $details = $this->getErrorDetails($e);
+                        $this->error("{$concept->title}: " . $details);
+
+                        if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
+                            throw $e;
+                        }
+                        continue;
+                    }
+                }
+            }
         }
         catch (EDAMSystemException $e) {
             $details = $this->getErrorDetails($e);
@@ -393,7 +310,16 @@ class ImportEvernote implements ShouldQueue
                 'page_count' => $page_count,
                 'message' => $details,
             ];
-            dispatch(new SendImportCompleteMail($this->user, $this->scope . ':' .  $this->notebook, $info));
+            dispatch(new SendImportCompleteMail($this->user, $this->notebook_name, $info));
         }
+
+        $info = [
+            'status' => 'COMPLETE',
+            'count' => $count,
+            'page' => $page,
+            'page_count' => $page_count,
+        ];
+
+        dispatch(new SendImportCompleteMail($this->user, $this->notebook_name, $info));
     }
 }
