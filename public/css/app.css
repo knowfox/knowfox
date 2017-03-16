@@ -10743,7 +10743,7 @@ ul.ui-autocomplete {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .desktop-only {
     display: none;
   }

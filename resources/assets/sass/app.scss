@@ -103,7 +103,7 @@ ul.ui-autocomplete {
     padding: 0 12px;
 }
 
-@media (min-width: $grid-float-breakpoint) {
+@media (min-width: $screen-sm-min) {
     .not-home .collapse.navbar-collapse {
         display: flex !important;
     }
@@ -117,7 +117,7 @@ ul.ui-autocomplete {
     }
 }
 
-@media (max-width: $grid-float-breakpoint-max) {
+@media (max-width: $screen-sm-max) {
     .desktop-only {
         display: none;
     }
