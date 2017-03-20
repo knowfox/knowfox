@@ -131,11 +131,15 @@ class ConceptController extends Controller
         if ($request->format() == 'json') {
             $items = $concepts
                 ->select('id', 'title')
-                ->paginate();
+                ->paginate()
+                ->appends($request->except(['page']));
+
             return response()->json($items);
         }
         else {
-            $result = $concepts->paginate();
+            $result = $concepts
+                ->paginate()
+                ->appends($request->except(['page']));
 
             return view('concept.index', [
                 'concepts' => $result,
