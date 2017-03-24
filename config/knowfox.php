@@ -4,6 +4,7 @@ return [
     'relationships' => [
         'commission' => [ 'beauftragt', 'beauftragt von' ],
         'founded' => [ 'hat gegründet', 'gegründet von' ],
+        'input' => [ 'liefert Input', 'bekommt Input von' ],
         'invented' => [ 'hat erfunden', 'erfunden von' ],
         'platform' => [ 'stellt Plattform bereit für', 'nutzt Plattform von' ],
         'similar' => [ 'ähnlich mit', 'ähnlich mit' ],
