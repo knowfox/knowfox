@@ -63,7 +63,7 @@
 
                 @endif
 
-                @if (($same_day_query = $concept->sameDay()) && $same_day_query->count())
+                @if ($same_day_query = $concept->sameDay())
 
                     <h2>Same day</h2>
 
