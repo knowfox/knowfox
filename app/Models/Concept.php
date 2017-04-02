@@ -3,12 +3,14 @@
 namespace Knowfox\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Knowfox\User;
 use Symfony\Component\Yaml\Yaml;
+use Carbon\Carbon;
 
 class Concept extends Model {
     use SoftDeletes;
@@ -83,4 +85,21 @@ class Concept extends Model {
             ->withTimestamps();
     }
 
+    public function sameDay()
+    {
+        if (!preg_match('/(\d{4}-\d{2}-\d{2})\s/', $this->title, $matches)) {
+            return null;
+        }
+
+        $date = Carbon::createFromFormat('Y-m-d', $matches[1]);
+        $begins_at = $date->copy()->hour(0)->minute(0);
+        $ends_at = $date->copy()->addDay()->hour(0)->minute(0);
+
+        return self::whereRaw("(created_at >= '{$begins_at}' AND created_at < '{$ends_at}' OR updated_at >= '{$begins_at}' AND updated_at < '{$ends_at}')")
+            ->where('id', '!=', $this->id)
+            ->where('title', '!=', $date->format('Y'))
+            ->where('title', '!=', $date->format('m'))
+            ->orderBy('created_at', 'asc')
+            ->orderBy('updated_at', 'asc');
+    }
 }

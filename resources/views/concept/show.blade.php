@@ -30,20 +30,6 @@
             </div>
             <div class="col-md-4">
 
-                @if ($concept->getSiblings()->count())
-
-                    <h2>Siblings</h2>
-
-                    <ul>
-                        @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
-                            <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
-                                    {{$sibling->title}}
-                                </a></li>
-                        @endforeach
-                    </ul>
-
-                @endif
-
                 @if ($concept->children()->count())
 
                     <h2>Children</h2>
@@ -76,6 +62,34 @@
                     </ul>
 
                 @endif
+
+                @if ($same_day_query = $concept->sameDay())
+
+                    <h2>Same day</h2>
+
+                    <ul>
+                        @foreach ($same_day_query->get() as $same_day)
+                            <li><a href="{{route('concept.show', ['concept' => $same_day])}}">
+                                    {{$same_day->title}}
+                                </a></li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                @if ($concept->getSiblings()->count())
+
+                    <h2>Siblings</h2>
+
+                    <ul>
+                        @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
+                            <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
+                                    {{$sibling->title}}
+                                </a></li>
+                        @endforeach
+                    </ul>
+
+                @endif
+
             </div>
         </div>
 
