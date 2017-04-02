@@ -146,9 +146,9 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'BookmarkController@store',
     ]);
 
-    Route::get('/journal', [
+    Route::get('/journal/{date?}', [
         'as' => 'journal',
-        'uses' => 'JournalController@today',
+        'uses' => 'JournalController@date',
     ]);
 
     Route::post('/share/{concept}', [

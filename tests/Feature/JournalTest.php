@@ -10,15 +10,16 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Knowfox\User;
 use Symfony\Component\DomCrawler\Crawler;
 
+use Carbon\Carbon;
+
 class JournalTest extends TestCase
 {
-    public function testToday()
+    private function followRedirectAt($url)
     {
         $user = factory(User::class)->create();
-        $today = date('Y-m-d');
 
         $response = $this->actingAs($user)
-            ->get('/journal');
+            ->get($url);
 
         $response->assertStatus(302);
 
@@ -27,9 +28,25 @@ class JournalTest extends TestCase
             ->get($location)
             ->getContent();
 
-        $crawler = new Crawler($content);
+        return new Crawler($content);
+    }
+
+    public function testToday()
+    {
+        $crawler = $this->followRedirectAt('/journal');
 
         $h1 = trim($crawler->filter('h1')->text());
-        $this->assertStringStartsWith($today, $h1);
+
+        $date = Carbon::today()->format('Y-m-d');
+        $this->assertStringStartsWith($date, $h1);
+    }
+
+    public function testDate()
+    {
+        $date = '2017-03-31';
+        $crawler = $this->followRedirectAt('/journal/' . $date);
+
+        $h1 = trim($crawler->filter('h1')->text());
+        $this->assertStringStartsWith($date, $h1);
     }
 }
