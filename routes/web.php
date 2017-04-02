@@ -148,7 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/journal', [
         'as' => 'journal',
-        'uses' => 'ConceptController@journal',
+        'uses' => 'JournalController@today',
     ]);
 
     Route::post('/share/{concept}', [
