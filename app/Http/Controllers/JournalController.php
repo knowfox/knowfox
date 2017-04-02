@@ -2,7 +2,8 @@
 
 namespace Knowfox\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Knowfox\Models\Concept;
 
 class JournalController extends Controller
 {
