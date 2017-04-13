@@ -114,11 +114,12 @@ class PublishPresentation implements ShouldQueue
             $image->setAttribute('src', $filename);
         }
 
-        $text = '';
+        $text = "<!DOCTYPE html>\n<html>\n";
         $html = $dom->getElementsByTagName('html')->item(0);
         foreach ($html->childNodes as $node) {
             $text .= $dom->saveHTML($node);
         }
+        $text .= "\n</html>";
 
         file_put_contents($this->directory . '/index.html', $text);
     }
