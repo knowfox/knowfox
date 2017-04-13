@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="theme/sky.css">
 </head>
