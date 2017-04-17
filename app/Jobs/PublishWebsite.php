@@ -55,12 +55,14 @@ class PublishWebsite implements ShouldQueue
         View::share('config', $domain_concept->config);
 
         $publish_concept = function ($rendered_concepts)
-            use ($domain_concept, $directory)
+            use ($domain_concept, $directory, $picture)
             {
                 foreach ($rendered_concepts as $concept) {
                     $path = $directory . '/' . $concept->concept->slug;
                     @mkdir($path, 0755, true);
-                    file_put_contents($path . '/index.html', $concept->rendered);
+
+                    $markup = $picture->extractPictures($concept->rendered, $path);
+                    file_put_contents($path . '/index.html', $markup);
                 }
             };
 

@@ -9,9 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Knowfox\Models\Concept;
 use Knowfox\Services\OutlineService;
-use DOMDocument;
-use DOMXpath;
-use Exception;
 use Knowfox\Services\PictureService;
 
 class PublishPresentation implements ShouldQueue
@@ -34,15 +31,6 @@ class PublishPresentation implements ShouldQueue
     }
 
     /**
-     * @param $el \DOMElement
-     */
-    private function getUuid($el)
-    {
-        while (($el = $el->parentNode) && !$el->hasAttribute('data-uuid'));
-        return $el->getAttribute('data-uuid');
-    }
-
-    /**
      * Execute the job.
      *
      * @return void
@@ -59,68 +47,7 @@ class PublishPresentation implements ShouldQueue
         @symlink(base_path('node_modules/reveal/index.js'), $this->directory . '/index.js');
         @symlink(base_path('node_modules/reveal/theme'), $this->directory . '/theme');
 
-        libxml_use_internal_errors(true);
-        $dom = new DOMDocument;
-
-        // @see http://de1.php.net/manual/en/domdocument.loadhtml.php
-        if (!$dom->loadHTML('<?xml version="1.0" encoding="UTF-8" ?>' . $markup)) {
-            $messages = [];
-            foreach(libxml_get_errors() as $error) {
-                $messages[] = $error->message;
-            }
-            throw new Exception("XML: " . join(', ', $messages));
-        }
-
-        $xpath = new DOMXpath($dom);
-
-        foreach (iterator_to_array($xpath->query('//img')) as $i => $image) {
-            $url = parse_url(trim($image->getAttribute('src')));
-            if (!empty($url['host']) && $url['host'] != 'knowfox.com') {
-                continue;
-            }
-
-            if (preg_match('#^(/concept)?/(\d+)/(.*)#', $url['path'], $matches)) {
-                $uuid = Concept::find($matches[2])->uuid;
-                $filename = $matches[3];
-            }
-            else {
-                $uuid = $this->getUuid($image);
-                $filename = $url['path'];
-            }
-
-            $style = 'original';
-            $args = [];
-            if (!empty($url['query'])) {
-                $query = [];
-                parse_str($url['query'], $query);
-
-                if (isset($query['width'])) {
-                    $style = 'width';
-                    $args[] = $query['width'];
-                }
-                else
-                if (isset($query['style'])) {
-                    $style = $query['style'];
-                }
-            }
-
-            $target_path = $this->directory . '/' . $filename;
-            $source_path = $picture->imageDirectory($uuid) . '/' . $filename;
-            file_put_contents(
-                $target_path,
-                $picture->imageData($source_path, $style, $args)
-            );
-
-            $image->setAttribute('src', $filename);
-        }
-
-        $text = "<!DOCTYPE html>\n<html>\n";
-        $html = $dom->getElementsByTagName('html')->item(0);
-        foreach ($html->childNodes as $node) {
-            $text .= $dom->saveHTML($node);
-        }
-        $text .= "\n</html>";
-
-        file_put_contents($this->directory . '/index.html', $text);
+        $markup = $picture->extractPictures($markup, $this->directory);
+        file_put_contents($this->directory . '/index.html', $markup);
     }
 }

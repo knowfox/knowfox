@@ -5,9 +5,14 @@ namespace Knowfox\Services;
 use Illuminate\Http\File;
 use Imagick;
 use Knowfox\Models\FileModel;
+use Knowfox\Models\Concept;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use \Illuminate\Http\Response;
 use Illuminate\Support\Str;
+
+use DOMDocument;
+use DOMXpath;
+use Exception;
 
 class PictureService
 {
@@ -159,5 +164,81 @@ class PictureService
         $d->close();
 
         return $images;
+    }
+
+    /**
+     * @param $el \DOMElement
+     */
+    private function getUuid($el)
+    {
+        while (($el = $el->parentNode) && !$el->hasAttribute('data-uuid'));
+        return $el->getAttribute('data-uuid');
+    }
+
+    public function extractPictures($markup, $target_directory)
+    {
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument;
+
+        // @see http://de1.php.net/manual/en/domdocument.loadhtml.php
+        if (!$dom->loadHTML('<?xml version="1.0" encoding="UTF-8" ?>' . $markup)) {
+            $messages = [];
+            foreach(libxml_get_errors() as $error) {
+                $messages[] = $error->message;
+            }
+            throw new Exception("XML: " . join(', ', $messages));
+        }
+
+        $xpath = new DOMXpath($dom);
+
+        foreach (iterator_to_array($xpath->query('//img')) as $i => $image) {
+            $url = parse_url(trim($image->getAttribute('src')));
+            if (!empty($url['host']) && $url['host'] != 'knowfox.com') {
+                continue;
+            }
+
+            if (preg_match('#^(/concept)?/(\d+)/(.*)#', $url['path'], $matches)) {
+                $uuid = Concept::find($matches[2])->uuid;
+                $filename = $matches[3];
+            }
+            else {
+                $uuid = $this->getUuid($image);
+                $filename = $url['path'];
+            }
+
+            $style = 'original';
+            $args = [];
+            if (!empty($url['query'])) {
+                $query = [];
+                parse_str($url['query'], $query);
+
+                if (isset($query['width'])) {
+                    $style = 'width';
+                    $args[] = $query['width'];
+                }
+                else
+                    if (isset($query['style'])) {
+                        $style = $query['style'];
+                    }
+            }
+
+            $target_path = $target_directory . '/' . $filename;
+            $source_path = $this->imageDirectory($uuid) . '/' . $filename;
+            file_put_contents(
+                $target_path,
+                $this->imageData($source_path, $style, $args)
+            );
+
+            $image->setAttribute('src', $filename);
+        }
+
+        $text = "<!DOCTYPE html>\n<html>\n";
+        $html = $dom->getElementsByTagName('html')->item(0);
+        foreach ($html->childNodes as $node) {
+            $text .= $dom->saveHTML($node);
+        }
+        $text .= "\n</html>";
+
+        return $text;
     }
 }
