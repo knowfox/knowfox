@@ -93,6 +93,10 @@ h6, .h6 {
     color: #999;
 }
 
+section.body img {
+    max-width: 100%;
+}
+
 
 /*
  * Main column and sidebar layout
@@ -147,6 +151,11 @@ h6, .h6 {
 .blog-post-meta {
     margin-bottom: 20px;
     color: #999;
+}
+
+.blog-post-thumbnail {
+    float: left;
+    margin-right: 20px;
 }
 
 
