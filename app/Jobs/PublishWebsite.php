@@ -17,6 +17,8 @@ use Knowfox\Services\PictureService;
 
 class PublishWebsite implements ShouldQueue
 {
+    const PAGE_SIZE = 3;
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $domain_concept;
@@ -76,10 +78,10 @@ class PublishWebsite implements ShouldQueue
                     }
                 );
 
-                $page_count = ceil(count($rendered_concepts) / 10);
+                $page_count = ceil(count($rendered_concepts) / static::PAGE_SIZE);
                 for ($page = 0; $page < $page_count; $page++) {
 
-                    $concepts = array_slice($rendered_concepts, $page * 10, 10);
+                    $concepts = array_slice($rendered_concepts, $page * static::PAGE_SIZE, static::PAGE_SIZE);
 
                     $path = $directory . '/index'
                         . ($page > 0 ? "-{$page}" : '')
@@ -118,6 +120,24 @@ class PublishWebsite implements ShouldQueue
                 }
             };
 
+        $preprocess_concept = function ($concept)
+            use ($picture, $directory)
+            {
+                if (!empty($concept->config) && !empty($concept->config->image)) {
+                    $filename = $concept->slug . '/'
+                        . $picture->withStyle($concept->config->image, 'thumbnail');
+                    $target_path = $directory . '/' . $filename;
+                    $source_path =
+                        $picture->imageDirectory($concept->uuid) . '/'
+                        . $concept->config->image;
+                    file_put_contents(
+                        $target_path,
+                        $picture->imageData($source_path, 'thumbnail')
+                    );
+                    $concept->image_src = $filename;
+                }
+            };
+
         $outline->traverse($this->domain_concept,
             'website.' . $website_dir . '.concept',
             $publish_concept
@@ -125,7 +145,7 @@ class PublishWebsite implements ShouldQueue
 
         $outline->traverse($this->domain_concept,
             'website.' . $website_dir . '.fragment',
-            $publish_index
+            $publish_index, $preprocess_concept
         );
     }
 }

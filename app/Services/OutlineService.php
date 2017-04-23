@@ -25,14 +25,19 @@ class OutlineService
         ]);
     }
 
-    public function traverse(Concept $concept, $outline_view, $callback = null)
+    public function traverse(Concept $concept, $outline_view, $callback = null, $preprocess = null)
     {
         $concept->load('descendants');
 
-        $traverse = function ($tree) use (&$traverse, $outline_view, $callback) {
+        $traverse = function ($tree) use (&$traverse, $outline_view, $callback, $preprocess) {
 
             $concepts = [];
             foreach ($tree as $concept) {
+
+                if ($preprocess) {
+                    call_user_func($preprocess, $concept);
+                }
+
                 $concepts[] = (object)[
                     'concept' => $concept,
                     'rendered' => view($outline_view, [

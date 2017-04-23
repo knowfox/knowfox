@@ -5,7 +5,7 @@ return [
     ],
     'thumbnail' => [
         'width' => 150,
-        'height' => 150,
+        //'height' => 150,
     ],
     'square' => [
         'width' => 384,

@@ -148,6 +148,17 @@ class PictureService
         ]));
     }
 
+    public function withStyle($path, $style)
+    {
+        $info = pathinfo($path);
+
+        $result = '';
+        if ($info['dirname'] && $info['dirname'] != '.') {
+            $result .= $info['dirname'] . '/';
+        }
+        return $result . $info['filename'] . '-' . $style . '.' . $info['extension'];
+    }
+
     public function images($uuid)
     {
         $images = [];
@@ -222,8 +233,15 @@ class PictureService
                     }
             }
 
-            $target_path = $target_directory . '/' . $filename;
             $source_path = $this->imageDirectory($uuid) . '/' . $filename;
+
+            $suffix = $style;
+            if ($args) {
+                $suffix .= '-' . join('-', $args);
+            }
+            $filename = $this->withStyle($filename, $suffix);
+
+            $target_path = $target_directory . '/' . $filename;
             file_put_contents(
                 $target_path,
                 $this->imageData($source_path, $style, $args)
