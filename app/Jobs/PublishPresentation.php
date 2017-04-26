@@ -43,9 +43,9 @@ class PublishPresentation implements ShouldQueue
             $this->concept, 'presentation.layout', 'presentation.slides'
         );
 
-        @symlink(base_path('node_modules/reveal/index.css'), $this->directory . '/index.css');
-        @symlink(base_path('node_modules/reveal/index.js'), $this->directory . '/index.js');
-        @symlink(base_path('node_modules/reveal/theme'), $this->directory . '/theme');
+        @symlink(config('knowfox.presentation_base_path') . '/node_modules/reveal/index.css', $this->directory . '/index.css');
+        @symlink(config('knowfox.presentation_base_path') . '/node_modules/reveal/index.js', $this->directory . '/index.js');
+        @symlink(config('knowfox.presentation_base_path') . '/node_modules/reveal/theme', $this->directory . '/theme');
 
         $markup = $picture->extractPictures($markup, $this->directory);
         file_put_contents($this->directory . '/index.html', $markup);
