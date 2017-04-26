@@ -22,7 +22,7 @@
     <p class="blog-post-meta">{{ strftime('%Y-%m-%d', strtotime($concept->created_at)) }} by {{$concept->owner->name}}</p>
 
     @if ($concept->rendered_body)
-        <section class="body">
+        <section class="body" data-uuid="{{$concept->uuid}}">
             {!! $concept->rendered_body !!}
         </section>
     @endif
