@@ -27,6 +27,7 @@ use Knowfox\Services\PictureService;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File;
+use Illuminate\Support\Facades\View;
 
 class ConceptController extends Controller
 {
@@ -208,7 +209,15 @@ class ConceptController extends Controller
 
         $concept->load('related', 'inverseRelated', 'tagged', 'shares');
 
-        return view('concept.show', [
+        $view_name = 'concept.show';
+        if ($concept->type != 'concept') {
+            $suffix = '-' . preg_replace('/\W+/', '-', $concept->type);
+            if (View::exists($view_name . $suffix)) {
+                $view_name .= $suffix;
+            }
+        }
+
+        return view($view_name, [
             'page_title' => $concept->title,
             'uuid' => $concept->uuid,
             'concept' => $concept,

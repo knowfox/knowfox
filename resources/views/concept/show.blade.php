@@ -14,35 +14,45 @@
 
         <div class="row">
             <div class="col-md-8">
-                @if (!empty($concept->image))
-                    <img src="{{ url($picture->asset($concept->image, 'text')) }}">
-                @endif
 
-                @if ($concept->summary)
-                    <p class="summary">{{$concept->summary}}</p>
-                @endif
+                @section('main-content')
 
-                @if ($concept->rendered_body)
-                    <section class="body">
-                        {!! $concept->rendered_body !!}
-                    </section>
-                @endif
+                    @if (!empty($concept->image))
+                        <img src="{{ url($picture->asset($concept->image, 'text')) }}">
+                    @endif
+
+                    @if ($concept->summary)
+                        <p class="summary">{{$concept->summary}}</p>
+                    @endif
+
+                    @if ($concept->rendered_body)
+                        <section class="body">
+                            {!! $concept->rendered_body !!}
+                        </section>
+                    @endif
+
+                @show
+
             </div>
             <div class="col-md-4">
 
-                @if ($concept->children()->count())
+                @section('children')
 
-                    <h2>Children</h2>
+                    @if ($concept->children()->count())
 
-                    <ul>
-                        @foreach ($concept->children()->defaultOrder()->get() as $child)
-                            <li><a href="{{route('concept.show', ['concept' => $child])}}">
-                                    {{$child->title}}
-                                </a></li>
-                        @endforeach
-                    </ul>
+                        <h2>Children</h2>
 
-                @endif
+                        <ul>
+                            @foreach ($concept->children()->defaultOrder()->get() as $child)
+                                <li><a href="{{route('concept.show', ['concept' => $child])}}">
+                                        {{$child->title}}
+                                    </a></li>
+                            @endforeach
+                        </ul>
+
+                    @endif
+
+                @show
 
                 @if ($concept->related()->count() || $concept->inverseRelated()->count())
 
@@ -76,19 +86,23 @@
                     </ul>
                 @endif
 
-                @if ($concept->getSiblings()->count())
+                @section('siblings')
 
-                    <h2>Siblings</h2>
+                    @if ($concept->getSiblings()->count())
 
-                    <ul>
-                        @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
-                            <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
-                                    {{$sibling->title}}
-                                </a></li>
-                        @endforeach
-                    </ul>
+                        <h2>Siblings</h2>
 
-                @endif
+                        <ul>
+                            @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
+                                <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
+                                        {{$sibling->title}}
+                                    </a></li>
+                            @endforeach
+                        </ul>
+
+                    @endif
+
+                @show
 
             </div>
         </div>

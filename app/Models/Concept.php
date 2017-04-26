@@ -25,7 +25,7 @@ class Concept extends Model {
     ];
 
     protected $slugField = 'title';
-    protected $fillable = ['title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'status', 'language', 'uuid', 'relations', 'data', 'owner_id'];
+    protected $fillable = ['type', 'title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'status', 'language', 'uuid', 'relations', 'data', 'owner_id'];
 
     public function getRelationsAttribute()
     {
@@ -52,6 +52,11 @@ class Concept extends Model {
     public function getConfigAttribute($value)
     {
         return (object)Yaml::parse($this->data);
+    }
+
+    public function setConfigAttribute($value)
+    {
+        $this->attributes['data'] = Yaml::dump($value);
     }
 
     public function related()

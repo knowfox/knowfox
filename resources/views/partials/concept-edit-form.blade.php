@@ -113,6 +113,15 @@
                             'options' => ['private', 'public']
                         ])
                     </div>
+                    <div class="form-group">
+                        <label for="title">Type</label>
+
+                        @include('partials.select', [
+                            'name' => 'type',
+                            'selected' => $concept->type,
+                            'options' => config('knowfox.types')
+                        ])
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
