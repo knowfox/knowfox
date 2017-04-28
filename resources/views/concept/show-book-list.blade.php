@@ -11,6 +11,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Cover</th>
                     <th>Author</th>
                     <th>Title</th>
                     <th>Year</th>
@@ -19,6 +20,11 @@
             <tbody>
             @foreach ($books as $book)
                 <tr>
+                    <td>
+                    @if (!empty($book->config->image))
+                        <img src="/{{$book->id}}/{{$book->config->image}}?style=thumbnail">
+                    @endif
+                    </td>
                     <td>{{$book->config->author}}</td>
                     <td><a href="{{route('concept.show', ['concept' => $book])}}">
                         {{$book->title}}

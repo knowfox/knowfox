@@ -7,8 +7,8 @@ use Knowfox\Models\Concept;
 use Knowfox\Models\EmailLogin;
 use Illuminate\Support\Facades\Auth;
 
-class BookController extends Controller {
-
+class BookController extends Controller
+{
     private function fromToken($token)
     {
         $email_login = EmailLogin::validFromToken($token);
@@ -120,6 +120,7 @@ class BookController extends Controller {
         }
 
         $concept->config = [
+            'image' => $request->cover,
             'author' => $request->author,
             'publisher' => $request->publisher,
             'year' => $request->year,

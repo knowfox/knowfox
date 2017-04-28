@@ -7,10 +7,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Knowfox\Models\ImportedEbook;
 use GuzzleHttp\Client as GuzzleClient;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
 
 class ImportEbooks extends Command
 {
+    const EBOOK_META = '~/Applications/calibre.app/Contents/MacOS/ebook-meta';
+    const EBOOK_DIR = '/Users/olav/SpaceMonkey/eBooks/';
+
     /**
      * The name and signature of the console command.
      *
@@ -33,6 +37,31 @@ class ImportEbooks extends Command
     public function __construct()
     {
         parent::__construct();
+    }
+
+    private function extractCover($path)
+    {
+        $path = self::EBOOK_DIR . str_replace("'", "\\'", $path);
+        if (!is_file($path)) {
+            $this->warn(' - Cover is not a file: ' . $path);
+            return null;
+        }
+        $tempnam = tempnam(env('TMP_DIR'), 'cover');
+        $this->comment(" - extracting cover...");
+        $cmd = self::EBOOK_META . " '" . $path . "' --get-cover=" . $tempnam;
+        $this->info(" - $cmd");
+        shell_exec($cmd);
+
+        if (filesize($tempnam) == 0) {
+            return null;
+        }
+
+        if (!is_file($tempnam)) {
+            $this->warn(' - Could not extract cover');
+            return null;
+        }
+
+        return $tempnam;
     }
 
     /**
@@ -60,7 +89,7 @@ class ImportEbooks extends Command
             $this->info('Importing ' . $title . ' ...');
 
             try {
-                $res = $client->request('GET', 'https://knowfox.dev/book', [
+                $res = $client->request('GET', 'https://knowfox.de/book', [
                     'query' => [
                         'token' => $token,
 
@@ -87,8 +116,19 @@ class ImportEbooks extends Command
             $this->info(" - UUID: " . $uuid);
             $this->info(" - Count: " . $count);
 
+            $cover_path = $this->extractCover($ebook->path . '/' . $ebook->filename);
+            if ($cover_path) {
+                $f = new File($cover_path);
+                $ext = $f->guessExtension();
+
+                $cover_filename = 'cover.' . $ext;
+            }
+            else {
+                $cover_filename = null;
+            }
+
             try {
-                $res = $client->request('POST', 'https://knowfox.dev/book', [
+                $res = $client->request('POST', 'https://knowfox.de/book', [
                     'form_params' => [
                         'token' => $token,
                         'uuid' => $uuid,
@@ -101,6 +141,8 @@ class ImportEbooks extends Command
                         'path' => $ebook->path,
                         'type' => $ebook->type,
                         'format' => $ebook->format,
+
+                        'cover' => $cover_filename,
                     ],
                     // 'debug' => true,
                     'cookies' => $jar,
@@ -122,6 +164,30 @@ class ImportEbooks extends Command
 
             $this->info(' - Resulting URL: ' . $response->url);
             $this->info(' - Status: ' . $response->status);
+
+            if ($cover_path) {
+
+                $this->info(' - Uploading cover...');
+                try {
+                    $res = $client->request('POST', 'https://knowfox.de/upload/' . $response->value->uuid, [
+                        'multipart' => [[
+                            'name' => 'file',
+                            'contents' => fopen($cover_path, 'r'),
+                            'filename' => 'cover.' . $ext,
+                        ]],
+                        //'debug' => true,
+                        'cookies' => $jar,
+                        'headers' => [
+                            'X-CSRF-TOKEN' => $csrf_token,
+                        ]
+                    ]);
+                }
+                catch (\Exception $e) {
+                    $this->error("Failed (cover): " . $e->getMessage());
+                }
+
+                unlink($cover_path);
+            }
         }
     }
 }
