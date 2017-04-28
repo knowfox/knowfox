@@ -36,6 +36,16 @@ Route::get('/home', [
     'uses' => 'HomeController@index'
 ]);
 
+Route::get('/book', [
+    'as' => 'book.find',
+    'uses' => 'BookController@find',
+]);
+
+Route::post('/book', [
+    'as' => 'book.save',
+    'uses' => 'BookController@save',
+]);
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/tags', [
         'as' => 'tags.index',
@@ -161,5 +171,9 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ShareController@emails',
     ]);
 
+    Route::get('/token', [
+        'as' => 'user.token',
+        'uses' => 'UserController@token',
+    ]);
 });
 

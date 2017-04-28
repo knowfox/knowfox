@@ -20,6 +20,8 @@ namespace Knowfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Knowfox\User;
+use Illuminate\Support\Facades\Auth;
+use Knowfox\Models\EmailLogin;
 
 class UserController extends Controller
 {
@@ -145,4 +147,13 @@ class UserController extends Controller
         }
     }
 
+    public function token()
+    {
+        $email = Auth::user()->email;
+
+        EmailLogin::where('email', $email)->delete();
+        $email_login = EmailLogin::createForEmail($email);
+
+        return response()->json(['token' => $email_login->token]);
+    }
 }

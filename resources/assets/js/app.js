@@ -181,3 +181,9 @@ $('#todoist_id-input').on('keyup', function () {
     }
     $('#todoist-link').attr('href', 'https://todoist.com/showTask?id=' + id);
 });
+
+$('#generate-token').on('click', function () {
+    $.get('/token', function (data) {
+        alert('Your API token: ' + data.token);
+    })
+});
