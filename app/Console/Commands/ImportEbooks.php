@@ -140,7 +140,7 @@ class ImportEbooks extends Command
                         'token' => $token,
                         'uuid' => $uuid,
 
-                        'title' => $ebook->title,
+                        'title' => $title,
                         'author' => $ebook->author,
                         'publisher' => $ebook->publisher,
                         'year' => $ebook->year,
