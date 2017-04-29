@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class ImportEbooks extends Command
 {
-    const EBOOK_URL = 'https://knowfox.de';
+    const EBOOK_URL = 'https://knowfox.com';
     const EBOOK_META = '~/Applications/calibre.app/Contents/MacOS/ebook-meta';
     const EBOOK_DIR = '/Users/olav/SpaceMonkey/eBooks/';
 
@@ -22,7 +22,7 @@ class ImportEbooks extends Command
      *
      * @var string
      */
-    protected $signature = 'ebooks:import {token} {sqlitedb}';
+    protected $signature = 'ebooks:import {--url=} {token} {sqlitedb}';
 
     /**
      * The console command description.
@@ -72,10 +72,14 @@ class ImportEbooks extends Command
      * @return mixed
      */
     public function handle() {
+        $url = $this->option('url');
+        if (empty($url)) {
+            $url = self::EBOOK_URL;
+        }
         $token = $this->argument('token');
         $sqlitedb = $this->argument('sqlitedb');
 
-        $this->info("Starting import of ebooks from {$sqlitedb} with token {$token} initiated");
+        $this->info("Starting import of ebooks from {$sqlitedb} with token {$token} into {$url} ...");
 
         Config::set('database.connections.sqlite.database', $sqlitedb);
 
@@ -91,7 +95,7 @@ class ImportEbooks extends Command
             $this->info('Importing ' . $title . ' ...');
 
             try {
-                $res = $client->request('GET', self::EBOOK_URL . '/book', [
+                $res = $client->request('GET', $url . '/book', [
                     'query' => [
                         'token' => $token,
 
@@ -100,6 +104,7 @@ class ImportEbooks extends Command
                         'year' => $ebook->year,
                     ],
                     'cookies' => $jar,
+                    'debug' => true,
                 ]);
             }
             catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -130,7 +135,7 @@ class ImportEbooks extends Command
             }
 
             try {
-                $res = $client->request('POST', self::EBOOK_URL . '/book', [
+                $res = $client->request('POST', $url . '/book', [
                     'form_params' => [
                         'token' => $token,
                         'uuid' => $uuid,
@@ -171,7 +176,7 @@ class ImportEbooks extends Command
 
                 $this->info(' - Uploading cover...');
                 try {
-                    $res = $client->request('POST', self::EBOOK_URL . '/upload/' . $response->value->uuid, [
+                    $res = $client->request('POST', $url . '/upload/' . $response->value->uuid, [
                         'multipart' => [[
                             'name' => 'file',
                             'contents' => fopen($cover_path, 'r'),
