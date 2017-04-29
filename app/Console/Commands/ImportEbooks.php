@@ -7,11 +7,13 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Knowfox\Models\ImportedEbook;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
 
 class ImportEbooks extends Command
 {
+    const EBOOK_URL = 'https://knowfox.de';
     const EBOOK_META = '~/Applications/calibre.app/Contents/MacOS/ebook-meta';
     const EBOOK_DIR = '/Users/olav/SpaceMonkey/eBooks/';
 
@@ -80,7 +82,7 @@ class ImportEbooks extends Command
         $client = new GuzzleClient();
 
         // The CSRF validation is linked to the Laravel session
-        $jar = new \GuzzleHttp\Cookie\CookieJar();
+        $jar = new CookieJar();
 
         $ebooks = ImportedEbook::all();
         foreach ($ebooks as $ebook) {
@@ -89,7 +91,7 @@ class ImportEbooks extends Command
             $this->info('Importing ' . $title . ' ...');
 
             try {
-                $res = $client->request('GET', 'https://knowfox.de/book', [
+                $res = $client->request('GET', self::EBOOK_URL . '/book', [
                     'query' => [
                         'token' => $token,
 
@@ -128,7 +130,7 @@ class ImportEbooks extends Command
             }
 
             try {
-                $res = $client->request('POST', 'https://knowfox.de/book', [
+                $res = $client->request('POST', self::EBOOK_URL . '/book', [
                     'form_params' => [
                         'token' => $token,
                         'uuid' => $uuid,
@@ -169,7 +171,7 @@ class ImportEbooks extends Command
 
                 $this->info(' - Uploading cover...');
                 try {
-                    $res = $client->request('POST', 'https://knowfox.de/upload/' . $response->value->uuid, [
+                    $res = $client->request('POST', self::EBOOK_URL . '/upload/' . $response->value->uuid, [
                         'multipart' => [[
                             'name' => 'file',
                             'contents' => fopen($cover_path, 'r'),
