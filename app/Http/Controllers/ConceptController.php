@@ -330,8 +330,11 @@ class ConceptController extends Controller
         $file = new File($path);
         if (strpos($file->getMimeType(), 'image/') === 0) {
             $parts = pathinfo($path);
-            $concept->body .= "\n![{$parts['filename']}]({$parts['basename']})\n";
-            $concept->save();
+
+            if (strpos($concept->body, $parts['basename']) === false) {
+                $concept->body .= "\n![{$parts['filename']}]({$parts['basename']})\n";
+                $concept->save();
+            }
         }
 
         return response()->json(['success' => $path]);
