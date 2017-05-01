@@ -81,10 +81,12 @@ class PictureService
         $file = $file->move($directory, $filename);
         $path = $file->getPathname();
 
-        $image = new Imagick($path);
-        $this->autoRotateImage($image);
+        if (strpos($file->getMimeType(), 'image') === 0) {
+            $image = new Imagick($path);
+            $this->autoRotateImage($image);
 
-        $image->writeImage($path);
+            $image->writeImage($path);
+        }
 
         return $path;
     }
