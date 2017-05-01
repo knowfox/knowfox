@@ -146,4 +146,14 @@ class BookController extends Controller
             'value' => $concept->getAttributes(),
         ]);
     }
+
+    public function reader(Request $request, Concept $concept)
+    {
+        return view('concept.reader', [
+            'page_title' => $concept->title,
+            'concept' => $concept,
+            'is_owner' => $concept->owner_id == $request->user()->id,
+            'can_update' => $request->user()->can('update', $concept),
+        ]);
+    }
 }

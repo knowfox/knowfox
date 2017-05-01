@@ -121,6 +121,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'OutlineController@outline',
     ])->where('concept', '[0-9]+');
 
+    Route::get('/{concept}/reader', [
+        'as' => 'book.reader',
+        'uses' => 'BookController@reader',
+    ])->where('concept', '[0-9]+');
+
     Route::get('/{concept}/{filename}', [
         'as' => 'concept.image',
         'uses' => 'ConceptController@image',

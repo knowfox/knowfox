@@ -18,6 +18,7 @@
   "dependencies": {
     "concord": "git+https://github.com/oschettler/concord.git",
     "dropzone": "^4.3.0",
+    "epubjs": "^0.2.16",
     "fs": "0.0.1-security",
     "jquery-ui": "^1.12.1",
     "reveal": "0.0.4",

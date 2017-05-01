@@ -1,6 +1,7 @@
 @extends('concept.show')
 
 @section('main-content')
+
     <table class="table">
         <tbody>
             <tr>
@@ -40,3 +41,4 @@
 
 @section('siblings')
 @endsection
+

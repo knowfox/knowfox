@@ -1,9 +1,22 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs">
-@foreach ([
+<?php
+$tabs = [
     'view' => 'Standard',
     'outline' => 'Outline',
-] as $tab => $label)
-    <li role="presentation"{!! $active == $tab ? ' class="active"' : '' !!}><a href="{{$tab}}" role="tab">{{$label}}</a></li>
+];
+if (!empty($concept->config->epub)) {
+    $tabs['^reader'] = 'Reader';
+}
+?>
+@foreach ($tabs as $tab => $label)
+    <?php
+    $target = '';
+    if (strpos($tab, '^') === 0) {
+        $tab = substr($tab, 1);
+        $target = ' target="_blank"';
+    }
+    ?>
+    <li role="presentation"{!! $active == $tab ? ' class="active"' : '' !!}><a{!! $target !!} href="{{$tab}}" role="tab">{{$label}}</a></li>
 @endforeach
 </ul>

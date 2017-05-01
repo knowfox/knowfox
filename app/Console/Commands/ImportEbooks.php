@@ -43,14 +43,14 @@ class ImportEbooks extends Command
 
     private function extractCover($path)
     {
-        $path = self::EBOOK_DIR . str_replace("'", "\\'", $path);
+        $path = self::EBOOK_DIR . $path;
         if (!is_file($path)) {
             $this->warn(' - Cover is not a file: ' . $path);
             return null;
         }
         $tempnam = tempnam(env('TMP_DIR'), 'cover');
         $this->comment(" - extracting cover...");
-        $cmd = self::EBOOK_META . " '" . $path . "' --get-cover=" . $tempnam;
+        $cmd = self::EBOOK_META . " '" . str_replace("'", "\\'", $path) . "' --get-cover=" . $tempnam;
         $this->info(" - $cmd");
         shell_exec($cmd);
 
@@ -123,7 +123,9 @@ class ImportEbooks extends Command
             $this->info(" - UUID: " . $uuid);
             $this->info(" - Count: " . $count);
 
-            $cover_path = $this->extractCover($ebook->path . '/' . $ebook->filename);
+            $ebook_path = $ebook->path . '/' . $ebook->filename;
+
+            $cover_path = $this->extractCover($ebook_path);
             if ($cover_path) {
                 $f = new File($cover_path);
                 $ext = $f->guessExtension();
@@ -132,6 +134,13 @@ class ImportEbooks extends Command
             }
             else {
                 $cover_filename = null;
+            }
+
+            if ($ebook->format == 'epub') {
+                $epub_filename = $ebook->filename;
+            }
+            else {
+                $epub_filename = null;
             }
 
             try {
@@ -150,6 +159,7 @@ class ImportEbooks extends Command
                         'format' => $ebook->format,
 
                         'cover' => $cover_filename,
+                        'epub' => $epub_filename,
                     ],
                     // 'debug' => true,
                     'cookies' => $jar,
@@ -195,6 +205,32 @@ class ImportEbooks extends Command
 
                 unlink($cover_path);
             }
+
+            $ebook_path = self::EBOOK_DIR . $ebook_path;
+            if ($ebook_path && file_exists($ebook_path)) {
+
+                $this->info(' - Uploading ebook...');
+                $f = new File($ebook_path);
+                $ext = $f->getExtension();
+                try {
+                    $res = $client->request('POST', $url . '/upload/' . $response->value->uuid, [
+                        'multipart' => [[
+                            'name' => 'file',
+                            'contents' => fopen($ebook_path, 'r'),
+                            'filename' => 'book.' . $ext,
+                        ]],
+                        'debug' => true,
+                        'cookies' => $jar,
+                        'headers' => [
+                            'X-CSRF-TOKEN' => $csrf_token,
+                        ]
+                    ]);
+                }
+                catch (\Exception $e) {
+                    $this->error("Failed (ebook): " . $e->getMessage());
+                }
+            }
+            break;
         }
     }
 }
