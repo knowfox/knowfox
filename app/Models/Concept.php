@@ -56,7 +56,11 @@ class Concept extends Model {
 
     public function setConfigAttribute($value)
     {
-        $this->attributes['data'] = Yaml::dump($value);
+        /*
+         * Yaml::dump() does not convert objects. Therefore,
+         * before converting to Yaml, recursively cast objects to arrays
+         */
+        $this->attributes['data'] = Yaml::dump(json_decode(json_encode($value), true));
     }
 
     public function related()

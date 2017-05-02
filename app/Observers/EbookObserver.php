@@ -8,7 +8,7 @@ class EbookObserver
 {
     public function saving(Concept $concept)
     {
-        $concept->config = (object)([
+        $concept->config = (object)((array)$concept->config + [
             'author' => '',
             'publisher' => '',
             'year' => '',
@@ -16,6 +16,6 @@ class EbookObserver
             'path' => '',
             'type' => '',
             'format' => '',
-        ] + (array)$concept->config);
+        ]);
     }
 }
