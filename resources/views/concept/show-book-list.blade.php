@@ -6,7 +6,7 @@
     @if ($concept->children()->count())
 
         <?php
-            $books = $concept->children()->orderBy('title')->paginate();
+            $books = $concept->children()->orderBy('title', 'asc')->paginate();
         ?>
         <table class="table">
             <thead>
@@ -25,12 +25,12 @@
                         <img src="/{{$book->id}}/{{$book->config->image}}?style=thumbnail">
                     @endif
                     </td>
-                    <td>{{$book->config->author}}</td>
+                    <td>{{$book->config->author or ''}}</td>
                     <td><a href="{{route('concept.show', ['concept' => $book])}}">
                         {{$book->title}}
                         </a>
                     </td>
-                    <td>{{$book->config->year}}</td>
+                    <td>{{$book->config->year or ''}}</td>
                 </tr>
             @endforeach
             </tbody>
