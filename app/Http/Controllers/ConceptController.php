@@ -174,6 +174,16 @@ class ConceptController extends Controller
         ]);
     }
 
+    private function registerObserver($type)
+    {
+        if ($type != 'concept') {
+            $observer = "\\Knowfox\\Observers\\" . ucfirst($type) . "Observer";
+            if (class_exists($observer)) {
+                Concept::observe($observer);
+            }
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -182,8 +192,14 @@ class ConceptController extends Controller
      */
     public function store(ConceptRequest $request)
     {
+        $this->registerObserver($request->input('type'));
+
         $concept = new Concept($request->all());
+
         $concept->owner_id = $request->user()->id;
+
+        $concept->is_flagged = $request->has('is_flagged');
+
         $concept->save();
 
         if ($request->has('tags')) {
@@ -246,6 +262,8 @@ class ConceptController extends Controller
      */
     public function update(PictureService $picture, ConceptRequest $request, Concept $concept)
     {
+        $this->registerObserver($request->input('type'));
+
         $concept->fill($request->all());
 
         if (!$request->has('parent_id')) {

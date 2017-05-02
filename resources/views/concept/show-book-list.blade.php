@@ -36,7 +36,7 @@
             </tbody>
         </table>
 
-        {{$books}}
+        <div class="text-center">{{$books}}</div>
 
     @endif
 
