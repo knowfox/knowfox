@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Knowfox\User;
 use Symfony\Component\Yaml\Yaml;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class Concept extends Model {
     use SoftDeletes;
@@ -104,7 +105,8 @@ class Concept extends Model {
         $begins_at = $date->copy()->hour(0)->minute(0);
         $ends_at = $date->copy()->addDay()->hour(0)->minute(0);
 
-        return self::whereRaw("(created_at >= '{$begins_at}' AND created_at < '{$ends_at}' OR updated_at >= '{$begins_at}' AND updated_at < '{$ends_at}')")
+        return self::where('owner_id', Auth::id())
+            ->whereRaw("(created_at >= '{$begins_at}' AND created_at < '{$ends_at}' OR updated_at >= '{$begins_at}' AND updated_at < '{$ends_at}')")
             ->where('id', '!=', $this->id)
             ->where('title', '!=', $date->format('Y'))
             ->where('title', '!=', $date->format('m'))
