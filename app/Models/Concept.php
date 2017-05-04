@@ -4,6 +4,7 @@ namespace Knowfox\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
@@ -112,5 +113,13 @@ class Concept extends Model {
             ->where('title', '!=', $date->format('m'))
             ->orderBy('created_at', 'asc')
             ->orderBy('updated_at', 'asc');
+    }
+
+    public function letters()
+    {
+        return $this->children()
+            ->select(DB::raw('DISTINCT(SUBSTR(title, 1, 1)) AS t, COUNT(*) as n'))
+            ->groupBy('t')
+            ->orderBy('t', 'ASC');
     }
 }
