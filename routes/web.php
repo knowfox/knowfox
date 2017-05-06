@@ -57,6 +57,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@toplevel',
     ]);
 
+    Route::get('/concepts/popular', [
+        'as' => 'concept.popular',
+        'uses' => 'ConceptController@popular',
+    ]);
+
     Route::get('/concepts/flagged', [
         'as' => 'concept.flagged',
         'uses' => 'ConceptController@flagged',

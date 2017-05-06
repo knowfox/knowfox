@@ -45,6 +45,11 @@ class ConceptController extends Controller
         return $this->index($request, 'flagged');
     }
 
+    public function popular(Request $request)
+    {
+        return $this->index($request, 'popular');
+    }
+
     public function shares(Request $request)
     {
         return $this->index($request, 'shares');
@@ -63,8 +68,7 @@ class ConceptController extends Controller
     public function index(Request $request, $special = false)
     {
         $concepts = Concept::withDepth()
-            ->with('tagged')
-            ->orderBy('updated_at', "desc");
+            ->with('tagged');
 
         $page_title = 'Concepts';
 
@@ -78,6 +82,10 @@ class ConceptController extends Controller
                     $page_title = 'Toplevel concepts';
                     $concepts->whereIsRoot();
                     break;
+                case 'popular':
+                    $page_title = 'Popular concepts';
+                    $concepts->orderBy('viewed_count', 'desc');
+                    break;
                 case 'shares':
                     $page_title = 'Concepts shared by me';
                     $concepts->has('shares');
@@ -90,6 +98,10 @@ class ConceptController extends Controller
                     break;
             }
         }
+
+        $concepts
+            ->orderBy('viewed_at', "desc")
+            ->orderBy('updated_at', "desc");
 
         if (!$special || $special != 'shared') {
             $concepts->where('owner_id', Auth::id());
@@ -232,6 +244,10 @@ class ConceptController extends Controller
                 $view_name .= $suffix;
             }
         }
+
+        $concept->viewed_at = strftime('%Y-%m-%d %H:%M:%S');
+        $concept->viewed_count += 1;
+        $concept->save();
 
         return view($view_name, [
             'page_title' => $concept->title,

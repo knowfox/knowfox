@@ -26,8 +26,9 @@
                 <tr>
                     <th style="width:5%">Id</th>
                     <th style="width:50%">Title</th>
-                    <th style="width:25%">Tags</th>
-                    <th style="width:20%">Updated</th>
+                    <th style="width:20%">Tags</th>
+                    <th style="width:5%">Viewed</th>
+                    <th style="width:20%">Viewed / Updated</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,7 +58,8 @@
                                 <a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
                             @endforeach
                         </td>
-                        <td>{{$concept->updated_at}}</td>
+                        <td>{{$concept->viewed_count}}</td>
+                        <td>{{$concept->viewed_at or $concept->updated_at}}</td>
                     </tr>
                 @endforeach
                 </tbody>

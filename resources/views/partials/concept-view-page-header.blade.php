@@ -78,9 +78,10 @@
         $created = strftime('%Y-%m-%d', strtotime($concept->created_at));
         $updated = strftime('%Y-%m-%d', strtotime($concept->updated_at));
         ?>
-        Created {{ $created }}@if ($created != $updated),
-            updated {{ $updated }}
+        Created {{ $created }}, @if ($created != $updated)
+            updated {{ $updated }},
         @endif
+        viewed {{$concept->viewed_count}} time{{$concept->viewed_count > 1 ? 's' : ''}}.
 
         @if ($concept->tags->count())
             @foreach ($concept->tags as $tag)
