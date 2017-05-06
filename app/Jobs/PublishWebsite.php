@@ -145,7 +145,7 @@ class PublishWebsite implements ShouldQueue
 
         $outline->traverse($this->domain_concept,
             'website.' . $website_dir . '.fragment',
-            $publish_index, $preprocess_concept
+            $publish_index, $preprocess_concept, true
         );
     }
 }

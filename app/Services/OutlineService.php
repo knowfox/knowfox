@@ -25,7 +25,7 @@ class OutlineService
         ]);
     }
 
-    public function traverse(Concept $concept, $outline_view, $callback = null, $preprocess = null)
+    public function traverse(Concept $concept, $outline_view, $callback = null, $preprocess = null, $by_date = false)
     {
         $concept->load('descendants');
 
@@ -58,6 +58,11 @@ class OutlineService
             }
         };
 
+        if ($by_date) {
+            return call_user_func($traverse,
+                $concept->descendants()->orderBy('created_at', 'desc')->get()->toTree()
+            );
+        }
         return call_user_func($traverse, $concept->descendants->toTree());
     }
 }
