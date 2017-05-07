@@ -22,12 +22,15 @@ class AppServiceProvider extends ServiceProvider
     {
         $config = Concept::whereIsRoot()
             ->where('title', 'Configuration')
-            ->firstOrFail()
-            ->config;
+            ->first();
 
-        foreach (config('knowfox') as $name => $value) {
-            if (!empty($config->{$name})) {
-                Config::set('knowfox.' . $name, array_merge_recursive($config->{$name}, $value));
+        if ($config) {
+            foreach (config('knowfox') as $name => $value) {
+                if (!empty($config->config->{$name})) {
+                    Config::set('knowfox.' . $name,
+                        array_merge_recursive($config->config->{$name}, $value)
+                    );
+                }
             }
         }
     }
