@@ -2,7 +2,9 @@
 
 namespace Knowfox\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Knowfox\Models\Concept;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->mergeConfiguration();
+    }
+
+    private function mergeConfiguration()
+    {
+        $config = Concept::whereIsRoot()
+            ->where('title', 'Configuration')
+            ->firstOrFail()
+            ->config;
+
+        foreach (config('knowfox') as $name => $value) {
+            if (!empty($config->{$name})) {
+                Config::set('knowfox.' . $name, array_merge_recursive($config->{$name}, $value));
+            }
+        }
     }
 
     /**

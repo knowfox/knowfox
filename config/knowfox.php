@@ -1,30 +1,14 @@
 <?php
 
 return [
-    'relationships' => [
-        'commission' => [ 'beauftragt', 'beauftragt von' ],
-        'founded' => [ 'hat gegründet', 'gegründet von' ],
-        'input' => [ 'liefert Input für', 'bekommt Input von' ],
-        'invented' => [ 'hat erfunden', 'erfunden von' ],
-        'platform' => [ 'stellt Plattform bereit für', 'nutzt Plattform von' ],
-        'similar' => [ 'ähnlich mit', 'ähnlich mit' ],
-        'supports' => [ 'unterstützt', 'unterstützt von' ],
-        'teacher' => [ 'Lehrer von', 'Schüler von' ],
-        'translates' => [ 'übersetzt', 'übersetzt' ],
-        'uses' => ['nutzt', 'genutzt von'],
-        'written' => [ 'hat geschrieben', 'geschrieben von' ],
-    ],
+    'relationships' => [],
 
     'languages' => [
         'de',
         'en',
     ],
 
-    'types' => [
-        'concept',
-        'ebook',
-        'book list'
-    ],
+    'types' => [],
 
     'mercury_key' => env('MERCURY_KEY', 'secret key for https://mercury.postlight.com/web-parser/'),
     'presentation_base_path' => env('PRESENTATION_BASE', base_path()),

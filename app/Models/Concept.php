@@ -41,7 +41,11 @@ class Concept extends Model {
 
     public function setRelationsAttribute($value)
     {
-        $this->related()->sync(Yaml::parse($value));
+        $related = Yaml::parse($value);
+        if (empty($related)) {
+            $related = [];
+        }
+        $this->related()->sync($related);
     }
 
     public function getRenderedBodyAttribute($value)
