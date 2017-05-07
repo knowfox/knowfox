@@ -20,17 +20,26 @@ class AppServiceProvider extends ServiceProvider
 
     private function mergeConfiguration()
     {
+        $user_id = Auth::id();
+
+        if (!$user_id) {
+            return;
+        }
+
         $config = Concept::whereIsRoot()
             ->where('title', 'Configuration')
+            ->where('owner_id', $user_id)
             ->first();
 
-        if ($config) {
-            foreach (config('knowfox') as $name => $value) {
-                if (!empty($config->config->{$name})) {
-                    Config::set('knowfox.' . $name,
-                        array_merge_recursive($config->config->{$name}, $value)
-                    );
-                }
+        if (!$config) {
+            return;
+        }
+
+        foreach (config('knowfox') as $name => $value) {
+            if (!empty($config->config->{$name})) {
+                Config::set('knowfox.' . $name,
+                    array_merge_recursive($config->config->{$name}, $value)
+                );
             }
         }
     }
