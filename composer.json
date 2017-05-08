@@ -10,6 +10,7 @@
         "bugsnag/bugsnag-laravel": "2.0",
         "cebe/markdown": "^1.1",
         "evernote/evernote": "^1.26",
+        "folklore/graphql": "^1.0",
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.2",
         "laravel/framework": "5.4.*",
