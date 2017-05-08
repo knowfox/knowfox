@@ -9,6 +9,7 @@ use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Knowfox\Observers\ConceptObserver;
 use Knowfox\User;
 use Symfony\Component\Yaml\Yaml;
 use Carbon\Carbon;
@@ -28,6 +29,10 @@ class Concept extends Model {
 
     protected $slugField = 'title';
     protected $fillable = ['type', 'title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'status', 'language', 'uuid', 'relations', 'data', 'owner_id'];
+
+    protected $events = [
+        'saving' => ConceptObserver::class,
+    ];
 
     public function getRelationsAttribute()
     {
