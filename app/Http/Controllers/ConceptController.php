@@ -247,7 +247,8 @@ class ConceptController extends Controller
 
         $concept->viewed_at = strftime('%Y-%m-%d %H:%M:%S');
         $concept->viewed_count += 1;
-        $concept->save(['timestamps' => false]);
+        $concept->timestamps = false;
+        $concept->save();
 
         return view($view_name, [
             'page_title' => $concept->title,
