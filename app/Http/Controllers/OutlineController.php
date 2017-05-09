@@ -69,6 +69,8 @@ class OutlineController extends Controller
         $data = $parser->getResult();
         $this->convertArray($data['body']);
 
+        $data['body'][0]['parent_id'] = $concept->parent_id;
+
         $count = Concept::whereDescendantOrSelf($concept->id)
             ->rebuildTree($data['body'], true);
 

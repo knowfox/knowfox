@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -14,6 +15,8 @@ use Carbon\Carbon;
 
 class JournalTest extends TestCase
 {
+    use DatabaseMigrations;
+
     private function followRedirectAt($url)
     {
         $user = factory(User::class)->create();

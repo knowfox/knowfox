@@ -14,6 +14,8 @@ class ConceptObserver
      */
     public function creating(Concept $concept)
     {
-        $concept->owner_id = Auth::id();
+        if (empty($concept->owner_id)) {
+            $concept->owner_id = Auth::id();
+        }
     }
 }
