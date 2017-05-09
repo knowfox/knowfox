@@ -42,37 +42,13 @@ class OutlineController extends Controller
         ->header('Content-type', 'text/x-opml');
     }
 
-    private function convertArray(&$ary)
-    {
-        foreach (array_keys($ary) as $n) {
-            foreach (array_keys($ary[$n]) as $key) {
-                if ($key == '@outlines') {
-                    $ary[$n]['children'] = &$ary[$n]['@outlines'];
-                    unset($ary[$n]['@outlines']);
-
-                    $this->convertArray($ary[$n]['children']);
-                }
-                else
-                if ($key == 'text') {
-                    $ary[$n]['title'] = &$ary[$n]['text'];
-                    unset($ary[$n]['text']);
-                }
-            }
-        }
-    }
-
-    public function update(Request $request, Concept $concept)
+    public function update(OutlineService $outline, Request $request, Concept $concept)
     {
         $opml = $request->input('opml');
         $parser = new OPMLParser($opml);
-
         $data = $parser->getResult();
-        $this->convertArray($data['body']);
 
-        $data['body'][0]['parent_id'] = $concept->parent_id;
-
-        $count = Concept::whereDescendantOrSelf($concept->id)
-            ->rebuildTree($data['body'], true);
+        $count = $outline->update($concept, $data);
 
         return response()->json(['changed' => $count]);
     }

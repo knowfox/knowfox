@@ -65,4 +65,33 @@ class OutlineService
         }
         return call_user_func($traverse, $concept->descendants->toTree());
     }
+
+    private function convertArray(&$ary)
+    {
+        foreach (array_keys($ary) as $n) {
+            foreach (array_keys($ary[$n]) as $key) {
+                if ($key == '@outlines') {
+                    $ary[$n]['children'] = &$ary[$n]['@outlines'];
+                    unset($ary[$n]['@outlines']);
+
+                    $this->convertArray($ary[$n]['children']);
+                }
+                else
+                    if ($key == 'text') {
+                        $ary[$n]['title'] = &$ary[$n]['text'];
+                        unset($ary[$n]['text']);
+                    }
+            }
+        }
+    }
+
+    public function update($concept, $data)
+    {
+        $this->convertArray($data['body']);
+
+        $data['body'][0]['parent_id'] = $concept->parent_id;
+
+        return Concept::whereDescendantOrSelf($concept->id)
+            ->rebuildTree($data['body'], true);
+    }
 }
