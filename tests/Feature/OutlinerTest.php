@@ -14,6 +14,28 @@ class OutlinerTest extends TestCase
 {
     use DatabaseMigrations;
 
+    const DATA = ['body' => [
+        [
+            'id' => 2, 'text' => 'node',
+            '@outlines' => [
+                [
+                    'id' => 3, 'text' => 'node.A',
+                    '@outlines' => [
+                        [ 'id' => 4, 'text' => 'node.A.A' ],
+                        [ 'id' => 5, 'text' => 'node.A.B' ],
+                    ],
+                ],
+                [
+                    'id' => 6, 'text' => 'node.B',
+                    '@outlines' => [
+                        [ 'id' => 7, 'text' => 'node.B.A' ],
+                        [ 'id' => 8, 'text' => 'node.B.B' ],
+                    ],
+                ],
+            ]
+        ]
+    ]];
+
     protected $root;
 
     private function createKids($root, $level)
@@ -90,17 +112,123 @@ class OutlinerTest extends TestCase
     </body>
 </opml>
 EOF;
+
         $this->assertXmlStringEqualsXmlString(
             preg_replace(['#<head>.*</head>#s', '#^\s*#m'], '', $expected),
             preg_replace(['#<head>.*</head>#s', '#^\s*#m'], '', $response->getContent())
         );
     }
 
-    public function _testUpdate0()
+    private function checkSingleRoot()
+    {
+        $toplevel = Concept::whereIsRoot()->get();
+        $this->assertEquals(1, $toplevel->count());
+        $this->assertEquals($this->root->parent_id, $toplevel[0]->id);
+    }
+
+    public function checkWith($before_count, $after_count, $changes_count, $data, $result)
     {
         /** @var OutlineService $outline */
         $outline = app(OutlineService::class);
+        $this->assertEquals($before_count, Concept::count());
+
+        $count = $outline->update($this->root, $data);
+
+        $this->assertEquals($changes_count, $count);
+        $this->assertEquals($after_count, Concept::count());
+
+        $this->checkSingleRoot();
+
+        $flat = Concept::whereDescendantOrSelf($this->root->id)
+            ->get()
+            ->toFlatTree()
+            ->pluck('title', 'id')
+            ->toArray();
+        $this->assertEquals($result, $flat);
+    }
+
+    public function testDeleteNone()
+    {
+        $this->checkWith(8, 8, 0, self::DATA, [
+            2 => "node",
+            3 => "node.A",
+            4 => "node.A.A",
+            5 => "node.A.B",
+            6 => "node.B",
+            7 => "node.B.A",
+            8 => "node.B.B",
+        ]);
+    }
+
+    public function testMoveNode()
+    {
+        $data = self::DATA;
+        $data['body'][0]['@outlines'][1]['@outlines'][] = [ 'id' => 4, 'title' => 'node.A.A' ];
+        unset($data['body'][0]['@outlines'][0]['@outlines'][0]);
+
+        $this->checkWith(8, 8, 6, $data, [
+            2 => "node",
+            3 => "node.A",
+            5 => "node.A.B",
+            6 => "node.B",
+            7 => "node.B.A",
+            8 => "node.B.B",
+            4 => "node.A.A",
+        ]);
+    }
+
+    public function testAddNode()
+    {
+        $data = self::DATA;
+        $data['body'][0]['@outlines'][1]['@outlines'][] = [ 'title' => 'node.B.C' ];
+
+        $this->checkWith(8, 9, 4, $data, [
+            2 => "node",
+            3 => "node.A",
+            4 => "node.A.A",
+            5 => "node.A.B",
+            6 => "node.B",
+            7 => "node.B.A",
+            8 => "node.B.B",
+            9 => "node.B.C",
+        ]);
+    }
+
+    public function testDeleteInnerNode()
+    {
+        $data = self::DATA;
+        unset($data['body'][0]['@outlines'][0]);
+
+        $this->checkWith(8, 5, 5, $data, [
+            2 => "node",
+            6 => "node.B",
+            7 => "node.B.A",
+            8 => "node.B.B",
+        ]);
+    }
+
+    public function testDeleteLeafNode()
+    {
+        $data = self::DATA;
+        unset($data['body'][0]['@outlines'][0]['@outlines'][0]);
+
+        $this->checkWith(8, 7, 7, $data, [
+            2 => "node",
+            3 => "node.A",
+            5 => "node.A.B",
+            6 => "node.B",
+            7 => "node.B.A",
+            8 => "node.B.B",
+        ]);
+    }
+
+    public function testDeleteAll()
+    {
+        /** @var OutlineService $outline */
+        $outline = app(OutlineService::class);
+        $this->assertEquals(8, Concept::count());
         $count = $outline->update($this->root, ['body' => []]);
-        $this->assertEquals(0, $count);
+        $this->assertEquals(1, $count);
+        $this->assertEquals(1, Concept::count());
     }
 }

@@ -89,9 +89,10 @@ class OutlineService
     {
         $this->convertArray($data['body']);
 
-        $data['body'][0]['parent_id'] = $concept->parent_id;
-
-        return Concept::whereDescendantOrSelf($concept->id)
-            ->rebuildTree($data['body'], true);
+        return Concept::whereDescendantOrSelf($concept->parent_id)
+            ->rebuildTree([[
+                'id' => $concept->parent_id,
+                'children' => $data['body'],
+            ]], true);
     }
 }
