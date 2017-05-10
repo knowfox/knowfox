@@ -16,19 +16,22 @@
         </section>
     @endif
 
-    <table class="table">
+    <table class="table impact-map">
         <thead>
         <tr>
             <th>Actors</th>
             <th>Impacts</th>
-            <th>Measurements</th>
+            <th>Deliverables</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($map as $i => $row)
             <tr>
                 <td{!! $row->rowspan > 1 ? " rowspan=\"{$row->rowspan}\"" : '' !!}>
-                    {{ join(' &raquo; ', $row->path) }}
+                    {{ join(' &raquo; ', $row->path) }}&nbsp;<a href="/{{$row->id}}" target="_blank"><i class="glyphicon glyphicon-new-window"></i></a>
+                    @if (trim($row->rendered_body))
+                        {!! $row->rendered_body !!}
+                    @endif
                 </td>
             </tr>
         @endforeach
@@ -36,4 +39,3 @@
     </table>
 
 @endsection
-
