@@ -13,7 +13,8 @@ var SimpleMDE = require('simplemde/dist/simplemde.min');
 window.Dropzone = require('dropzone');
 
 require('jquery-ui/ui/widgets/autocomplete');
-require('jquery-ui/ui/widgets/autocomplete');
+
+require('jquery-resizable/resizable');
 
 Vue.component('shares', require('./components/Shares.vue'));
 //Vue.component('shares', require('./components/Example.vue'));

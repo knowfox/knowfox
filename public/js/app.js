@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 53);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -12584,7 +12584,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
 			__webpack_require__(0),
-			__webpack_require__(43),
+			__webpack_require__(44),
 			__webpack_require__(11),
 			__webpack_require__(12),
 			__webpack_require__(13),
@@ -13287,16 +13287,17 @@ module.exports = function(module) {
  */
 
 __webpack_require__(38);
-__webpack_require__(46);
+__webpack_require__(47);
 __webpack_require__(40);
 
-var SimpleMDE = __webpack_require__(48);
+var SimpleMDE = __webpack_require__(49);
 window.Dropzone = __webpack_require__(41);
 
 __webpack_require__(15);
-__webpack_require__(15);
 
-Vue.component('shares', __webpack_require__(49));
+__webpack_require__(42);
+
+Vue.component('shares', __webpack_require__(50));
 //Vue.component('shares', require('./components/Example.vue'));
 
 window.markdownEditor = function () {
@@ -14411,7 +14412,7 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(44);
+window._ = __webpack_require__(45);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -14429,7 +14430,7 @@ __webpack_require__(39);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(52);
+window.Vue = __webpack_require__(53);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -21774,6 +21775,193 @@ function Op(opmltext){
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(jQuery) {/*!
+ * resizable 1.0.1
+ * https://github.com/tannernetwork/resizable
+ *
+ * Copyright 2015-2017 Tanner (http://tanner.zone)
+ * Released under the MIT license
+ */
+
+(function ($) {
+ 
+    $.fn.resizable = function(options) {
+ 
+        var settings = $.extend({
+            direction: ['top', 'right', 'bottom', 'left']
+        }, options);
+        var current = null;
+
+        return this.each(function() {
+            var _this = this;
+            var element = $(this);
+            var isDragging = false;
+            var initial = {};
+            var prepareHandles = {
+                top: false,
+                right: false,
+                bottom: false,
+                left: false
+            };
+            var handles = {};
+
+            element.addClass('resizable');
+
+            if(settings.direction instanceof Array)
+            {
+                for (var i = settings.direction.length - 1; i >= 0; i--) {
+                    switch(settings.direction[i])
+                    {
+                        case 'top':
+                        case 't':
+                        prepareHandles.top = true;
+                        break;
+                        case 'right':
+                        case 'r':
+                        prepareHandles.right = true;
+                        break;
+                        case 'bottom':
+                        case 'b':
+                        prepareHandles.bottom = true;
+                        break;
+                        case 'left':
+                        case 'l':
+                        prepareHandles.left = true;
+                        break;
+                    }
+                };
+            }
+            else if(typeof settings.direction == 'string')
+            {
+                switch(settings.direction)
+                {
+                    case 'vertical':
+                    case 'v':
+                    prepareHandles.top = true;
+                    prepareHandles.bottom = true;
+                    break;
+                    case 'horizontal':
+                    case 'h':
+                    prepareHandles.right = true;
+                    prepareHandles.left = true;
+                    break;
+                    case 'top':
+                    case 't':
+                    prepareHandles.top = true;
+                    break;
+                    case 'right':
+                    case 'r':
+                    prepareHandles.right = true;
+                    break;
+                    case 'bottom':
+                    case 'b':
+                    prepareHandles.bottom = true;
+                    break;
+                    case 'left':
+                    case 'l':
+                    prepareHandles.left = true;
+                    break;
+                }
+            }
+
+            if(prepareHandles.top)
+            {
+                handles.top = $('<div />').addClass('resizable-handle resizable-t').appendTo(element);
+            }
+            if(prepareHandles.right)
+            {
+                handles.right = $('<div />').addClass('resizable-handle resizable-r').appendTo(element);
+            }
+            if(prepareHandles.bottom)
+            {
+                handles.bottom = $('<div />').addClass('resizable-handle resizable-b').appendTo(element);
+            }
+            if(prepareHandles.left)
+            {
+                handles.left = $('<div />').addClass('resizable-handle resizable-l').appendTo(element);
+            }
+            
+            $(this).children('.resizable-l, .resizable-r, .resizable-t, .resizable-b').mousedown(function(e) {
+                current = _this;
+                var dir;
+                switch(true)
+                {
+                    case $(this).hasClass('resizable-l'):
+                    dir = 'l';
+                    break;
+                    case $(this).hasClass('resizable-r'):
+                    dir = 'r';
+                    break;
+                    case $(this).hasClass('resizable-t'):
+                    dir = 't';
+                    break;
+                    case $(this).hasClass('resizable-b'):
+                    dir = 'b';
+                    break;
+                }
+                isDragging = true;
+                initial = {
+                    x: e.clientX,
+                    y: e.clientY,
+                    height: element.height(),
+                    width: element.width(),
+                    direction: dir
+                };
+
+                $('html').addClass('resizable-resizing resizable-resizing-'+initial.direction);
+
+                if (current == _this && typeof settings.start === 'function') {
+                    settings.start.apply(_this);
+                }
+            });
+
+            $(window).mousemove(function(e) {
+                if(isDragging)
+                {
+                    var moveX = e.clientX-initial.x;
+                    var moveY = e.clientY-initial.y;
+
+                    switch(initial.direction)
+                    {
+                        case 'r':
+                        element.width(initial.width+moveX);
+                        break;
+                        case 'l':
+                        element.width(initial.width-moveX);
+                        break;
+                        case 'b':
+                        element.height(initial.height+moveY);
+                        break;
+                        case 't':
+                        element.height(initial.height-moveY);
+                        break;
+                    }
+
+                    if (current == _this && typeof settings.resize === 'function') {
+                        settings.resize.apply(_this);
+                    }
+                }
+            }).mouseup(function(e) {
+                isDragging = false;
+                $('html').removeClass('resizable-resizing resizable-resizing-'+initial.direction);
+
+                if (current == _this && typeof settings.stop === 'function') {
+                    settings.stop.apply(_this);
+                }
+                _current = null;
+            });
+
+        });
+
+    }
+ 
+}(jQuery));
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * jQuery UI Unique ID 1.12.1
  * http://jqueryui.com
@@ -21829,7 +22017,7 @@ return $.fn.extend( {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -21859,7 +22047,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 			__webpack_require__(11),
 			__webpack_require__(12),
 			__webpack_require__(13),
-			__webpack_require__(42),
+			__webpack_require__(43),
 			__webpack_require__(2),
 			__webpack_require__(14)
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
@@ -22511,7 +22699,7 @@ return $.widget( "ui.menu", {
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -39603,7 +39791,7 @@ return $.widget( "ui.menu", {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(16)(module)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -39747,7 +39935,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 }));
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -39771,7 +39959,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 (function(root, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0),__webpack_require__(47),__webpack_require__(45)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0),__webpack_require__(48),__webpack_require__(46)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -42948,7 +43136,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 }));
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -43457,7 +43645,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, $) {var require;var require;/**
@@ -43478,14 +43666,14 @@ header:o[1].replace(/^ *| *\| *$/g,"").split(/ *\| */),align:o[2].replace(/^ *|\
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(0)))
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(50)(
+var Component = __webpack_require__(51)(
   /* script */
   __webpack_require__(37),
   /* template */
-  __webpack_require__(51),
+  __webpack_require__(52),
   /* scopeId */
   null,
   /* cssModules */
@@ -43512,7 +43700,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = function normalizeComponent (
@@ -43565,7 +43753,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -43663,7 +43851,7 @@ if (false) {
 }
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52916,7 +53104,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)))
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(17);

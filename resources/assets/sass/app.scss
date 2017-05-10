@@ -24,6 +24,8 @@
 
 @import "node_modules/jquery-ui/themes/base/autocomplete";
 
+@import "node_modules/jquery-resizable/resizable";
+
 html {
     background: url('/img/background.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -164,4 +166,38 @@ ul.letters {
     li:first-child:before {
         content: '';
     }
+}
+
+/* horizontal panel*/
+
+.panel-container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid silver;
+    overflow: hidden;
+
+    /* avoid browser level touch actions */
+    xtouch-action: none;
+}
+
+.panel-left {
+    flex: 0 0 auto;
+    /* only manually resize */
+    padding: 10px;
+    width: 300px;
+    min-height: 200px;
+    min-width: 150px;
+    white-space: nowrap;
+    background: #838383;
+    color: white;
+}
+
+.panel-right {
+    flex: 1 1 auto;
+    /* resizable */
+    padding: 10px;
+    width: 100%;
+    min-height: 200px;
+    min-width: 200px;
+    background: #eee;
 }
