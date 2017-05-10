@@ -40,6 +40,16 @@
                 </div>
                 <div class="col-md-4">
 
+                    @section('config')
+
+                        @if (!empty($concept->rendered_config))
+                            <h2>Configuration</h2>
+
+                            {!! $concept->rendered_config !!}
+                        @endif
+
+                    @show
+
                     @section('children')
 
                         @if ($concept->children()->count())

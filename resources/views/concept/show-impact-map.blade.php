@@ -32,6 +32,9 @@
                     @if (trim($row->rendered_body))
                         {!! $row->rendered_body !!}
                     @endif
+                    @if (!empty($row->rendered_config))
+                        {!! $row->rendered_config !!}
+                    @endif
                 </td>
             </tr>
         @endforeach

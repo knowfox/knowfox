@@ -65,6 +65,52 @@ class Concept extends Model {
         return (object)Yaml::parse($this->data);
     }
 
+    private function renderValue($value)
+    {
+        $result = '';
+        if (is_array($value) || is_object($value)) {
+            $result .= $this->renderData($value);
+        }
+        else
+        if (is_bool($value)) {
+            $result .= $value ? 'true' : 'false';
+        }
+        else {
+            $result .= $value;
+        }
+        return $result;
+    }
+
+    private function renderData($data)
+    {
+        $result = '';
+        $tag = null;
+        foreach ($data as $key => $value) {
+            if (!$tag) {
+                if (is_numeric($key)) {
+                    $tag = 'ul';
+                }
+                else {
+                    $tag = 'dl';
+                }
+                $result .= "<{$tag}>";
+            }
+            if (is_numeric($key)) {
+                $result .= '<li>' . $this->renderValue($value) . '</li>';
+            }
+            else {
+                $result .= '<dt>' . $key . '</dt><dd>' . $this->renderValue($value) . '</dd>';
+            }
+        }
+        return $result . "</{$tag}>";
+    }
+
+    public function getRenderedConfigAttribute($value)
+    {
+        $data = (object)Yaml::parse($this->data);
+        return $this->renderData($data);
+    }
+
     public function setConfigAttribute($value)
     {
         /*
