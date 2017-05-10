@@ -3,8 +3,10 @@
 namespace Knowfox\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 use Knowfox\Models\Concept;
 use Knowfox\Observers\ConceptObserver;
+use Knowfox\ViewComposers\ImpactMapComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Concept::observe(ConceptObserver::class);
+        View::composer('concept.show-impact-map', ImpactMapComposer::class);
     }
 
     /**

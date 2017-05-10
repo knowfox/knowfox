@@ -2,6 +2,24 @@
 
 @inject('picture', 'Knowfox\Services\PictureService')
 
+@section('main-content')
+
+    @if (!empty($concept->image))
+        <img src="{{ url($picture->asset($concept->image, 'text')) }}">
+    @endif
+
+    @if ($concept->summary)
+        <p class="summary">{{$concept->summary}}</p>
+    @endif
+
+    @if ($concept->rendered_body)
+        <section class="body">
+            {!! $concept->rendered_body !!}
+        </section>
+    @endif
+
+@endsection
+
 @section('content')
 
     <main id="dropzone" class="container dropzone">
@@ -12,100 +30,88 @@
 
         @include('partials.view-tabs', ['active' => 'view'])
 
-        <div class="row">
-            <div class="col-md-8">
+        @section('full-content')
 
-                @section('main-content')
+            <div class="row">
+                <div class="col-md-8">
 
-                    @if (!empty($concept->image))
-                        <img src="{{ url($picture->asset($concept->image, 'text')) }}">
-                    @endif
+                    @yield('main-content')
 
-                    @if ($concept->summary)
-                        <p class="summary">{{$concept->summary}}</p>
-                    @endif
+                </div>
+                <div class="col-md-4">
 
-                    @if ($concept->rendered_body)
-                        <section class="body">
-                            {!! $concept->rendered_body !!}
-                        </section>
-                    @endif
+                    @section('children')
 
-                @show
+                        @if ($concept->children()->count())
 
-            </div>
-            <div class="col-md-4">
+                            <h2>Children</h2>
 
-                @section('children')
+                            <ul>
+                                @foreach ($concept->children()->defaultOrder()->get() as $child)
+                                    <li><a href="{{route('concept.show', ['concept' => $child])}}">
+                                            {{$child->title}}
+                                        </a></li>
+                                @endforeach
+                            </ul>
 
-                    @if ($concept->children()->count())
+                        @endif
 
-                        <h2>Children</h2>
+                    @show
+
+                    @if ($concept->related()->count() || $concept->inverseRelated()->count())
+
+                        <h2>Related</h2>
 
                         <ul>
-                            @foreach ($concept->children()->defaultOrder()->get() as $child)
-                                <li><a href="{{route('concept.show', ['concept' => $child])}}">
-                                        {{$child->title}}
+                            @foreach ($concept->related()->get() as $related)
+                                <li>{{$related->pivot->forwardLabel()}} <a href="{{route('concept.show', ['concept' => $related])}}">
+                                        {{$related->title}}
+                                    </a></li>
+                            @endforeach
+                            @foreach ($concept->inverseRelated()->get() as $related)
+                                <li>{{$related->pivot->reverseLabel()}} <a href="{{route('concept.show', ['concept' => $related])}}">
+                                        {{$related->title}}
                                     </a></li>
                             @endforeach
                         </ul>
 
                     @endif
 
-                @show
+                    @if ($same_day_query = $concept->sameDay())
 
-                @if ($concept->related()->count() || $concept->inverseRelated()->count())
-
-                    <h2>Related</h2>
-
-                    <ul>
-                        @foreach ($concept->related()->get() as $related)
-                            <li>{{$related->pivot->forwardLabel()}} <a href="{{route('concept.show', ['concept' => $related])}}">
-                                    {{$related->title}}
-                                </a></li>
-                        @endforeach
-                        @foreach ($concept->inverseRelated()->get() as $related)
-                            <li>{{$related->pivot->reverseLabel()}} <a href="{{route('concept.show', ['concept' => $related])}}">
-                                    {{$related->title}}
-                                </a></li>
-                        @endforeach
-                    </ul>
-
-                @endif
-
-                @if ($same_day_query = $concept->sameDay())
-
-                    <h2>Same day</h2>
-
-                    <ul>
-                        @foreach ($same_day_query->get() as $same_day)
-                            <li><a href="{{route('concept.show', ['concept' => $same_day])}}">
-                                    {{$same_day->title}}
-                                </a></li>
-                        @endforeach
-                    </ul>
-                @endif
-
-                @section('siblings')
-
-                    @if ($concept->getSiblings()->count())
-
-                        <h2>Siblings</h2>
+                        <h2>Same day</h2>
 
                         <ul>
-                            @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
-                                <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
-                                        {{$sibling->title}}
+                            @foreach ($same_day_query->get() as $same_day)
+                                <li><a href="{{route('concept.show', ['concept' => $same_day])}}">
+                                        {{$same_day->title}}
                                     </a></li>
                             @endforeach
                         </ul>
-
                     @endif
 
-                @show
+                    @section('siblings')
 
+                        @if ($concept->getSiblings()->count())
+
+                            <h2>Siblings</h2>
+
+                            <ul>
+                                @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
+                                    <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
+                                            {{$sibling->title}}
+                                        </a></li>
+                                @endforeach
+                            </ul>
+
+                        @endif
+
+                    @show
+
+                </div>
             </div>
-        </div>
+
+        @show
 
     </main>
 
