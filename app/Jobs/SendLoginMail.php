@@ -41,7 +41,7 @@ class SendLoginMail extends Job implements ShouldQueue
             'url' => $url,
         ], function ($m) use ($user) {
             $m->from('hello@post.knowfox.com', 'Knowfox');
-            $m->to($user->email)->subject('Hello ' . $user->name . ', here your login link to Knowfox!');
+            $m->to($user->email)->subject('Hello ' . $user->name . ', here is your login link to Knowfox!');
         });
     }
 }

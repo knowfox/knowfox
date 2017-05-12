@@ -57,6 +57,16 @@ main {
     img {
         max-width: 100%;
     }
+
+    .nav.nav-tabs {
+       margin-bottom: 0;
+    }
+
+    section.body {
+        background-color: white;
+        padding: 20px 16px;
+        border-left: 1px solid #ddd;
+    }
 }
 
 h1 i.glyphicon {
@@ -200,4 +210,12 @@ ul.letters {
     min-height: 200px;
     min-width: 200px;
     background: #eee;
+}
+
+dt:after {
+    content: ": ";
+}
+
+dd {
+    margin-left: 16px;
 }

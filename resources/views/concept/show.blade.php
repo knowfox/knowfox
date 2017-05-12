@@ -42,7 +42,7 @@
 
                     @section('config')
 
-                        @if (!empty($concept->rendered_config))
+                        @if (!empty((array)$concept->config))
                             <h2>Configuration</h2>
 
                             {!! $concept->rendered_config !!}
