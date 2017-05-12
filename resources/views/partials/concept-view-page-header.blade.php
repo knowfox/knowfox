@@ -40,6 +40,7 @@
                     </li>
                 @endif
                 <li><a href="{{route('concept.create', ['parent_id' => $concept->id])}}"><i class="glyphicon glyphicon-plus-sign"></i> Add child</a></li>
+                <li><a href="{{route('concept.versions', [$concept])}}"><i class="glyphicon glyphicon-time"></i> Versions</a></li>
                 @if ($is_owner)
                     <li role="separator" class="divider"></li>
                     <li>

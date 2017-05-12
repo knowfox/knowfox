@@ -390,4 +390,13 @@ class ConceptController extends Controller
         return back()
             ->with('status', '<a href="' . $url . '">Slides</a> generated');
     }
+
+    public function versions(Request $request, Concept $concept)
+    {
+        return view('concept.versions', [
+            'concept' => $concept,
+            'is_owner' => $concept->owner_id == $request->user()->id,
+            'can_update' => $request->user()->can('update', $concept),
+        ]);
+    }
 }

@@ -14,6 +14,7 @@ use Knowfox\User;
 use Symfony\Component\Yaml\Yaml;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Mpociot\Versionable\VersionableTrait;
 
 class Concept extends Model {
     use SoftDeletes;
@@ -21,6 +22,7 @@ class Concept extends Model {
     use Taggable;
     use UuidTrait;
     use SluggableTrait;
+    use VersionableTrait;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'viewed_at'];
     protected $casts = [
@@ -33,6 +35,8 @@ class Concept extends Model {
     protected $events = [
         'saving' => ConceptObserver::class,
     ];
+
+    protected $dontVersionFields = [ 'viewed_at', 'viewed_count' ];
 
     public function getRelationsAttribute()
     {
@@ -109,6 +113,11 @@ class Concept extends Model {
     {
         $data = (object)Yaml::parse($this->data);
         return $this->renderData($data);
+    }
+
+    public function renderedDiff($version)
+    {
+        return $this->renderData($version->diff());
     }
 
     public function setConfigAttribute($value)
