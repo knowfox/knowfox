@@ -16,6 +16,8 @@ require('jquery-ui/ui/widgets/autocomplete');
 
 require('jquery-resizable/resizable');
 
+require('featherlight');
+
 Vue.component('shares', require('./components/Shares.vue'));
 //Vue.component('shares', require('./components/Example.vue'));
 
