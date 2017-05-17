@@ -171,6 +171,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'BookmarkController@store',
     ]);
 
+    Route::get('/{date}', function ($date) {
+        return redirect()->route('journal', [$date]);
+    })->where('date', '[0-9]{4}-[0-9]{2}-[0-9]{2}');
+
     Route::get('/journal/{date?}', [
         'as' => 'journal',
         'uses' => 'JournalController@date',

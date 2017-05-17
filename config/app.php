@@ -172,6 +172,8 @@ return [
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Folklore\GraphQL\ServiceProvider::class,
 
+        Knowfox\Entangle\ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
