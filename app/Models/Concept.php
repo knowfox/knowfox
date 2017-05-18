@@ -18,7 +18,9 @@ use Mpociot\Versionable\VersionableTrait;
 
 class Concept extends Model {
     use SoftDeletes;
-    use NodeTrait;
+    use NodeTrait {
+        children as nodeChildren;
+    }
     use Taggable;
     use UuidTrait;
     use SluggableTrait;
@@ -185,5 +187,11 @@ class Concept extends Model {
             ->select(DB::raw('DISTINCT(SUBSTR(title, 1, 1)) AS t, COUNT(*) as n'))
             ->groupBy('t')
             ->orderBy('t', 'ASC');
+    }
+
+    public function children()
+    {
+        return $this->nodeChildren()
+            ->where('owner_id', Auth::id());
     }
 }
