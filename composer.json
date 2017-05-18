@@ -20,14 +20,14 @@
         "folklore/graphql": "^1.0",
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.2",
+        "knowfox/entangle": "^0.1.1",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "mpociot/versionable": "^2.1",
         "predis/predis": "^1.1",
         "ramsey/uuid": "^3.5",
         "rtconner/laravel-tagging": "^2.2",
-        "vipnytt/opmlparser": "dev-master",
-        "knowfox/entangle": "dev-master"
+        "vipnytt/opmlparser": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -40,8 +40,7 @@
             "database"
         ],
         "psr-4": {
-            "Knowfox\\": "app/",
-            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/"
+            "Knowfox\\": "app/"
         }
     },
     "autoload-dev": {
