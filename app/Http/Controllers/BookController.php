@@ -4,19 +4,9 @@ namespace Knowfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Knowfox\Models\Concept;
-use Knowfox\Models\EmailLogin;
-use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    private function fromToken($token)
-    {
-        $email_login = EmailLogin::validFromToken($token);
-        Auth::login($email_login->user, /*remember*/true);
-
-        return $email_login->user;
-    }
-
     public function find(Request $request)
     {
         try {
