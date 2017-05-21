@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7fd07f5dbd9d354b57d2ed00a39bdc1",
+    "content-hash": "45e092e62d013953f1ea5aace9a0a21b",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1317,6 +1317,45 @@
                 "nsm"
             ],
             "time": "2017-05-12T06:21:25+00:00"
+        },
+        {
+            "name": "knowfox/entangle",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/knowfox/entangle.git",
+                "reference": "5e362869541c905631ac009a2aa116b8340ff976"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/knowfox/entangle/zipball/5e362869541c905631ac009a2aa116b8340ff976",
+                "reference": "5e362869541c905631ac009a2aa116b8340ff976",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Knowfox\\Entangle\\": "src/"
+                }
+            },
+            "license": [
+                "GPL v3"
+            ],
+            "authors": [
+                {
+                    "name": "Olav Schettler",
+                    "email": "olav@schettler.net"
+                }
+            ],
+            "description": "Entangled timelines. https://entangle.de as a Knowfox package.",
+            "support": {
+                "source": "https://github.com/knowfox/entangle/tree/0.1.1",
+                "issues": "https://github.com/knowfox/entangle/issues"
+            },
+            "time": "2017-05-18T15:41:32+00:00"
         },
         {
             "name": "laravel/framework",
