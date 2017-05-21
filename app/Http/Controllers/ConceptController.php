@@ -143,9 +143,17 @@ class ConceptController extends Controller
 
         if ($request->format() == 'json') {
             $items = $concepts
-                ->select('id', 'title')
+                ->select('id', 'title', 'parent_id', '_lft', '_rgt')
+                ->with('ancestors')
                 ->paginate()
                 ->appends($request->except(['page']));
+
+            $items->each(function (Concept $item, $key) {
+                $item->path = $item->ancestors->count()
+                    ? ('/' . implode('/', $item->ancestors->pluck('title')->toArray()))
+                    : '';
+                $item->path .= '/' . $item->title;
+            });
 
             return response()->json($items);
         }

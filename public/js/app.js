@@ -12674,7 +12674,7 @@ $('#concept-edit-form').one('shown.bs.modal', markdownEditor);
 $('#parent-input').selectize({
     persist: false,
     valueField: 'id',
-    labelField: 'title',
+    labelField: 'path',
     searchField: 'title',
     create: false,
     load: function load(query, callback) {
