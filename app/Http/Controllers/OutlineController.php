@@ -19,6 +19,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Knowfox\Models\Concept;
 use Knowfox\Services\OutlineService;
 use vipnytt\OPMLParser;
@@ -48,7 +49,9 @@ class OutlineController extends Controller
         $parser = new OPMLParser($opml);
         $data = $parser->getResult();
 
-        $count = $outline->update($concept, $data);
+        DB::transaction(function () use ($count, $outline, $concept, $data) {
+            $count = $outline->update($concept, $data);
+        });
 
         return response()->json(['changed' => $count]);
     }
