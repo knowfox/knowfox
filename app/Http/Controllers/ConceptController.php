@@ -19,6 +19,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Knowfox\Http\Requests\ConceptRequest;
 use Knowfox\Jobs\PublishPresentation;
 use Knowfox\Models\Concept;
@@ -220,14 +221,16 @@ class ConceptController extends Controller
 
         $concept->is_flagged = $request->has('is_flagged');
 
-        $concept->save();
+        DB::transaction(function () use ($concept, $request) {
+            $concept->save();
 
-        if ($request->has('tags')) {
-            $concept->tag($request->input('tags'));
-        }
-        else {
-            $concept->untag();
-        }
+            if ($request->has('tags')) {
+                $concept->tag($request->input('tags'));
+            }
+            else {
+                $concept->untag();
+            }
+        });
 
         return redirect()->route('concept.show', [$concept])
             ->with('status', 'Concept created');
@@ -297,14 +300,16 @@ class ConceptController extends Controller
 
         $concept->is_flagged = $request->has('is_flagged');
 
-        $concept->save();
+        DB::transaction(function () use ($concept, $request) {
+            $concept->save();
 
-        if ($request->has('tags')) {
-            $concept->retag($request->input('tags'));
-        }
-        else {
-            $concept->untag();
-        }
+            if ($request->has('tags')) {
+                $concept->retag($request->input('tags'));
+            }
+            else {
+                $concept->untag();
+            }
+        });
 
         $filename = '';
         if ($request->hasFile('upload')) {
@@ -315,6 +320,7 @@ class ConceptController extends Controller
             $concept->image = $filename;
             $concept->save();
         }
+
         return redirect()->route('concept.show', [$concept])
             ->with('status', 'Concept updated ' . $filename);
     }
