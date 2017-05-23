@@ -54,6 +54,9 @@
                             @endif
                         </td>
                         <td>
+                            @if ($concept->type != 'concept')
+                                <span class="label label-info">{{ucfirst($concept->type)}}</span>
+                            @endif
                             @foreach ($concept->tags as $tag)
                                 <a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
                             @endforeach
