@@ -259,16 +259,8 @@ class ConceptController extends Controller
             }
             else {
                 $package = $scoped_type[0];
-                $view_name = $package . '::show';
                 $type = $scoped_type[1];
-
-                $class_name = "\\Knowfox\\" . ucfirst($package) . "\\Models\\" . ucfirst($type);
-                if (class_exists($class_name)) {
-                    $attr = $concept->getAttributes();
-                    $instance = new $class_name;
-                    $concept = $instance->newInstance($attr, true);
-                    $concept->id = $attr['id'];
-                }
+                $view_name = $package . '::show';
             }
 
             $suffix = '-' . preg_replace('/\W+/', '-', $type);

@@ -194,4 +194,26 @@ class Concept extends Model {
         return $this->nodeChildren()
             ->where('owner_id', Auth::id());
     }
+
+    public function newFromBuilder($attributes = [], $connection = NULL)
+    {
+        if (!empty($attributes->type)) {
+            $scoped_type = preg_split('/:\s*/', $attributes->type, 2);
+            if (count($scoped_type) > 1) {
+                $package = $scoped_type[0];
+                $type = $scoped_type[1];
+
+                $class_name = "\\Knowfox\\" . ucfirst($package) . "\\Models\\" . ucfirst($type);
+                if (class_exists($class_name)) {
+                    $instance = (new $class_name)->newInstance([], true);
+                    $instance->id = $attributes->id;
+                    $instance->fill((array)$attributes);
+                    $instance->setConnection($connection ?: $this->connection);
+
+                    return $instance;
+                }
+            }
+        }
+        return parent::newFromBuilder($attributes, $connection);
+    }
 }
