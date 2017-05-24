@@ -21,20 +21,21 @@ class ImportTest extends TestCase
     public function setUp() {
         parent::setUp();
 
-        $user = factory(User::class)->create();
-        $this->actingAs($user);
+        $this->user = factory(User::class)->create();
+        $this->actingAs($this->user);
     }
 
-    private function findTimelines($owner_id, $slug = null)
+    private function findTimelines($person, $title = null)
     {
         $root = Concept::whereIsRoot()
             ->where('title', 'Timelines')
-            ->where('owner_id', $owner_id)
+            ->where('owner_id', $this->user->id)
             ->firstOrFail();
 
         $timelines = Concept::where('parent_id', $root->id);
-        if ($slug) {
-            return $timelines->where('slug', $slug)->get();
+        if ($title) {
+            $full_title = $person->title . ': ' . $title;
+            return $timelines->where('title', $full_title)->get();
         }
         else {
             return $timelines->get();
@@ -46,7 +47,7 @@ class ImportTest extends TestCase
         $user = factory(User::class)->make();
 
         $importer = new ImportService();
-        $user = $importer->saveUser([
+        $person = $importer->savePerson([
             'name' => $user->name,
             'email' => $user->email,
 
@@ -56,7 +57,7 @@ class ImportTest extends TestCase
             ]
         ]);
 
-        return $user->id;
+        return $person;
     }
 
     /**
@@ -66,21 +67,21 @@ class ImportTest extends TestCase
      */
     public function testImportUser()
     {
-        $user_id = $this->saveTimelines();
-        $timelines = $this->findTimelines($user_id);
+        $person = $this->saveTimelines();
+        $timelines = $this->findTimelines($person);
 
         $this->assertEquals(2, $timelines->count());
     }
 
     public function testImportEvent()
     {
-        $user_id = $this->saveTimelines();
-        $timeline_slug = 'tl-1';
+        $person = $this->saveTimelines();
+        $timeline_title = 'Timeline #1';
 
         $importer = new ImportService();
         $event = $importer->saveEvent([
-            'owner_id' => $user_id,
-            'timeline_slug' => $timeline_slug,
+            'person_id' => $person->id,
+            'timeline_title' => $timeline_title,
             'title' => 'Event #1',
             'public' => true,
             'description' => 'Body of event #1',
@@ -94,7 +95,7 @@ class ImportTest extends TestCase
             'replicated' => false,
         ]);
 
-        $timeline = $this->findTimelines($user_id, $timeline_slug)->first();
+        $timeline = $this->findTimelines($person, $timeline_title)->first();
 
         $retrieved_event = Event::where('parent_id', $timeline->id)->firstOrFail();
 
