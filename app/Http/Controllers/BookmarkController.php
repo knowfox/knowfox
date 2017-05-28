@@ -92,7 +92,7 @@ class BookmarkController extends Controller
 
         if (empty($concept->title)) {
             $url = parse_url($request->input('source_url'));
-            $concept->title = $url['PHP_URL_HOST'] . $url['PHP_URL_PATH'];
+            $concept->title = $url['host'] . $url['path'];
         }
 
         $concept->save();
