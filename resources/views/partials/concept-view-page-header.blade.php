@@ -90,9 +90,7 @@
 
         @if ($concept->tags->count())
             @foreach ($concept->tags as $tag)
-                <a class="label label-default" href="{{route('concept.index', ['tag' => $tag->slug])}}">
-                    {{$tag->name}}
-                </a>
+                <a class="label label-default" href="{{route('concept.index', ['tag' => $tag->slug])}}">{{$tag->name}}</a>
             @endforeach
         @endif
     </p>
