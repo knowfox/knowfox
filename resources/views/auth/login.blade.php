@@ -42,8 +42,6 @@
 
                         <p><strong>Is this secure?</strong> Totally! To log into Knowfox, you have to click on that link in the email we send you. This way, nowbody has access to your Knowfox account, without also having access to your email account.</p>
                     </form>
-
-                    </form>
                 </div>
             </div>
         </div>
