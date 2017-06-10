@@ -20,7 +20,7 @@
         "folklore/graphql": "^1.0",
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.2",
-        "knowfox/entangle": "^0.1.1",
+        "knowfox/entangle": "^0.1.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "mpociot/versionable": "^2.1",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "45e092e62d013953f1ea5aace9a0a21b",
+    "content-hash": "5d6a5e3608de9495cbd428ae81773bbd",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1320,16 +1320,16 @@
         },
         {
             "name": "knowfox/entangle",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knowfox/entangle.git",
-                "reference": "5e362869541c905631ac009a2aa116b8340ff976"
+                "reference": "65bc7524fe9c8ce296abc80e9491fede7abfb66d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knowfox/entangle/zipball/5e362869541c905631ac009a2aa116b8340ff976",
-                "reference": "5e362869541c905631ac009a2aa116b8340ff976",
+                "url": "https://api.github.com/repos/knowfox/entangle/zipball/65bc7524fe9c8ce296abc80e9491fede7abfb66d",
+                "reference": "65bc7524fe9c8ce296abc80e9491fede7abfb66d",
                 "shasum": ""
             },
             "require": {
@@ -1352,10 +1352,10 @@
             ],
             "description": "Entangled timelines. https://entangle.de as a Knowfox package.",
             "support": {
-                "source": "https://github.com/knowfox/entangle/tree/0.1.1",
+                "source": "https://github.com/knowfox/entangle/tree/0.1.2",
                 "issues": "https://github.com/knowfox/entangle/issues"
             },
-            "time": "2017-05-18T15:41:32+00:00"
+            "time": "2017-06-10T09:07:17+00:00"
         },
         {
             "name": "laravel/framework",
