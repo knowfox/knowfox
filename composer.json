@@ -40,7 +40,8 @@
             "database"
         ],
         "psr-4": {
-            "Knowfox\\": "app/"
+            "Knowfox\\": "app/",
+            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/"
         }
     },
     "autoload-dev": {

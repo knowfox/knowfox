@@ -123,6 +123,12 @@
                         ])
                     </div>
                 </div>
+
+                <div class="col-md-12">
+                    @section('edit-concept')
+                    @show
+                </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="data">Data</label>

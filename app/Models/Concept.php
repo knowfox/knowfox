@@ -206,9 +206,9 @@ class Concept extends Model {
                 $class_name = "\\Knowfox\\" . ucfirst($package) . "\\Models\\" . ucfirst($type);
                 if (class_exists($class_name)) {
                     $instance = (new $class_name)->newInstance([], true);
-                    $instance->id = $attributes->id;
-                    $instance->fill((array)$attributes);
-                    $instance->setConnection($connection ?: $this->connection);
+
+                    $instance->setRawAttributes((array) $attributes, true);
+                    $instance->setConnection($connection ?: $this->getConnectionName());
 
                     return $instance;
                 }
