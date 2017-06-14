@@ -3,6 +3,9 @@
     <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
 </div>
 
+@section('edit-concept')
+@show
+
 <div id="images" class="clearfix"></div>
 
 <div class="form-group>
@@ -122,11 +125,6 @@
                             'options' => config('knowfox.types')
                         ])
                     </div>
-                </div>
-
-                <div class="col-md-12">
-                    @section('edit-concept')
-                    @show
                 </div>
 
                 <div class="col-md-12">
