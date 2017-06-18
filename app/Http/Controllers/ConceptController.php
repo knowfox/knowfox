@@ -119,8 +119,7 @@ class ConceptController extends Controller
 
         if ($request->has('q')) {
             $search_term = $request->input('q');
-            $concepts->where('title', 'like', $search_term . '%');
-            $concepts->orWhereRaw(
+            $concepts->whereRaw(
                 'MATCH(title,summary,body) AGAINST(? IN NATURAL LANGUAGE MODE)', [$search_term]
             );
         }
@@ -128,8 +127,7 @@ class ConceptController extends Controller
         // jquery-ui.autocomplete
         if ($request->has('term')) {
             $search_term = $request->input('term');
-            $concepts->where('title', 'like', $search_term . '%');
-            $concepts->orWhereRaw(
+            $concepts->whereRaw(
                 'MATCH(title,summary,body) AGAINST(? IN NATURAL LANGUAGE MODE)', [$search_term]
             );
         }
