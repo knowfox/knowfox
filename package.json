@@ -24,7 +24,6 @@
     "grunt": "^1.0.1",
     "jquery-resizable": "^1.0.6",
     "jquery-ui": "^1.12.1",
-    "mxgraph": "^3.7.2-2",
     "pegjs": "^0.10.0",
     "reveal": "0.0.4",
     "selectize": "^0.12.4",
