@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\ImportEbooks::class,
         Commands\ImportEvernote::class,
         Commands\PublishWebsite::class,
+	Commands\RestoreParents::class,
     ];
 
     /**
