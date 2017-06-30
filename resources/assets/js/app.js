@@ -18,6 +18,8 @@ require('jquery-resizable/resizable');
 
 require('featherlight');
 
+window.snackbar = require('snackbar');
+
 Vue.component('shares', require('./components/Shares.vue'));
 //Vue.component('shares', require('./components/Example.vue'));
 

@@ -49,11 +49,18 @@ class OutlineController extends Controller
         $parser = new OPMLParser($opml);
         $data = $parser->getResult();
 
-        DB::transaction(function () use (&$count, $outline, $concept, $data) {
-            $count = $outline->update($concept, $data);
-        });
+        try {
+            DB::transaction(function () use (&$count, &$fails, $outline, $concept, $data) {
+                list ($count, $fails) = $outline->update($concept, $data);
+                if ($fails) {
+                    throw \Exception("Not saved. " . count($fails) . ' fails.');
+                }
+            });
+        }
+        catch(\Exception $e) {}
 
-        return response()->json(['changed' => $count]);
+        return response()->json(['changed' => $count, 'fails' => array_map(function ($c) {
+            return ['id' => $c->id, 'title' => $c->title]; }, $fails)]);
     }
 
     /**

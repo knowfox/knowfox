@@ -103,6 +103,13 @@
                             console.log('Success', res);
                             opClearChanged();
                             save_ongoing = false;
+
+                            if (res.fails.length > 0) {
+                                snackbar.show('Outline not saved. There were failures')
+                            }
+                            else {
+                                snackbar.show('Outline saved (' + res.changed + ' changes)')
+                            }
                         }
                     });
                 }

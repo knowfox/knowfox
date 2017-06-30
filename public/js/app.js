@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -12645,7 +12645,9 @@ __webpack_require__(42);
 
 __webpack_require__(41);
 
-Vue.component('shares', __webpack_require__(51));
+window.snackbar = __webpack_require__(51);
+
+Vue.component('shares', __webpack_require__(53));
 //Vue.component('shares', require('./components/Example.vue'));
 
 window.markdownEditor = function () {
@@ -13778,7 +13780,7 @@ __webpack_require__(38);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(54);
+window.Vue = __webpack_require__(56);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -43722,11 +43724,98 @@ header:o[1].replace(/^ *| *\| *$/g,"").split(/ *\| */),align:o[2].replace(/^ *|\
 /* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(52)(
+"use strict";
+
+
+var _snackbar = __webpack_require__(52);
+
+var _snackbar2 = _interopRequireDefault(_snackbar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var instance = void 0;
+
+function snackbar() {
+  if (!instance) {
+    instance = new _snackbar2.default();
+  }
+  return instance;
+}
+
+module.exports = snackbar();
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Snackbar = function () {
+  function Snackbar() {
+    _classCallCheck(this, Snackbar);
+
+    this.view = document.body.appendChild(document.createElement('div'));
+    this.view.classList.add('snackbar');
+    this.isActive = false;
+    this.queue = [];
+  }
+
+  _createClass(Snackbar, [{
+    key: 'show',
+    value: function show(message) {
+      var _this = this;
+
+      if (this.isActive) {
+        this.queue.push(message);
+        return;
+      }
+      this.isActive = true;
+      this.view.textContent = message;
+      this.view.classList.add('snackbar--visible');
+      this.queue.shift();
+      setTimeout(function () {
+        return _this.hide();
+      }, 5000);
+    }
+  }, {
+    key: 'hide',
+    value: function hide() {
+      var _this2 = this;
+
+      this.isActive = false;
+      this.view.classList.remove('snackbar--visible');
+
+      if (this.queue.length) {
+        setTimeout(function () {
+          return _this2.show(_this2.queue[0]);
+        }, 250);
+      }
+    }
+  }]);
+
+  return Snackbar;
+}();
+
+exports.default = Snackbar;
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(54)(
   /* script */
   __webpack_require__(36),
   /* template */
-  __webpack_require__(53),
+  __webpack_require__(55),
   /* scopeId */
   null,
   /* cssModules */
@@ -43753,7 +43842,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = function normalizeComponent (
@@ -43806,7 +43895,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -43904,7 +43993,7 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53603,7 +53692,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)))
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(16);

@@ -28,6 +28,7 @@
     "pegjs": "^0.10.0",
     "reveal": "0.0.4",
     "selectize": "^0.12.4",
-    "simplemde": "^1.11.2"
+    "simplemde": "^1.11.2",
+    "snackbar": "^1.0.2"
   }
 }
