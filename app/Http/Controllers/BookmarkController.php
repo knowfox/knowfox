@@ -74,14 +74,25 @@ class BookmarkController extends Controller
 
         if ($response->getStatusCode() == 200 && ($parsed = json_decode($response->getBody()))) {
 
-            $concept->title = $parsed->title;
-            $concept->summary = $parsed->excerpt;
+            if (!empty($parsed->title)) {
+                $concept->title = $parsed->title;
+            }
+            if (!empty($parsed->excerpt)) {
+                $concept->summary = $parsed->excerpt;
+            }
 
-            if ($parsed->lead_image_url) {
+            if (!empty($parsed->lead_image_url)) {
                 $concept->body = '![Lead image](' . $parsed->lead_image_url . ")\n";
             }
 
-            $concept->body .= $parsed->content;
+            if (!empty($parsed->content)) {
+                $concept->body .= $parsed->content;
+            }
+        }
+
+        if (empty($concept->title)) {
+            $url = parse_url($request->input('source_url'));
+            $concept->title = $url['host'] . $url['path'];
         }
 
         $concept->save();

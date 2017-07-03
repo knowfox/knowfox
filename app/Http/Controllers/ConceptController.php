@@ -19,6 +19,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Knowfox\Http\Requests\ConceptRequest;
 use Knowfox\Jobs\PublishPresentation;
 use Knowfox\Models\Concept;
@@ -118,8 +119,7 @@ class ConceptController extends Controller
 
         if ($request->has('q')) {
             $search_term = $request->input('q');
-            $concepts->where('title', 'like', $search_term . '%');
-            $concepts->orWhereRaw(
+            $concepts->whereRaw(
                 'MATCH(title,summary,body) AGAINST(? IN NATURAL LANGUAGE MODE)', [$search_term]
             );
         }
@@ -127,8 +127,7 @@ class ConceptController extends Controller
         // jquery-ui.autocomplete
         if ($request->has('term')) {
             $search_term = $request->input('term');
-            $concepts->where('title', 'like', $search_term . '%');
-            $concepts->orWhereRaw(
+            $concepts->whereRaw(
                 'MATCH(title,summary,body) AGAINST(? IN NATURAL LANGUAGE MODE)', [$search_term]
             );
         }
@@ -220,14 +219,16 @@ class ConceptController extends Controller
 
         $concept->is_flagged = $request->has('is_flagged');
 
-        $concept->save();
+        DB::transaction(function () use ($concept, $request) {
+            $concept->save();
 
-        if ($request->has('tags')) {
-            $concept->tag($request->input('tags'));
-        }
-        else {
-            $concept->untag();
-        }
+            if ($request->has('tags')) {
+                $concept->tag($request->input('tags'));
+            }
+            else {
+                $concept->untag();
+            }
+        });
 
         return redirect()->route('concept.show', [$concept])
             ->with('status', 'Concept created');
@@ -247,7 +248,20 @@ class ConceptController extends Controller
 
         $view_name = 'concept.show';
         if ($concept->type != 'concept') {
-            $suffix = '-' . preg_replace('/\W+/', '-', $concept->type);
+
+            $view_name = 'concept.show';
+
+            $scoped_type = preg_split('/:\s*/', $concept->type, 2);
+            if (count($scoped_type) == 1) {
+                $type = $scoped_type[0];
+            }
+            else {
+                $package = $scoped_type[0];
+                $type = $scoped_type[1];
+                $view_name = $package . '::show';
+            }
+
+            $suffix = '-' . preg_replace('/\W+/', '-', $type);
             if (View::exists($view_name . $suffix)) {
                 $view_name .= $suffix;
             }
@@ -297,14 +311,16 @@ class ConceptController extends Controller
 
         $concept->is_flagged = $request->has('is_flagged');
 
-        $concept->save();
+        DB::transaction(function () use ($concept, $request) {
+            $concept->save();
 
-        if ($request->has('tags')) {
-            $concept->retag($request->input('tags'));
-        }
-        else {
-            $concept->untag();
-        }
+            if ($request->has('tags')) {
+                $concept->retag($request->input('tags'));
+            }
+            else {
+                $concept->untag();
+            }
+        });
 
         $filename = '';
         if ($request->hasFile('upload')) {
@@ -315,6 +331,7 @@ class ConceptController extends Controller
             $concept->image = $filename;
             $concept->save();
         }
+
         return redirect()->route('concept.show', [$concept])
             ->with('status', 'Concept updated ' . $filename);
     }

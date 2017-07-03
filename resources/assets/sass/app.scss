@@ -28,6 +28,8 @@
 
 @import "node_modules/featherlight/release/featherlight.min";
 
+@import "node_modules/snackbar/dist/snackbar";
+
 html {
     background: url('/img/background.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -195,12 +197,10 @@ ul.letters {
 .panel-left {
     flex: 0 0 auto;
     /* only manually resize */
-    padding: 10px;
     width: 300px;
     min-height: 200px;
     min-width: 150px;
     white-space: nowrap;
-    background: #838383;
     color: white;
 }
 

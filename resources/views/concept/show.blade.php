@@ -167,7 +167,7 @@
 @section ('footer_scripts')
     <script>
         Dropzone.options.dropzone = {
-            maxFilesize: 30,
+            maxFilesize: 100,
             url: '/upload/{{$concept->uuid}}',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

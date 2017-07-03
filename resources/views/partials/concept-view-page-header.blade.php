@@ -84,11 +84,13 @@
         @endif
         viewed {{$concept->viewed_count}} time{{$concept->viewed_count > 1 ? 's' : ''}}.
 
+        @if ($concept->type != 'concept')
+            <span class="label label-info">{{ucfirst($concept->type)}}</span>
+        @endif
+
         @if ($concept->tags->count())
             @foreach ($concept->tags as $tag)
-                <a class="label label-default" href="{{route('concept.index', ['tag' => $tag->slug])}}">
-                    {{$tag->name}}
-                </a>
+                <a class="label label-default" href="{{route('concept.index', ['tag' => $tag->slug])}}">{{$tag->name}}</a>
             @endforeach
         @endif
     </p>

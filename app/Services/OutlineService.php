@@ -89,10 +89,21 @@ class OutlineService
     {
         $this->convertArray($data['body']);
 
-        return Concept::whereDescendantOrSelf($concept->parent_id)
+        $tree = Concept::descendantsOf($concept->id)->toFlatTree();
+
+        $count = Concept::whereDescendantOrSelf($concept->parent_id)
             ->rebuildTree([[
                 'id' => $concept->parent_id,
                 'children' => $data['body'],
             ]], true);
+
+        $fails = [];
+        foreach ($tree as $node) {
+            if (!$node->isDescendantOf($concept)) {
+                $fails[] = $node;
+            }
+        }
+
+        return [ $count, $fails ];
     }
 }

@@ -3,6 +3,9 @@
     <input type="text" class="form-control" name="title" id="title-input" value="{{$concept->title}}">
 </div>
 
+@section('edit-concept')
+@show
+
 <div id="images" class="clearfix"></div>
 
 <div class="form-group>
@@ -123,6 +126,7 @@
                         ])
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="data">Data</label>
