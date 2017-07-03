@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Knowfox\Models\Concept;
 use Knowfox\Services\OutlineService;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use vipnytt\OPMLParser;
 
 class OutlineController extends Controller
@@ -80,6 +81,48 @@ class OutlineController extends Controller
             'concept' => $concept,
             'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
+        ]);
+    }
+
+    public function json(Request $request)
+    {
+        if (!$request->id) {
+            throw new NotFoundHttpException('Needs an ID');
+        }
+        $concept = Concept::find($request->id);
+        if (!$concept) {
+            throw new NotFoundHttpException('Concept ' . (int)$request->id . ' not found');
+        }
+        $this->authorize('view', $concept);
+
+        $children = $concept->children->map(function ($child) {
+            return [
+                'id' => $child->id,
+                'text' => $child->title,
+                'type' => $child->type,
+                'children' => $child->children_count > 0,
+            ];
+        });
+
+        return response()->json([
+            'id' => $concept->id,
+            'text' => $concept->title,
+            'type' => $concept->type,
+            'children' => $children,
+        ]);
+    }
+
+    public function updateJson(Request $request)
+    {
+        $op = $request->op;
+        switch ($op) {
+            case 'move_node':
+                break;
+            default:
+                throw new \Exception("Operation {$op} not supported");
+        }
+        return response()->json([
+            'status' => 'ok',
         ]);
     }
 }

@@ -156,6 +156,16 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'OutlineController@opml',
     ]);
 
+    Route::get('/json', [
+        'as' => 'outline.json',
+        'uses' => 'OutlineController@json',
+    ]);
+
+    Route::post('/json', [
+        'as' => 'outline.updateJson',
+        'uses' => 'OutlineController@updateJson',
+    ]);
+
     Route::post('/opml/{concept}', [
         'as' => 'outline.update',
         'uses' => 'OutlineController@update',
