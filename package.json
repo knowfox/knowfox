@@ -16,7 +16,6 @@
     "vue": "^2.2.4"
   },
   "dependencies": {
-    "concord": "git+https://github.com/oschettler/concord.git",
     "dropzone": "^4.3.0",
     "epubjs": "^0.2.16",
     "featherlight": "^1.7.5",

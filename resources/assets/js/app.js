@@ -7,7 +7,6 @@
 
 require('./bootstrap');
 require('selectize');
-require('concord/concord');
 
 var SimpleMDE = require('simplemde/dist/simplemde.min');
 window.Dropzone = require('dropzone');
