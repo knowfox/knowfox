@@ -18,23 +18,4 @@ class ConceptObserver
             $concept->owner_id = Auth::id();
         }
     }
-
-    /**
-     * Update the children_count in a concept's parent
-     */
-    public function saved(Concept $concept)
-    {
-        if ($concept->isDirty(['parent_id']) && $concept->parent_id) {
-            $parent = Concept::find($concept->parent_id);
-            $parent->children_count = Concept::where('parent_id', $parent->id)->count();
-            $parent->save();
-        }
-    }
-
-    public function deleted(Concept $concept)
-    {
-        $parent = Concept::find($concept->parent_id);
-        $parent->children_count = Concept::where('parent_id', $parent->id)->count();
-        $parent->save();
-    }
 }
