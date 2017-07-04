@@ -9,7 +9,7 @@
 
         <div class="panel-container">
 
-            <div class="panel-left">
+            <div class="panel-left" style="background-color:#888">
                 <div id="outliner"></div>
             </div>
 
@@ -45,12 +45,19 @@
             })
             .on('move_node.jstree', function (e, data) {
                 console.log("move_node", data);
-                $.post('/json', {
+                axios.post('/json', {
                     op: 'move_node',
-                    data: data
-                }, function (result) {
-                    console.log("moved", result);
+                    id: data.node.id,
+                    text: data.node.text,
+                    parent: data.parent,
+                    position: data.position
+                })
+                .then(function (result) {
+                    console.log("moved", result, status);
                     snackbar.show("Moved to parent #" + data.parent + ", pos #" + data.position);
+                })
+                .catch(function (result) {
+                    console.log("NOT moved", result);
                 });
             })
             .jstree({

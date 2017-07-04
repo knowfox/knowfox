@@ -115,9 +115,25 @@ class OutlineController extends Controller
     public function updateJson(Request $request)
     {
         $op = $request->op;
+
         switch ($op) {
             case 'move_node':
+                $concept = Concept::find($request->id);
+                $parent = Concept::find($request->parent);
+                $position = $request->position;
+                if ($position == $parent->children->count()) {
+                    $parent->appendNode($concept);
+                }
+                else {
+                    foreach ($parent->children as $i => $child) {
+                        if ($i == $position) {
+                            $concept->insertBeforeNode($child);
+                            break;
+                        }
+                    }
+                }
                 break;
+
             default:
                 throw new \Exception("Operation {$op} not supported");
         }
