@@ -9,8 +9,8 @@
 
         <div class="panel-container">
 
-            <div class="panel-left" style="background-color:#888">
-                <div id="outliner"></div>
+            <div class="panel-left" style="background-color:#fff;padding-left:10px">
+                <div id="outliner" data-url="/json?node={{$concept->id}}"></div>
             </div>
 
             <div class="panel-right">
@@ -31,59 +31,49 @@
         });
 
         $('#outliner')
-            .on('changed.jstree', function (e, data) {
-                console.log("changed", data);
+            .tree({
+                dragAndDrop: true,
+                saveState: true,
+                closedIcon: $('<i class="glyphicon glyphicon-triangle-right"></i>'),
+                openedIcon: $('<i class="glyphicon glyphicon-triangle-bottom"></i>')
             })
-            .on('create_node.jstree', function (e, data) {
-                console.log("create_node", data);
-            })
-            .on('rename_node.jstree', function (e, data) {
-                console.log("rename_node", data);
-            })
-            .on('delete_node.jstree', function (e, data) {
-                console.log("delete_node", data);
-            })
-            .on('move_node.jstree', function (e, data) {
-                console.log("move_node", data);
-                axios.post('/json', {
-                    op: 'move_node',
-                    id: data.node.id,
-                    text: data.node.text,
-                    parent: data.parent,
-                    position: data.position
-                })
-                .then(function (result) {
-                    console.log("moved", result, status);
-                    snackbar.show("Moved to parent #" + data.parent + ", pos #" + data.position);
-                })
-                .catch(function (result) {
-                    console.log("NOT moved", result);
-                });
-            })
-            .jstree({
-                core: {
-                    check_callback: true,
-                    data: {
-                        url: function (node) {
-                            return node.id == '#'
-                                ? '/json?id={{$concept->id}}'
-                                : '/json?id=' + node.id;
-                        }
-                    },
-                    themes: {
-                        variant: 'dark'
-                    },
-                },
-                plugins: [ 'dnd', 'types' ],
-                types: {
-                    default: {
-                        icon : "glyphicon glyphicon-flash"
-                    },
-                    folder: {
-                        icon: "glyphicon glyphicon-folder-open"
+            .bind(
+                'tree.move',
+                function (event)
+                {
+                    var node = event.move_info.moved_node,
+                        root_id = {{$concept->id}},
+                        parent, next;
+
+                    event.preventDefault();
+                    event.move_info.do_move();
+
+                    parent = node.parent;
+                    next = node.getNextSibling();
+
+                    axios.post('/json', {
+                        op: 'move',
+                        id: node.id,
+                        parent: parent.id ? parent.id : root_id,
+                        next: next ? next.id : null
+                    });
+                }
+            )
+            .bind(
+                'tree.select',
+                function (event)
+                {
+                    if (event.node) {
+                        $('div.panel-right').html(
+                            '<h2><a href="/' + event.node.id + '">' + event.node.name + '</a></h2>'
+                            + (event.node.summary ? ('<p>' +  event.node.summary + '</p>') : '')
+                        )
+                    }
+                    else {
+                        $('div.panel-right').html('')
                     }
                 }
-        });
+            )
     </script>
 
 @endsection

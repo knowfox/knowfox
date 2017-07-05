@@ -86,33 +86,25 @@ class OutlineController extends Controller
 
     public function json(Request $request)
     {
-        if (!$request->id) {
+        if (!$request->node) {
             throw new NotFoundHttpException('Needs an ID');
         }
-        $concept = Concept::find($request->id);
+        $concept = Concept::find($request->node);
         if (!$concept) {
-            throw new NotFoundHttpException('Concept ' . (int)$request->id . ' not found');
+            throw new NotFoundHttpException('Concept ' . (int)$request->node . ' not found');
         }
         $this->authorize('view', $concept);
 
         $children = $concept->children()->defaultOrder()->get()->map(function ($child) {
             return [
                 'id' => $child->id,
-                'text' => $child->title,
-                'type' => $child->type,
-                'children' => $child->children->count() > 0,
+                'label' => $child->title,
+                'load_on_demand' => $child->children->count() > 0,
+                'summary' => $child->summary,
             ];
         });
 
-        return response()->json([
-            'id' => $concept->id,
-            'text' => $concept->title,
-            'type' => $concept->type,
-            'children' => $children,
-            'state' => [
-                'opened' => true,
-            ],
-        ]);
+        return response()->json($children);
     }
 
     public function updateJson(Request $request)
@@ -120,20 +112,14 @@ class OutlineController extends Controller
         $op = $request->op;
 
         switch ($op) {
-            case 'move_node':
+            case 'move':
                 $concept = Concept::find($request->id);
                 $parent = Concept::find($request->parent);
-                $position = $request->position;
-                if ($position == $parent->children->count()) {
+                if (! $request->next) {
                     $parent->appendNode($concept);
                 }
                 else {
-                    foreach ($parent->children as $i => $child) {
-                        if ($i == $position) {
-                            $concept->insertBeforeNode($child);
-                            break;
-                        }
-                    }
+                    $concept->insertBeforeNode(Concept::find($request->next));
                 }
                 break;
 

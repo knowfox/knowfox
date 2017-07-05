@@ -17,7 +17,7 @@ require('jquery-resizable/resizable');
 
 require('featherlight');
 
-require('jstree/dist/jstree');
+require('jqtree');
 
 window.snackbar = require('snackbar');
 
