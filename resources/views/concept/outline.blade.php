@@ -67,6 +67,7 @@
                         $('div.panel-right').html(
                             '<h2><a href="/' + event.node.id + '">' + event.node.name + '</a></h2>'
                             + (event.node.summary ? ('<p>' +  event.node.summary + '</p>') : '')
+                            + '<div class="body">' + event.node.body + '</div>'
                         )
                     }
                     else {

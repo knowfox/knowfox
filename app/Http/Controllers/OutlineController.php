@@ -101,6 +101,7 @@ class OutlineController extends Controller
                 'label' => $child->title,
                 'load_on_demand' => $child->children->count() > 0,
                 'summary' => $child->summary,
+                'body' => $child->renderedBody,
             ];
         });
 
