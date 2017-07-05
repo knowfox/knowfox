@@ -49098,7 +49098,7 @@ var Component = __webpack_require__(54)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/olav/work/knowfox/resources/assets/js/components/Shares.vue"
+Component.options.__file = "/Users/olav.schettler/work/knowfox/resources/assets/js/components/Shares.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Shares.vue: functional components are not supported with templates, they should use render functions.")}
 

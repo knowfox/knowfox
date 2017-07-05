@@ -95,12 +95,12 @@ class OutlineController extends Controller
         }
         $this->authorize('view', $concept);
 
-        $children = $concept->children->map(function ($child) {
+        $children = $concept->children()->defaultOrder()->get()->map(function ($child) {
             return [
                 'id' => $child->id,
                 'text' => $child->title,
                 'type' => $child->type,
-                'children' => $child->children_count > 0,
+                'children' => $child->children->count() > 0,
             ];
         });
 
@@ -109,6 +109,9 @@ class OutlineController extends Controller
             'text' => $concept->title,
             'type' => $concept->type,
             'children' => $children,
+            'state' => [
+                'opened' => true,
+            ],
         ]);
     }
 
