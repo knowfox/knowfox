@@ -424,4 +424,10 @@ class ConceptController extends Controller
             'can_update' => $request->user()->can('update', $concept),
         ]);
     }
+
+    public function uuid($uuid)
+    {
+        $concept = Concept::where('uuid', $uuid)->firstOrFail();
+        return redirect()->route('concept.show', [$concept]);
+    }
 }

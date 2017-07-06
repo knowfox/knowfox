@@ -96,6 +96,11 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('concept.show', [$concept]);
     })->where('concept', '[0-9]+');
 
+    Route::get('/uuid/{uuid}', [
+        'as' => 'concept.uuid',
+        'uses' => 'ConceptController@uuid',
+    ]);
+
     Route::get('/concept/{concept}', function ($concept) {
         return redirect()->route('concept.show', [$concept]);
     })->where('concept', '[0-9]+');

@@ -61,13 +61,22 @@ class ImportEvernote implements ShouldQueue
         $this->log('error', $txt);
     }
 
-    private function replaceMedia($markup, $attachments)
+    private function replaceInMarkup($markup, $xpath_expression, $callback)
     {
         libxml_use_internal_errors(true);
         $dom = new DOMDocument;
 
         // @see http://de1.php.net/manual/en/domdocument.loadhtml.php
-        if (!$dom->loadHTML('<?xml version="1.0" encoding="UTF-8" ?>' . $markup)) {
+
+        $wrapped_markup = '<?xml version="1.0" encoding="UTF-8" ?>';
+        if (strpos($markup, '<en-note>') === 0) {
+            $wrapped_markup .= $markup;
+        }
+        else {
+            $wrapped_markup .= '<en-note>' . $markup . '</en-note>';
+        }
+
+        if (!$dom->loadHTML($wrapped_markup)) {
             $messages = [];
             foreach(libxml_get_errors() as $error) {
                 $messages[] = $error->message;
@@ -79,33 +88,8 @@ class ImportEvernote implements ShouldQueue
            foreach ($dom->getElementsByTagName('en-media') as $i => $media) {
          */
         $xpath = new DOMXpath($dom);
-        foreach ($xpath->query('//en-media') as $i => $media) {
-
-            $type = $media->getAttribute('type');
-            $hash = $media->getAttribute('hash');
-
-            $this->info("   - Replacing {$type} {$hash}");
-
-            if (strpos($type, 'image/') === 0) {
-                $replacement = $dom->createElement('img');
-
-                $filename = $attachments[$hash];
-                $width = $media->getAttribute('width');
-
-                if ($width) {
-                    $filename .= '?width=' . $width;
-                }
-
-                $replacement->setAttribute('src', $filename);
-            }
-            else {
-                $replacement = $dom->createElement('a');
-                $replacement->setAttribute('href', $attachments[$hash]);
-                $replacement->appendChild(
-                    $dom->createTextNode($attachments[$hash])
-                );
-            }
-            $media->parentNode->replaceChild($replacement, $media);
+        foreach ($xpath->query($xpath_expression) as $el) {
+            $callback($el, $dom);
         }
 
         $text = '';
@@ -114,6 +98,68 @@ class ImportEvernote implements ShouldQueue
             $text .= $dom->saveHTML($node);
         }
         return $text;
+    }
+
+    public function replaceMedia($markup, $attachments)
+    {
+        $importer = $this;
+
+        return $this->replaceInMarkup($markup, '//en-media',
+            function ($el, $dom) use ($attachments, $importer)
+            {
+                $type = $el->getAttribute('type');
+                $hash = $el->getAttribute('hash');
+
+                $importer->info("   - Replacing {$type} {$hash}");
+
+                if (strpos($type, 'image/') === 0) {
+                    $replacement = $dom->createElement('img');
+
+                    $filename = $attachments[$hash];
+                    $width = $el->getAttribute('width');
+
+                    if ($width) {
+                        $filename .= '?width=' . $width;
+                    }
+
+                    $replacement->setAttribute('src', $filename);
+                }
+                else {
+                    $replacement = $dom->createElement('a');
+                    $replacement->setAttribute('href', $attachments[$hash]);
+                    $replacement->appendChild(
+                        $dom->createTextNode($attachments[$hash])
+                    );
+                }
+                $el->parentNode->replaceChild($replacement, $el);
+            }
+        );
+    }
+
+    public function replaceLinks($markup)
+    {
+        $importer = $this;
+
+        return $this->replaceInMarkup($markup, '//a',
+            function ($el, $dom) use ($importer)
+            {
+                $importer->info("   - Replacing links");
+
+                // Links, e.g. evernote:///view/84898/s1/f38be1a9-ed57-44c6-9788-56f94414a976/f38be1a9-ed57-44c6-9788-56f94414a976/
+                $href = $el->getAttribute('href');
+                if (!preg_match('#^evernote:///view/\d+/[^/]+/([^/]+)/#', $href, $matches)) {
+                    return;
+                }
+                $uuid = $matches[1];
+
+                $replacement = $dom->createElement('a');
+                $replacement->setAttribute('href', "/uuid/{$uuid}");
+                $replacement->appendChild(
+                    $dom->createTextNode($el->nodeValue)
+                );
+                $el->parentNode->replaceChild($replacement, $el);
+            }
+        );
     }
 
     protected function importNote($notebook_concept, $concept, $note)
@@ -168,7 +214,8 @@ class ImportEvernote implements ShouldQueue
             }
         }
 
-        $concept->body = $this->replaceMedia($note->content, $attachments);
+        $concept->body = $this->replaceLinks($note->content);
+        $concept->body = $this->replaceMedia($concept->body, $attachments);
 
         $concept->save();
 
