@@ -68,8 +68,8 @@ class ImportEvernote implements ShouldQueue
 
         // @see http://de1.php.net/manual/en/domdocument.loadhtml.php
 
-        $wrapped_markup = '<?xml version="1.0" encoding="UTF-8" ?>';
-        if (strpos($markup, '<en-note>') === 0) {
+        $wrapped_markup = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
+        if (strpos($markup, '<en-note') !== false) {
             $wrapped_markup .= $markup;
         }
         else {
