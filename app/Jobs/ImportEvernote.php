@@ -304,7 +304,7 @@ class ImportEvernote implements ShouldQueue
                 $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
 
                 foreach ($notes->notes as $note_proxy) {
-                    $this->info(' * ' . $note_proxy->title . ' (' . $node_proxy-> created. ', uuid: ' . $node_proxy->guid . ')');
+                    $this->info(' * ' . $note_proxy->title . ' (' . $note_proxy-> created. ', uuid: ' . $note_proxy->guid . ')');
 
                     $concept = Concept::with('tagged')->firstOrNew([
                         'uuid' => $note_proxy->guid,
