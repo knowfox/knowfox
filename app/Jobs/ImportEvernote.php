@@ -3,6 +3,7 @@
 namespace Knowfox\Jobs;
 
 use Carbon\Carbon;
+use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -217,9 +218,14 @@ class ImportEvernote implements ShouldQueue
         $concept->body = $this->replaceLinks($note->content);
         $concept->body = $this->replaceMedia($concept->body, $attachments);
 
-        $concept->save();
-
-        $concept->retag($note->tagNames);
+        try {
+            $concept->save();
+            $concept->retag($note->tagNames);
+        }
+        catch (PDOException $e)
+        {
+            $this->error($e->getMessage());
+        }
     }
 
     private function getErrorDetails($e)
