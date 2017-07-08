@@ -3,7 +3,6 @@
 namespace Knowfox\Jobs;
 
 use Carbon\Carbon;
-use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -304,7 +303,8 @@ class ImportEvernote implements ShouldQueue
                 $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
 
                 foreach ($notes->notes as $note_proxy) {
-                    $this->info(' * ' . $note_proxy->title . ' (' . $note_proxy-> created. ', uuid: ' . $note_proxy->guid . ')');
+                    $created = strftime('%Y-%m-%d', strtotime($note_proxy-> created));
+                    $this->info(' * ' . $note_proxy->title . ' (' . $created . ', uuid: ' . $note_proxy->guid . ')');
 
                     $concept = Concept::with('tagged')->firstOrNew([
                         'uuid' => $note_proxy->guid,
@@ -330,17 +330,17 @@ class ImportEvernote implements ShouldQueue
                     }
                     catch (EDAMSystemException $e) {
                         $details = $this->getErrorDetails($e);
-                        $this->error("{$concept->title}: " . $details);
+                        $this->error(" - skilled {$concept->title}: " . $details);
 
                         if ($e->errorCode == EDAMErrorCode::RATE_LIMIT_REACHED) {
                             throw $e;
                         }
                         continue;
                     }
-                    catch (PDOException $e)
+                    catch (\Exception $e)
                     {
                         $msg = $e->getMessage();
-                        $this->error("{$concept->title}: " . $msg);
+                        $this->error(" - skipped {$concept->title}: " . $msg);
                     }
                 }
             }
