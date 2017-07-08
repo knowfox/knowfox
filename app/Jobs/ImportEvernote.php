@@ -218,14 +218,8 @@ class ImportEvernote implements ShouldQueue
         $concept->body = $this->replaceLinks($note->content);
         $concept->body = $this->replaceMedia($concept->body, $attachments);
 
-        try {
-            $concept->save();
-            $concept->retag($note->tagNames);
-        }
-        catch (PDOException $e)
-        {
-            $this->error($e->getMessage());
-        }
+        $concept->save();
+        $concept->retag($note->tagNames);
     }
 
     private function getErrorDetails($e)
@@ -310,7 +304,7 @@ class ImportEvernote implements ShouldQueue
                 $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
 
                 foreach ($notes->notes as $note_proxy) {
-                    $this->info(' * ' . $note_proxy->title);
+                    $this->info(' * ' . $note_proxy->title . ' (' . $node_proxy-> created. ', uuid: ' . $node_proxy->guid . ')');
 
                     $concept = Concept::with('tagged')->firstOrNew([
                         'uuid' => $note_proxy->guid,
@@ -342,6 +336,11 @@ class ImportEvernote implements ShouldQueue
                             throw $e;
                         }
                         continue;
+                    }
+                    catch (PDOException $e)
+                    {
+                        $msg = $e->getMessage();
+                        $this->error("{$concept->title}: " . $msg);
                     }
                 }
             }
