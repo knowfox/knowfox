@@ -337,7 +337,7 @@ class ImportEvernote implements ShouldQueue
                         }
                         continue;
                     }
-                    catch ($e)
+                    catch (\Exception $e)
                     {
                         $msg = $e->getMessage();
                         $this->error(" - skipped {$concept->title}: " . $msg);
