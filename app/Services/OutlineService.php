@@ -22,7 +22,7 @@ class OutlineService
         return view($container_view, [
             'concept' => $concept,
             'descendants' => $this->traverse($concept, $outline_view),
-        ]);
+        ])->render();
     }
 
     public function traverse(Concept $concept, $outline_view, $callback = null, $preprocess = null, $by_date = false)
