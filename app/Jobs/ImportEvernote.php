@@ -16,6 +16,8 @@ use EDAM\Error\EDAMErrorCode;
 use EDAM\Error\EDAMSystemException;
 use EDAM\NoteStore\NoteFilter;
 use EDAM\NoteStore\NotesMetadataResultSpec;
+use EDAM\Types\NoteSortOrder;
+
 use Evernote\Client;
 
 use Knowfox\User;
@@ -265,8 +267,11 @@ class ImportEvernote implements ShouldQueue
             if (!$found) {
                 $this->error('No such notebook');
             }
+
             $filter = new NoteFilter([
                 'notebookGuid' => $notebook->guid,
+                'order' => NoteSortOrder::CREATED,
+                'ascending' => false,
             ]);
 
             $spec = new NotesMetadataResultSpec();
@@ -303,7 +308,7 @@ class ImportEvernote implements ShouldQueue
                 $notes = $store->findNotesMetadata($token, $filter, $offset, $batch_size, $spec);
 
                 foreach ($notes->notes as $note_proxy) {
-                    $created = strftime('%Y-%m-%d', strtotime($note_proxy->created / 1000));
+                    $created = strftime('%Y-%m-%d', $note_proxy->created / 1000);
                     $this->info(' * ' . $note_proxy->title . ' (' . $created . ', uuid: ' . $note_proxy->guid . ')');
 
                     $concept = Concept::with('tagged')->firstOrNew([
