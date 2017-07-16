@@ -54,12 +54,12 @@
 
                         @if ($concept->children()->count())
 
-                            <h2>Children</h2>
+                            <h2>Children ({{$concept->getDescendantCount()}})</h2>
 
                             <ul>
                                 @foreach ($concept->children()->defaultOrder()->get() as $child)
                                     <li><a href="{{route('concept.show', ['concept' => $child])}}">
-                                            {{$child->title}}
+                                            {{$child->title}} {{ ($descendents_count = $child->getDescendantCount()) ? "({$descendents_count})" : '' }}
                                         </a></li>
                                 @endforeach
                             </ul>
@@ -109,7 +109,7 @@
                             <ul>
                                 @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
                                     <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
-                                            {{$sibling->title}}
+                                            {{$sibling->title}} {{ ($descendents_count = $sibling->getDescendantCount()) ? "({$descendents_count})" : '' }}
                                         </a></li>
                                 @endforeach
                             </ul>

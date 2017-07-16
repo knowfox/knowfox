@@ -24,10 +24,11 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th style="width:5%">Id</th>
+                    <th style="width:4%">Id</th>
                     <th style="width:50%">Title</th>
                     <th style="width:20%">Tags</th>
-                    <th style="width:5%">Viewed</th>
+                    <th style="width:3%">Kids</th>
+                    <th style="width:3%">Viewed</th>
                     <th style="width:20%">Viewed / Updated</th>
                 </tr>
                 </thead>
@@ -61,6 +62,7 @@
                                 <a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
                             @endforeach
                         </td>
+                        <td>{{$concept->getDescendantCount()}}</td>
                         <td>{{$concept->viewed_count}}</td>
                         <td>{{$concept->viewed_at or $concept->updated_at}}</td>
                     </tr>
