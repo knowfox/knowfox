@@ -78,7 +78,7 @@
                             <h2>Children ({{$concept->getDescendantCount()}})</h2>
 
                             <ul>
-                                @foreach ($concept->getChildren() as $child)
+                                @foreach ($children as $child)
                                     <li><a href="{{route('concept.show', ['concept' => $child])}}">
                                             {{$child->title}} {{ ($descendents_count = $child->getDescendantCount()) ? "({$descendents_count})" : '' }}
                                         </a></li>
