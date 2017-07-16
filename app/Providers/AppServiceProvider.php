@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Knowfox\Models\Concept;
 use Knowfox\Observers\ConceptObserver;
+use Knowfox\ViewComposers\AlphaIndexComposer;
 use Knowfox\ViewComposers\ImpactMapComposer;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Concept::observe(ConceptObserver::class);
         View::composer('concept.show-impact-map', ImpactMapComposer::class);
+        View::composer('partials.alpha-nav', AlphaIndexComposer::class);
 
         // Because mpociot/versionable does not specify it
         $this->loadMigrationsFrom(__DIR__ . '/../../vendor/mpociot/versionable/src/migrations');

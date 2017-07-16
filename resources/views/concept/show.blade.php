@@ -37,6 +37,27 @@
 
                     @yield('main-content')
 
+                    @if (in_array($concept->type, ['folder', 'book list']))
+                        @if (!empty($concept->config->sort) && $concept->config->sort == 'alpha')
+                            @include('partials.alpha-nav')
+                        @endif
+
+                        <table class="table">
+                            @section('kids-header')
+                                @include('partials.table-header')
+                            @show
+                            @section('kids-body')
+                                <tbody>
+                                @foreach ($children as $child)
+                                    @include('partials.table-row', ['concept' => $child])
+                                @endforeach
+                                </tbody>
+                            @show
+                        </table>
+
+                        <div class="text-center">{{$children}}</div>
+                    @endif
+
                 </div>
                 <div class="col-md-4">
 
@@ -52,12 +73,12 @@
 
                     @section('children')
 
-                        @if ($concept->children()->count())
+                        @if (!in_array($concept->type, ['folder', 'book list']) && $concept->children()->count())
 
                             <h2>Children ({{$concept->getDescendantCount()}})</h2>
 
                             <ul>
-                                @foreach ($concept->children()->defaultOrder()->get() as $child)
+                                @foreach ($concept->getChildren() as $child)
                                     <li><a href="{{route('concept.show', ['concept' => $child])}}">
                                             {{$child->title}} {{ ($descendents_count = $child->getDescendantCount()) ? "({$descendents_count})" : '' }}
                                         </a></li>
