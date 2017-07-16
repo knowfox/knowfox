@@ -278,7 +278,7 @@ class ConceptController extends Controller
             'concept' => $concept,
             'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
-            'children' => $concept->getPaginatedChildren(),
+            'children' => $concept->getPaginatedChildren($request->letter),
         ]);
     }
 
