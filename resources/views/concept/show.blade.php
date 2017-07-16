@@ -38,7 +38,7 @@
                     @yield('main-content')
 
                     @if (in_array($concept->type, ['folder', 'book list']))
-                        @if (!empty($concept->config->sort) && $concept->config->sort == 'alpha')
+                        @if ($concept->type == 'book list' || !empty($concept->config->sort) && $concept->config->sort == 'alpha')
                             @include('partials.alpha-nav')
                         @endif
 
