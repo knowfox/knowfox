@@ -188,7 +188,7 @@ class PictureService
         return $el->getAttribute('data-uuid');
     }
 
-    public function extractPictures($markup, $target_directory)
+    public function extractPictures($markup, $target_directory, $wrapped = true)
     {
         libxml_use_internal_errors(true);
         $dom = new DOMDocument;
@@ -252,13 +252,18 @@ class PictureService
             $image->setAttribute('src', $filename);
         }
 
-        $text = "<!DOCTYPE html>\n<html>\n";
-        $html = $dom->getElementsByTagName('html')->item(0);
+        $text = '';
+        $html = $dom->getElementsByTagName($wrapped ? 'html' : 'body')->item(0);
         foreach ($html->childNodes as $node) {
             $text .= $dom->saveHTML($node);
         }
-        $text .= "\n</html>";
 
-        return $text;
+
+        if ($wrapped) {
+            return "<!DOCTYPE html>\n<html>\n" . $text . "\n</html>";
+        }
+        else {
+            return $text;
+        }
     }
 }

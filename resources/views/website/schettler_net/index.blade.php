@@ -1,4 +1,4 @@
-@extends('website.blog_knowfox_com.layout')
+@extends('website.schettler_net.layout')
 
 @inject('picture', 'Knowfox\Services\PictureService')
 
@@ -15,6 +15,8 @@
 
 @section('content')
 
+    {!! $body or '' !!}
+
     @foreach ($concepts as $concept)
         {!! $concept->rendered !!}
     @endforeach
@@ -22,12 +24,12 @@
     @if ($prev_page || $next_page)
         <nav>
             <ul class="pager">
-            @if ($prev_page)
-                <li><a href="{{$prev_page}}">Previous</a></li>
-            @endif
-            @if ($next_page)
-                <li><a href="{{$next_page}}">Next</a></li>
-            @endif
+                @if ($prev_page)
+                    <li><a href="{{$prev_page}}">Previous</a></li>
+                @endif
+                @if ($next_page)
+                    <li><a href="{{$next_page}}">Next</a></li>
+                @endif
             </ul>
         </nav>
     @endif

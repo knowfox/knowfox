@@ -1,4 +1,4 @@
-@extends('website.blog_knowfox_com.layout')
+@extends('website.schettler_net.layout')
 
 @inject('picture', 'Knowfox\Services\PictureService')
 

@@ -69,8 +69,10 @@ class PublishWebsite implements ShouldQueue
             };
 
         $publish_index = function ($rendered_concepts)
-            use ($domain_concept, $directory, $website_dir)
+            use ($domain_concept, $directory, $website_dir, $picture)
             {
+                $domain_concept_markup = $picture->extractPictures($domain_concept->rendered_body, $directory, false);
+
                 $rendered_concepts = array_filter($rendered_concepts,
                     function ($concept)
                     {
@@ -78,7 +80,7 @@ class PublishWebsite implements ShouldQueue
                     }
                 );
 
-                $page_count = ceil(count($rendered_concepts) / static::PAGE_SIZE);
+                $page_count = max(1, ceil(count($rendered_concepts) / static::PAGE_SIZE));
                 for ($page = 0; $page < $page_count; $page++) {
 
                     $concepts = array_slice($rendered_concepts, $page * static::PAGE_SIZE, static::PAGE_SIZE);
@@ -109,13 +111,15 @@ class PublishWebsite implements ShouldQueue
 
                     file_put_contents(
                         $path,
+
                         view('website.' . $website_dir . '.index', [
+                            'body' => $page == 0 ? $domain_concept_markup : '',
                             'concepts' => $concepts,
                             'page' => $page,
                             'page_count' => $page_count,
                             'prev_page' => $prev_page,
                             'next_page' => $next_page,
-                        ])
+                        ])->render()
                     );
                 }
             };
