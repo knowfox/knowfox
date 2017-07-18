@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name="description" content="{{$config->subtitle}}">
-    <meta name="author" content="Dr. Olav Schettler">
+    <meta name="author" content="{{$config->author or 'Dr. Olav Schettler'}}">
+    <meta name="generator" content="https://knowfox.com">
     <link rel="icon" href="/favicon.ico">
 
     <title>{{$config->title}}</title>
@@ -44,22 +45,26 @@
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
-                <h4>Über Olav</h4>
+                <h4>{{$config->about_title or 'About'}}</h4>
                 <p>{!! $config->about !!}</p>
             </div>
-            <div class="sidebar-module">
-                <h4>Sonstwo</h4>
-                <ol class="list-unstyled">
-                    <li><a href="https://github.com/oschettler/knowfox">Personal Knowledge Management</a></li>
-                    <li><a href="https://twitter.com/knowfox">Twitter</a></li>
-                </ol>
-            </div>
+
+            @if (!empty($config->links))
+                <div class="sidebar-module">
+                    <h4>{{$config->link_title or 'Elsewhere'}}</h4>
+                    <ol class="list-unstyled">
+                    @foreach ($config->links as $link)
+                        <li><a href="{{$link['url']}}">{{$link['title']}}</a></li>
+                    @endforeach
+                    </ol>
+                </div>
+            @endif
         </div><!-- /.blog-sidebar -->
     </div><!-- /.row -->
 </div><!-- /.container -->
 
 <footer class="blog-footer">
-    <p>&copy; {{date('Y')}} by Dr. Olav Schettler.</p>
+    <p>&copy; {{date('Y')}} by {{$config->author or 'Dr. Olav Schettler'}}.</p>
 </footer>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
