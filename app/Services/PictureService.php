@@ -254,10 +254,11 @@ class PictureService
 
         $text = '';
         $html = $dom->getElementsByTagName($wrapped ? 'html' : 'body')->item(0);
-        foreach ($html->childNodes as $node) {
-            $text .= $dom->saveHTML($node);
+        if ($html->childNodes) {
+            foreach ($html->childNodes as $node) {
+                $text .= $dom->saveHTML($node);
+            }
         }
-
 
         if ($wrapped) {
             return "<!DOCTYPE html>\n<html>\n" . $text . "\n</html>";
