@@ -200,6 +200,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ShareController@update',
     ]);
 
+    Route::post('/publish/{concept}', [
+        'as' => 'website.publish',
+        'uses' => 'WebsiteController@publish',
+    ]);
+
     Route::get('/emails', [
         'as' => 'emails',
         'uses' => 'ShareController@emails',

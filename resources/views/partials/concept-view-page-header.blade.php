@@ -38,6 +38,17 @@
                             <i class="glyphicon glyphicon-blackboard"></i> Slides
                         </a>
                     </li>
+
+                    @if ($concept->type == 'website')
+                        <li>
+                            <a href="{{route('website.publish', [$concept])}}"
+                               onclick="event.preventDefault(); document.getElementById('publish-form').submit();"><i class="glyphicon glyphicon-globe"></i> Publish Website</a>
+
+                            <form id="publish-form" action="{{route('website.publish', [$concept])}}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    @endif
                 @endif
                 <li><a href="{{route('concept.create', ['parent_id' => $concept->id])}}"><i class="glyphicon glyphicon-plus-sign"></i> Add child</a></li>
                 <li><a href="{{route('concept.versions', [$concept])}}"><i class="glyphicon glyphicon-time"></i> Versions</a></li>
