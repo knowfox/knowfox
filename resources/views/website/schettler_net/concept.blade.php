@@ -26,4 +26,34 @@
             {!! $concept->rendered_body !!}
         </section>
     @endif
+
+    <div id="kids" data-pages="{{$page_count}}">
+        {!! $children !!}
+    </div>
+
+    <div style="margin-bottom:20px" class="text-center">
+        <button id="more" class="btn btn-default">Mehr &hellip;</button>
+    </div>
+
 @endsection
+
+
+@push('scripts')
+<script>
+    var page_loaded = 0,
+        total_pages = parseInt($('#kids').data('pages'));
+
+    if (page_loaded < total_pages) {
+        $('#more').on('click', function () {
+            page_loaded++;
+            $.get('_page-' + page_loaded + '.html')
+                .done(function (fragment) {
+                    $('#kids').append(fragment);
+                    if (page_loaded == total_pages - 1) {
+                        $('#more').hide();
+                    }
+                });
+        })
+    }
+</script>
+@endpush

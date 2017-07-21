@@ -43,7 +43,7 @@ class OutlineService
                     'rendered' => view($outline_view, [
                         'concept' => $concept,
                         'descendants' => call_user_func($traverse, $concept->children),
-                    ]),
+                    ])->render(),
                 ];
             }
 
