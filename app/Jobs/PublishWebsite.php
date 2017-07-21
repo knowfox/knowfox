@@ -57,12 +57,8 @@ class PublishWebsite implements ShouldQueue
         }
     }
 
-    private function publishChildren($children, $url_prefix, $website_dir, $target_dir)
+    private function publishChildren($children, $show_date, $url_prefix, $website_dir, $target_dir)
     {
-        $children = $children->filter(function ($concept) {
-            return in_array('Post', $concept->tagNames());
-        });
-
         $page_count = max(1, ceil(count($children) / static::PAGE_SIZE));
 
         $page0_fragments = '';
@@ -81,6 +77,7 @@ class PublishWebsite implements ShouldQueue
                 $path,
 
                 view ('website.' . $website_dir . '.fragments', [
+                    'show_date' => $show_date,
                     'concepts' => $children_page,
                     'url_prefix' => $url_prefix,
                     'fragment_view' => 'website.' . $website_dir . '.fragment',
@@ -91,29 +88,66 @@ class PublishWebsite implements ShouldQueue
         return $page0_fragments;
     }
 
-    private function publishConcept($concept, $url_prefix, $website_dir, $target_dir)
+    private function publishConcept($concept, $url_prefix, $breadcrumbs, $website_dir, $target_dir)
     {
         $this->extractImage($concept);
 
-        $children = $concept->children()->orderBy('created_at', 'desc')->get();
+        $title = count($breadcrumbs) > 0 ? $concept->title : $this->domain_concept->config->title;
+
+        array_push($breadcrumbs, (object)[
+            'title' => $title,
+            'url' => "{$url_prefix}/",
+        ]);
+
+        $by_date = empty($concept->config->sort) || $concept->config->sort == 'date';
+
+        if ($by_date) {
+            $children = $concept->children()->orderBy('created_at', 'desc')->get();
+        }
+        else {
+            $children = $concept->children()->defaultOrder()->get();
+        }
+
+        $prev = null;
+
+        foreach ($children as $child) {
+            $child->url = "{$url_prefix}/{$child->slug}/";
+            $child->prev = $prev;
+            $child->next = null;
+
+            if ($prev) {
+                $prev->next = $child;
+            }
+            $prev = $child;
+        }
+
         foreach ($children as $child) {
             // Publish child
             $path = $target_dir . '/' . $child->slug;
             @mkdir($path, 0755, true);
 
-            $this->publishConcept($child, "{$url_prefix}/{$child->slug}", $website_dir, $path);
+            $this->publishConcept($child, "{$url_prefix}/{$child->slug}", $breadcrumbs, $website_dir, $path);
         }
 
+        array_pop($breadcrumbs);
+
         // Endless scrolling. Show the first PAGE_SIZE children directly
+        $children = $children->filter(function ($concept) {
+            return in_array('Post', $concept->tagNames());
+        });
+
         $page0_children =  view ('website.' . $website_dir . '.fragments', [
-            'concepts' => $this->publishChildren($children, $url_prefix, $website_dir, $target_dir),
+            'show_date' => $by_date,
+            'concepts' => $this->publishChildren($children, $by_date, $url_prefix, $website_dir, $target_dir),
             'url_prefix' => $url_prefix,
             'fragment_view' => 'website.' . $website_dir . '.fragment',
         ])->render();
 
         file_put_contents($target_dir . '/index.html',
             view( 'website.' . $website_dir . '.concept', [
+                'page_title' => $title,
                 'concept' => $concept,
+                'breadcrumbs' => array_slice($breadcrumbs, 1),
                 'url_prefix' => $url_prefix,
                 'children' => $page0_children,
                 'page_count' => max(1, ceil(count($children) / static::PAGE_SIZE)),
@@ -140,6 +174,8 @@ class PublishWebsite implements ShouldQueue
 
         View::share('config', $domain_concept->config);
 
-        $this->publishConcept($domain_concept, '', $website_dir, $target_dir);
+        $breadcrumbs = [];
+
+        $this->publishConcept($domain_concept, '', $breadcrumbs, $website_dir, $target_dir);
     }
 }
