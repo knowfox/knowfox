@@ -35,10 +35,8 @@
         <p class="blog-post-meta">{{ strftime('%Y-%m-%d', strtotime($concept->created_at)) }} by {{$concept->owner->name}}</p>
     @endif
 
-    @if ($concept->rendered_body)
-        <section class="body" data-uuid="{{$concept->uuid}}">
-            {!! $concept->rendered_body !!}
-        </section>
+    @if ($rendered_body)
+        {!! $rendered_body !!}
     @endif
 
     <div id="kids" data-pages="{{$page_count}}">

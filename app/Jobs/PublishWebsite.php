@@ -22,6 +22,8 @@ class PublishWebsite implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $domain_concept;
+
+    /** @var PictureService $picture_service */
     protected $picture_service;
 
     /**
@@ -146,6 +148,7 @@ class PublishWebsite implements ShouldQueue
         file_put_contents($target_dir . '/index.html',
             view( 'website.' . $website_dir . '.concept', [
                 'page_title' => $title,
+                'rendered_body' => $this->picture_service->extractPictures($concept->rendered_body, $target_dir),
                 'concept' => $concept,
                 'breadcrumbs' => array_slice($breadcrumbs, 1),
                 'url_prefix' => $url_prefix,

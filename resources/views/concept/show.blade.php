@@ -13,9 +13,7 @@
     @endif
 
     @if ($concept->rendered_body)
-        <section class="body">
-            {!! $concept->rendered_body !!}
-        </section>
+        {!! $concept->rendered_body !!}
     @endif
 
 @endsection

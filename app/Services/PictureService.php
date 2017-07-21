@@ -254,7 +254,7 @@ class PictureService
 
         $text = '';
         $html = $dom->getElementsByTagName($wrapped ? 'html' : 'body')->item(0);
-        if ($html->childNodes) {
+        if ($html && $html->childNodes) {
             foreach ($html->childNodes as $node) {
                 $text .= $dom->saveHTML($node);
             }
