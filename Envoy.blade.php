@@ -42,9 +42,6 @@
 
     php artisan cache:clear
     php artisan migrate
-    php artisan queue:restart
-
-    sudo /usr/local/sbin/restart-php
 
     npm install --no-optional
     npm run production
@@ -56,4 +53,6 @@
     cd {{ $root_dir }};
     ln -s {{ $release_dir }} {{ $target }}-{{ $now }}
     mv -T {{ $target }}-{{ $now }} {{ $target }}
+
+    #cd {{ $root_dir }}/current; php artisan queue:restart; sudo /usr/local/sbin/restart-php
 @endtask
