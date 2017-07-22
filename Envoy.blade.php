@@ -54,5 +54,5 @@
     ln -s {{ $release_dir }} {{ $target }}-{{ $now }}
     mv -T {{ $target }}-{{ $now }} {{ $target }}
 
-    #cd {{ $root_dir }}/current; php artisan queue:restart; sudo /usr/local/sbin/restart-php
+    cd {{ $root_dir }}/{{ $target }}; php artisan queue:restart; sudo /usr/local/sbin/restart-php
 @endtask
