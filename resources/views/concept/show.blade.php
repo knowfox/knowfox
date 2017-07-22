@@ -4,12 +4,16 @@
 
 @section('main-content')
 
-    @if (!empty($concept->image))
-        <img src="{{ url($picture->asset($concept->image, 'text')) }}">
-    @endif
+    @if (!empty($concept->config->image) || $concept->summary)
+        <section class="preamble">
+            @if (!empty($concept->config->image))
+                <img src="{{ $concept->config->image }}">
+            @endif
 
-    @if ($concept->summary)
-        <p class="summary">{{$concept->summary}}</p>
+            @if ($concept->summary)
+                <p class="summary">{{$concept->summary}}</p>
+            @endif
+        </section>
     @endif
 
     @if ($concept->rendered_body)

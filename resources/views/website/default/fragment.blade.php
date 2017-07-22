@@ -1,4 +1,4 @@
-<div class="blog-post">
+<div class="blog-post clearfix">
     @if (!empty($concept->image_thumbnail))
         <a href="/{{$concept->slug}}/">
             <img class="blog-post-thumbnail thumbnail" src="{{$concept->image_thumbnail}}">
