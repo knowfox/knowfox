@@ -43,12 +43,12 @@ class PublishWebsite implements ShouldQueue
             ->firstOrFail();
     }
 
-    private function extractImage($concept)
+    private function extractImage($concept, $target_dir)
     {
         if (!empty($concept->config) && !empty($concept->config->image)) {
             $filename = $concept->slug . '/'
                 . $this->picture_service->withStyle($concept->config->image, 'thumbnail');
-            $target_path = $directory . '/' . $filename;
+            $target_path = $target_dir . '/' . $filename;
             $source_path =
                 $this->picture_service->imageDirectory($concept->uuid) . '/'
                 . $concept->config->image;
@@ -93,7 +93,7 @@ class PublishWebsite implements ShouldQueue
 
     private function publishConcept($concept, $url_prefix, $breadcrumbs, $website_dir, $target_dir)
     {
-        $this->extractImage($concept);
+        $this->extractImage($concept, $target_dir);
 
         $title = count($breadcrumbs) > 0 ? $concept->title : $this->domain_concept->config->title;
 
