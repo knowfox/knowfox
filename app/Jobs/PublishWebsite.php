@@ -8,10 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 use Knowfox\Models\Concept;
 
-use Knowfox\Services\OutlineService;
 use Knowfox\Services\PictureService;
 
 
@@ -21,6 +19,7 @@ class PublishWebsite implements ShouldQueue
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $user;
     protected $domain_concept;
 
     /** @var PictureService $picture_service */
@@ -33,6 +32,8 @@ class PublishWebsite implements ShouldQueue
      */
     public function __construct($user, $domain_name)
     {
+        $this->user = $user;
+
         $root = Concept::whereIsRoot()
             ->where('owner_id', $user->id)
             ->where('title', 'Websites')->firstOrFail();
@@ -165,6 +166,8 @@ class PublishWebsite implements ShouldQueue
      */
     public function handle(PictureService $picture_service)
     {
+        app('auth')->setUser($this->user);
+
         $this->picture_service = $picture_service;
 
         $domain_concept = $this->domain_concept;
