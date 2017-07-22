@@ -1,7 +1,7 @@
 <div class="blog-post">
-    @if ($concept->image)
+    @if (!empty($concept->image_thumbnail))
         <a href="/{{$concept->slug}}/">
-            <img class="blog-post-thumbnail thumbnail" src="{{$concept->image}}">
+            <img class="blog-post-thumbnail thumbnail" src="{{$concept->image_thumbnail}}">
         </a>
     @endif
     <h2 class="blog-post-title"><a href="{{$url_prefix}}/{{$concept->slug}}/">{{$concept->title}}</a></h2>

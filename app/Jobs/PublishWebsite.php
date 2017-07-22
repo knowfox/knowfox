@@ -43,20 +43,22 @@ class PublishWebsite implements ShouldQueue
             ->firstOrFail();
     }
 
-    private function extractImage($concept, $target_dir)
+    private function extractImage($concept, $url_prefix, $target_dir)
     {
         if (!empty($concept->config) && !empty($concept->config->image)) {
-            $filename = $concept->slug . '/'
-                . $this->picture_service->withStyle($concept->config->image, 'thumbnail');
-            $target_path = $target_dir . '/' . $filename;
-            $source_path =
-                $this->picture_service->imageDirectory($concept->uuid) . '/'
-                . $concept->config->image;
-            file_put_contents(
-                $target_path,
-                $this->picture_service->imageData($source_path, 'thumbnail')
-            );
-            $concept->image = $filename;
+            foreach (['text', 'thumbnail'] as $style) {
+                $filename = $this->picture_service->withStyle($concept->config->image, $style);
+                $target_path = $target_dir . '/' . $filename;
+                $source_path =
+                    $this->picture_service->imageDirectory($concept->uuid) . '/'
+                    . $concept->config->image;
+                file_put_contents(
+                    $target_path,
+                    $this->picture_service->imageData($source_path, $style)
+                );
+                $field = 'image_' . $style;
+                $concept->{$field} = $url_prefix . '/' . $filename;
+            }
         }
     }
 
@@ -93,7 +95,7 @@ class PublishWebsite implements ShouldQueue
 
     private function publishConcept($concept, $url_prefix, $breadcrumbs, $website_dir, $target_dir)
     {
-        $this->extractImage($concept, $target_dir);
+        $this->extractImage($concept, $url_prefix, $target_dir);
 
         $title = count($breadcrumbs) > 0 ? $concept->title : $this->domain_concept->config->title;
 

@@ -3,10 +3,6 @@
 @section('header')
 
     <div class="blog-header">
-        @if (!empty($concept->image))
-            <img src="{{ url($picture->asset($concept->image, 'text')) }}">
-        @endif
-
         <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
             @foreach ($breadcrumbs as $breadcrumb)
@@ -20,6 +16,11 @@
         </ol>
 
         <h1 class="blog-title">{{$page_title}}</h1>
+
+        @if (!empty($concept->image_text))
+            <img src="{{$concept->image_text}}">
+        @endif
+
         @if ($concept->summary)
             <p class="lead blog-description">{{$concept->summary}}</p>
         @endif
