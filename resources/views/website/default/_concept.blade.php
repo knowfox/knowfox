@@ -20,15 +20,15 @@
         @if ($concept->summary)
             <p class="lead blog-description">{{$concept->summary}}</p>
         @endif
-
-        @if (!empty($concept->image_text))
-            <img src="{{$concept->image_text}}">
-        @endif
     </div>
 
 @endsection
 
 @section('content')
+
+    @if (!empty($concept->image_text))
+        <img src="{{$concept->image_text}}">
+    @endif
 
     @if (!isset($concept->config->show_date) || $concept->config->show_date)
         <p class="blog-post-meta">{{ strftime('%Y-%m-%d', strtotime($concept->created_at)) }} by {{$concept->owner->name}}</p>
