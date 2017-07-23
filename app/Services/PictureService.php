@@ -236,6 +236,7 @@ class PictureService
             }
 
             $source_path = $this->imageDirectory($uuid) . '/' . $filename;
+            copy($source_path, $target_directory . '/' . $filename);
 
             $suffix = $style;
             if ($args) {
