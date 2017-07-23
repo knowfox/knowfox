@@ -177,7 +177,7 @@ class PublishWebsite implements ShouldQueue
         $target_dir = env('WEBSITE_' . $domain_concept->id);
 
         if (empty($target_dir)) {
-            throw \Exception($domain_concept->title . ' is not a website');
+            throw new \Exception($domain_concept->title . ' is not a website');
         }
 
         $website_dir = str_replace('.', '_', $domain_concept->title);
