@@ -10,6 +10,10 @@ class WebsiteController extends Controller
 {
     public function publish(Request $request, Concept $concept)
     {
+        if (empty(env('WEBSITE_' . $concept->id))) {
+            return redirect()->route('concept.show', [$concept])
+                ->with('status', 'Not a website');
+        }
         if ($concept->owner_id != $request->user()->id) {
             return redirect()->route('concept.show', [$concept])
                 ->with('status', 'Not permitted');

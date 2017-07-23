@@ -39,7 +39,7 @@
                         </a>
                     </li>
 
-                    @if ($concept->type == 'website')
+                    @if (!empty(env('WEBSITE_' . $concept->id)))
                         <li>
                             <a href="{{route('website.publish', [$concept])}}"
                                onclick="event.preventDefault(); document.getElementById('publish-form').submit();"><i class="glyphicon glyphicon-globe"></i> Publish Website</a>
