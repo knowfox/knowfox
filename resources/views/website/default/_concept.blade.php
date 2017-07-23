@@ -17,12 +17,12 @@
 
         <h1 class="blog-title">{{$page_title}}</h1>
 
-        @if (!empty($concept->image_text))
-            <img src="{{$concept->image_text}}">
-        @endif
-
         @if ($concept->summary)
             <p class="lead blog-description">{{$concept->summary}}</p>
+        @endif
+
+        @if (!empty($concept->image_text))
+            <img src="{{$concept->image_text}}">
         @endif
     </div>
 
