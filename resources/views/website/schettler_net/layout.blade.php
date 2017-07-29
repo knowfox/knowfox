@@ -1,7 +1,7 @@
 @extends('website.default.layout')
 
 @push('header')
-    <meta name="google-site-verification" content="S0VR4HXWxYcwebMQxarTHx-r6CjZwxmcKmbamC3exGI" />
+    <meta name="google-site-verification" content="{{$config->google_site}}" />
     <meta property="og:title" content="{{$concept->title}}" />
     <meta property="og:site_name" content="{{$config->title}}" />
     <meta property="og:type" content="website" />
@@ -17,7 +17,7 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-3547732-10', 'auto');
+        ga('create', '{{$config->google_analytics}}', 'auto');
         ga('send', 'pageview');
 
     </script>
