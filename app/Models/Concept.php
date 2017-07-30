@@ -16,6 +16,15 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Versionable\VersionableTrait;
 
+class MyGithubMarkdown extends GithubMarkdown
+{
+    protected function renderTable($block)
+    {
+        $table = parent::renderTable($block);
+        return preg_replace('#<table>#', '<table class="table">', $table);
+    }
+}
+
 class Concept extends Model {
     use SoftDeletes;
     use NodeTrait {
@@ -61,8 +70,8 @@ class Concept extends Model {
 
     public function getRenderedBodyAttribute($value)
     {
-        $parser = new GithubMarkdown();
-        $parser->html5 = TRUE;
+        $parser = new MyGithubMarkdown();
+        $parser->html5 = true;
         return '<section class="body" data-uuid="' . $this->uuid . '">' . $parser->parse($this->body) . '</section>';
     }
 
