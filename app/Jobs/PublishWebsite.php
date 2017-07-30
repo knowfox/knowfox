@@ -104,14 +104,21 @@ class PublishWebsite implements ShouldQueue
             'url' => "{$url_prefix}/",
         ]);
 
-        $by_date = empty($concept->config->sort) || $concept->config->sort == 'date';
-
-        if ($by_date) {
-            $children = $concept->children()->orderBy('created_at', 'desc')->get();
+        $by_date = false;
+        $children = $concept->children();
+        if (!empty($concept->config->sort)) {
+            if ($concept->config->sort == 'date') {
+                $children->orderBy('created_at', 'desc');
+                $by_date = true;
+            }
+            elseif ($concept->config->sort == 'alpha') {
+                $children->orderBy('title', 'asc');
+            }
         }
         else {
-            $children = $concept->children()->defaultOrder()->get();
+            $children->defaultOrder();
         }
+        $children = $children->get();
 
         $prev = null;
 
