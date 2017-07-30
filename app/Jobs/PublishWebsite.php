@@ -15,7 +15,7 @@ use Knowfox\Services\PictureService;
 
 class PublishWebsite implements ShouldQueue
 {
-    const PAGE_SIZE = 3;
+    const PAGE_SIZE = 15;
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
