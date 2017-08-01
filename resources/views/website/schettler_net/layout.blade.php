@@ -7,6 +7,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
     <link rel="canonical" href="https://schettler.net{{$concept->url}}" />
+    <link rel="openid.server" href="https://id.schettler.net/MyID.config.php">
+    <link rel="openid.delegate" href="https://id.schettler.net/MyID.config.php">
 @endpush
 
 @push('scripts')
