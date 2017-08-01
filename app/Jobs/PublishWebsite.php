@@ -193,7 +193,7 @@ class PublishWebsite implements ShouldQueue
         copy(base_path('resources/views/website/' . $website_dir . '/css/blog.css'), $target_dir . '/css/blog.css');
 
         @mkdir($target_dir . '/icons', 0755, true);
-        $icons = glob(base_path('resources/views/website/' . $website_dir . '/icons/*');
+        $icons = glob(base_path('resources/views/website/' . $website_dir . '/icons/*'));
         foreach ($icons as $icon) {
             copy($icon, $target_dir . '/icons/' . basename($icon));
         }
