@@ -192,6 +192,12 @@ class PublishWebsite implements ShouldQueue
         @mkdir($target_dir . '/css', 0755, true);
         copy(base_path('resources/views/website/' . $website_dir . '/css/blog.css'), $target_dir . '/css/blog.css');
 
+        @mkdir($target_dir . '/icons', 0755, true);
+        $icons = glob(base_path('resources/views/website/' . $website_dir . '/icons/*');
+        foreach ($icons as $icon) {
+            copy($icon, $target_dir . '/icons/' . basename($icon));
+        }
+
         View::share('config', $domain_concept->config);
 
         $breadcrumbs = [];
