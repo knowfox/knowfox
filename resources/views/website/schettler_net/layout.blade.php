@@ -9,6 +9,20 @@
     <link rel="canonical" href="https://schettler.net{{$concept->url}}" />
     <link rel="openid.server" href="https://id.schettler.net/MyID.config.php">
     <link rel="openid.delegate" href="https://id.schettler.net/MyID.config.php">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Dr. Olav Schettler",
+      "url": "https://schettler.net",
+      "sameAs": [
+        "https://www.facebook.com/olav.schettler",
+        "https://www.xing.com/profile/Olav_Schettler",
+        "https://www.linkedin.com/in/olavschettler/",
+        "https://plus.google.com/u/0/+OlavSchettlerBonn"
+      ]
+    }
+    </script>
 @endpush
 
 @push('scripts')
