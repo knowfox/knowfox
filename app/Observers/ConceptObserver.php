@@ -42,7 +42,7 @@ class ConceptObserver
         $parser->html5 = true;
 
         foreach ($lines as $line) {
-            $title = $parser->parse($line[3]);
+            $title = $line[3];
 
             $is_done = false;
             if ($line[2] != ' ') {
@@ -60,7 +60,7 @@ class ConceptObserver
 
             $item = Item::firstOrCreate([
                 'concept_id' => $concept->id,
-                'title' => $title,
+                'title' => $parser->parse($title),
                 'owner_id' => $concept->owner_id,
             ], [
                 'is_done' => $is_done,

@@ -39,7 +39,7 @@
                             <td style="white-space:nowrap">{{ $item->done_at ? strftime('%Y-%m-%d', strtotime($item->done_at)) : '' }}</td>
                         @endif
                         <td><a href="{{ route('concept.show', $item->concept_id) }}">{{$item->concept->title}}</a></td>
-                        <td>
+                        <td width="50%">
                             {!! $item->title !!}
                             @foreach ($item->tags as $tag)
                                 <a href="{{route('item.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
