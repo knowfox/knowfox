@@ -40,24 +40,27 @@
                     @yield('main-content')
 
                     @if (in_array($concept->type, ['folder', 'book list']))
-                        @if ($concept->type == 'book list' || !empty($concept->config->sort) && $concept->config->sort == 'alpha')
-                            @include('partials.alpha-nav')
-                        @endif
 
-                        <table class="table">
-                            @section('kids-header')
-                                @include('partials.table-header')
-                            @show
-                            @section('kids-body')
-                                <tbody>
-                                @foreach ($children as $child)
-                                    @include('partials.table-row', ['concept' => $child])
-                                @endforeach
-                                </tbody>
-                            @show
-                        </table>
+                        <section class="kids">
+                            @if ($concept->type == 'book list' || !empty($concept->config->sort) && $concept->config->sort == 'alpha')
+                                @include('partials.alpha-nav')
+                            @endif
 
-                        <div class="text-center">{{$children}}</div>
+                            <table class="table">
+                                @section('kids-header')
+                                    @include('partials.table-header')
+                                @show
+                                @section('kids-body')
+                                    <tbody>
+                                    @foreach ($children as $child)
+                                        @include('partials.table-row', ['concept' => $child])
+                                    @endforeach
+                                    </tbody>
+                                @show
+                            </table>
+
+                            <div class="text-center">{{$children}}</div>
+                        </section>
                     @endif
 
                 </div>
