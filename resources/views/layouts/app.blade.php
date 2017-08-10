@@ -68,6 +68,13 @@
                                 <li><a href="{{route('concept.create')}}"><i class="glyphicon glyphicon-plus-sign"></i> New concept</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Items <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{route('item.todo')}}">To do</a></li>
+                                <li><a href="{{route('item.done')}}">Done</a></li>
+                            </ul>
+                        </li>
 
                         <li><a href="{{ route('journal') }}"><i class="glyphicon glyphicon-grain"></i> {{ strftime('%Y-%m-%d') }}</a></li>
                     @endif

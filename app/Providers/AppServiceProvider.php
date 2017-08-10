@@ -5,7 +5,9 @@ namespace Knowfox\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Knowfox\Models\Concept;
+use Knowfox\Models\Item;
 use Knowfox\Observers\ConceptObserver;
+use Knowfox\Observers\ItemObserver;
 use Knowfox\ViewComposers\AlphaIndexComposer;
 use Knowfox\ViewComposers\ImpactMapComposer;
 
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Concept::observe(ConceptObserver::class);
+        Item::observe(ItemObserver::class);
         View::composer('concept.show-impact-map', ImpactMapComposer::class);
         View::composer('partials.alpha-nav', AlphaIndexComposer::class);
 

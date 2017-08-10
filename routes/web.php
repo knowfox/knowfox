@@ -214,5 +214,20 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'user.token',
         'uses' => 'UserController@token',
     ]);
+
+    Route::get('/items', [
+        'as' => 'item.index',
+        'uses' => 'ItemController@index',
+    ]);
+
+    Route::get('/todo', [
+        'as' => 'item.todo',
+        'uses' => 'ItemController@todo',
+    ]);
+
+    Route::get('/done', [
+        'as' => 'item.done',
+        'uses' => 'ItemController@done',
+    ]);
 });
 

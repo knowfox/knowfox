@@ -254,4 +254,9 @@ class Concept extends Model {
             return $this->children()->defaultOrder()->paginate();
         }
     }
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }
