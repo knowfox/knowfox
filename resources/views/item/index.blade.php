@@ -34,13 +34,13 @@
                 <tbody>
                 @foreach ($items as $item)
                     <tr>
-                        <td>{{ $item->due_at ? strftime('%Y-%m-%d', strtotime($item->due_at)) : '' }}</td>
+                        <td style="white-space:nowrap">{{ $item->due_at ? strftime('%Y-%m-%d', strtotime($item->due_at)) : '' }}</td>
                         @if ($show_done)
-                            <td>{{ $item->done_at ? strftime('%Y-%m-%d', strtotime($item->done_at)) : '' }}</td>
+                            <td style="white-space:nowrap">{{ $item->done_at ? strftime('%Y-%m-%d', strtotime($item->done_at)) : '' }}</td>
                         @endif
                         <td><a href="{{ route('concept.show', $item->concept_id) }}">{{$item->concept->title}}</a></td>
                         <td>
-                            {{$item->title}}
+                            {!! $item->title !!}
                             @foreach ($item->tags as $tag)
                                 <a href="{{route('item.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
                             @endforeach

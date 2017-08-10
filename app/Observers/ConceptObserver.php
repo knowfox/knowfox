@@ -5,6 +5,7 @@ namespace Knowfox\Observers;
 use Illuminate\Support\Facades\Auth;
 use Knowfox\Models\Concept;
 use Knowfox\Models\Item;
+use cebe\markdown\GithubMarkdown;
 
 class ConceptObserver
 {
@@ -37,8 +38,11 @@ class ConceptObserver
             return;
         }
 
+        $parser = new GithubMarkdown();
+        $parser->html5 = true;
+
         foreach ($lines as $line) {
-            $title = $line[3];
+            $title = $parser->parse($line[3]);
 
             $is_done = false;
             if ($line[2] != ' ') {
