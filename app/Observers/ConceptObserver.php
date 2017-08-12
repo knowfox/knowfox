@@ -45,11 +45,9 @@ class ConceptObserver
         $parser = new GithubMarkdown();
         $parser->html5 = true;
 
-        $concept_tags = $concept->tags->filter(function ($tag) {
-            return $tag->name != 'Journal';
-        })->map(function ($tag) {
-            return $tag->name;
-        })->toArray();
+        $concept_tags = array_filter(request()->tags, function ($tag) {
+            return $tag != 'journal';
+        });
 
         foreach ($lines as $line) {
             $title = $line[3];
