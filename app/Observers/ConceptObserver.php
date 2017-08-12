@@ -27,6 +27,10 @@ class ConceptObserver
      */
     public function saving(Concept $concept)
     {
+        if (!$concept->timestamps) {
+            return;
+        }
+
         $concept->items()->delete();
 
         if (!$concept->body) {
@@ -40,6 +44,12 @@ class ConceptObserver
 
         $parser = new GithubMarkdown();
         $parser->html5 = true;
+
+        $concept_tags = $concept->tags->filter(function ($tag) {
+            return $tag->name != 'Journal';
+        })->map(function ($tag) {
+            return $tag->name;
+        })->toArray();
 
         foreach ($lines as $line) {
             $title = $line[3];
@@ -66,7 +76,7 @@ class ConceptObserver
                 'is_done' => $is_done,
                 'due_at' => $due_at,
             ]);
-            $item->retag($matches[1]);
+            $item->retag(array_merge($concept_tags, $matches[1]));
         }
     }
 }
