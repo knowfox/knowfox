@@ -21,21 +21,10 @@ class ConceptObserver
         }
     }
 
-    /**
-     * Parse items from the concept body
-     * @param Concept $concept
-     */
-    public function saving(Concept $concept)
+    private function extractItems($concept)
     {
-        if (!$concept->timestamps) {
-            return;
-        }
+        $items = $concept->items()->pluck('title', 'id')->toArray();
 
-        $concept->items()->delete();
-
-        if (!$concept->body) {
-            return;
-        }
         if (!preg_match_all('/^\s*\*\s+(\[( |x|X)\]\s*(.*))$/m',
             $concept->body, $lines, PREG_SET_ORDER)) {
 
@@ -45,7 +34,8 @@ class ConceptObserver
         $parser = new GithubMarkdown();
         $parser->html5 = true;
 
-        $concept_tags = array_filter(request()->tags, function ($tag) {
+        $concept_tags = empty(request()->tags) ? [] : request()->tags;
+        $concept_tags = array_filter($concept_tags, function ($tag) {
             return $tag != 'journal';
         });
 
@@ -63,18 +53,45 @@ class ConceptObserver
                 $title = preg_replace('/\s*\d{4}-\d{2}-\d{2}/', '', $title, 1);
             }
 
-            preg_match_all('/#(\S+)/', $title, $matches, PREG_PATTERN_ORDER);
+            preg_match_all('/#(\S+)/', $title, $tag_matches, PREG_PATTERN_ORDER);
             $title = trim(preg_replace('/\s*#\S+/', '', $title));
 
-            $item = Item::firstOrCreate([
+            $title = $parser->parse($title);
+            if (preg_match('#^<p>(.*)</p>\s*$#s',$title, $matches)) {
+                $title = $matches[1];
+            }
+
+            $item = Item::updateOrCreate([
                 'concept_id' => $concept->id,
-                'title' => $parser->parse($title),
+                'title' => $title,
                 'owner_id' => $concept->owner_id,
             ], [
                 'is_done' => $is_done,
                 'due_at' => $due_at,
             ]);
-            $item->retag(array_merge($concept_tags, $matches[1]));
+
+            unset($items[$item->id]);
+
+            $item->retag(array_merge($concept_tags, $tag_matches[1]));
         }
+
+        Item::destroy(array_keys($items));
+    }
+
+    /**
+     * Parse items from the concept body
+     * @param Concept $concept
+     */
+    public function saving(Concept $concept)
+    {
+        if (!$concept->timestamps) {
+            return;
+        }
+
+        if (!$concept->body) {
+            return;
+        }
+
+        $this->extractItems($concept);
     }
 }
