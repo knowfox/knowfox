@@ -22,6 +22,23 @@ class ConceptObserver
         }
     }
 
+    private function syncRelated($concept, $type, $ids)
+    {
+        $old_due = $concept->related()
+            ->wherePivot('type', $type)
+            ->pluck('concepts.title', 'concepts.id')
+            ->toArray();
+
+        foreach ($ids as $id) {
+            if (!isset($old_due[$id])) {
+                $concept->related()->attach($id, [ 'type' => $type ]);
+            }
+            unset($old_due[$id]);
+        }
+
+        $concept->related()->detach(array_keys($old_due));
+    }
+
     private function extractItems($concept)
     {
         $items = $concept->items()->pluck('title', 'id')->toArray();
@@ -83,19 +100,27 @@ class ConceptObserver
 
         Item::destroy(array_keys($items));
 
-        $old_due = $concept->related()
-            ->wherePivot('type', 'due')
-            ->pluck('concepts.title', 'concepts.id')
-            ->toArray();
+        $this->syncRelated($concept,'due', array_keys($new_due));
+    }
 
-        foreach (array_keys($new_due) as $id) {
-            if (!isset($old_due[$id])) {
-                $concept->related()->attach($id, [ 'type' => 'due' ]);
-            }
-            unset($old_due[$id]);
+    private function extractLinks($concept)
+    {
+        if (!preg_match_all('/\[([^\]]+)\]\(([^\)]+)\)/m',
+            $concept->body, $links, PREG_SET_ORDER)) {
+
+            return;
         }
 
-        $concept->related()->detach(array_keys($old_due));
+        $new_link = [];
+
+        foreach ($links as $link) {
+            $url = $link[2];
+
+            if (preg_match('#^(/concept)?/(\d+)$#', $url, $matches)) {
+                $new_link[$matches[2]] = true;
+            }
+        }
+        $this->syncRelated($concept,'link', array_keys($new_link));
     }
 
     /**
@@ -113,5 +138,6 @@ class ConceptObserver
         }
 
         $this->extractItems($concept);
+        $this->extractLinks($concept);
     }
 }
