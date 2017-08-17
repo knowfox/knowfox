@@ -34,7 +34,12 @@
                 <tbody>
                 @foreach ($items as $item)
                     <tr>
-                        <td style="white-space:nowrap">{{ $item->due_at ? strftime('%Y-%m-%d', strtotime($item->due_at)) : '' }}</td>
+                        @if ($item->due_at)
+                            <?php $due_on = strftime('%Y-%m-%d', strtotime($item->due_at)); ?>
+                            <td style="white-space:nowrap"><a href="/{{$due_on}}">{{$due_on}}</a></td>
+                        @else
+                            <td style="white-space:nowrap"></td>
+                        @endif
                         @if ($show_done)
                             <td style="white-space:nowrap">{{ $item->done_at ? strftime('%Y-%m-%d', strtotime($item->done_at)) : '' }}</td>
                         @endif

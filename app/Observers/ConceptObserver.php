@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Knowfox\Models\Concept;
 use Knowfox\Models\Item;
 use cebe\markdown\GithubMarkdown;
+use Knowfox\Models\Relationship;
 
 class ConceptObserver
 {
@@ -39,6 +40,8 @@ class ConceptObserver
             return $tag != 'journal';
         });
 
+        $new_due = [];
+
         foreach ($lines as $line) {
             $title = $line[3];
 
@@ -51,6 +54,9 @@ class ConceptObserver
             if (preg_match('/\d{4}-\d{2}-\d{2}/', $title, $match)) {
                 $due_at = $match[0];
                 $title = preg_replace('/\s*\d{4}-\d{2}-\d{2}/', '', $title, 1);
+
+                $due_concept = Concept::journal($due_at);
+                $new_due[$due_concept->id] = true;
             }
 
             preg_match_all('/#(\S+)/', $title, $tag_matches, PREG_PATTERN_ORDER);
@@ -76,6 +82,20 @@ class ConceptObserver
         }
 
         Item::destroy(array_keys($items));
+
+        $old_due = $concept->related()
+            ->wherePivot('type', 'due')
+            ->pluck('concepts.title', 'concepts.id')
+            ->toArray();
+
+        foreach (array_keys($new_due) as $id) {
+            if (!isset($old_due[$id])) {
+                $concept->related()->attach($id, [ 'type' => 'due' ]);
+            }
+            unset($old_due[$id]);
+        }
+
+        $concept->related()->detach(array_keys($old_due));
     }
 
     /**
