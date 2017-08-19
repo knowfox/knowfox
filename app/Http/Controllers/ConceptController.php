@@ -393,7 +393,7 @@ class ConceptController extends Controller
             $parts = pathinfo($path);
 
             if (strpos($concept->body, $parts['basename']) === false) {
-                $concept->body .= "\n\n<a data-featherlight=\"{$parts['basename']}\">![{$parts['filename']}]({$parts['basename']}?style=thumbnail)</a>\n";
+                $concept->body .= "\n\n<a data-featherlight=\"{$parts['basename']}\">![{$parts['filename']}]({$parts['basename']}?style=square)</a>\n";
                 $concept->save();
             }
         }
