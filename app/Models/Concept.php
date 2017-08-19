@@ -73,7 +73,7 @@ class Concept extends Model {
     {
         $parser = new MyGithubMarkdown();
         $parser->html5 = true;
-        return '<section class="body" data-uuid="' . $this->uuid . '">' . $parser->parse($this->body) . '</section>';
+        return '<div class="body" data-uuid="' . $this->uuid . '">' . $parser->parse($this->body) . '</div>';
     }
 
     public function getConfigAttribute($value)
