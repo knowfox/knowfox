@@ -69,10 +69,10 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Items <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tasks <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{route('item.todo')}}">To do</a></li>
-                                <li><a href="{{route('item.done')}}">Done</a></li>
+                                <li><a href="{{route('item.todo')}}">Open</a></li>
+                                <li><a href="{{route('item.done')}}">Completed</a></li>
                             </ul>
                         </li>
 

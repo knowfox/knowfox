@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    public function index(Request $request, $page_title = 'Items', $items = null)
+    public function index(Request $request, $page_title = 'Tasks', $items = null)
     {
         $show_done = false;
         if (!$items) {
@@ -41,7 +41,7 @@ class ItemController extends Controller
         $items = Item::where('is_done', false)
             ->orderBy('due_at', 'asc');
 
-        return $this->index($request,'To do items', $items);
+        return $this->index($request,'Tasks', $items);
     }
 
     /**
@@ -54,6 +54,6 @@ class ItemController extends Controller
         $items = Item::where('is_done', true)
             ->orderBy('due_at', 'desc');
 
-        return $this->index($request,'Done items', $items);
+        return $this->index($request,'Completed tasks', $items);
     }
 }
