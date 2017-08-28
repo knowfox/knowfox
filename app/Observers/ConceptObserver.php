@@ -67,6 +67,9 @@ class ConceptObserver
                 $is_done = true;
             }
 
+            /*
+             * Extract a due date
+             */
             $due_at = null;
             if (preg_match('/\d{4}-\d{2}-\d{2}/', $title, $match)) {
                 $due_at = $match[0];
@@ -76,9 +79,25 @@ class ConceptObserver
                 $new_due[$due_concept->id] = true;
             }
 
+            /*
+             * Match and remove tags
+             */
             preg_match_all('/#(\S+)/', $title, $tag_matches, PREG_PATTERN_ORDER);
             $title = trim(preg_replace('/\s*#\S+/', '', $title));
 
+            /*
+             * Extract persons
+             */
+            preg_match_all('/@(\S+)/', $title, $person_matches, PREG_PATTERN_ORDER);
+            $title = trim(preg_replace('/\s*@(\S+)/', '', $title));
+
+            $persons = Concept::where('type', 'entangle:person')
+                    ->whereIn('slug', $person_matches[1])
+                    ->pluck('id');
+
+            /*
+             * Parse Markdown
+             */
             $title = $parser->parse($title);
             if (preg_match('#^<p>(.*)</p>\s*$#s',$title, $matches)) {
                 $title = $matches[1];
@@ -96,6 +115,8 @@ class ConceptObserver
             unset($items[$item->id]);
 
             $item->retag(array_merge($concept_tags, $tag_matches[1]));
+
+            $item->persons()->sync($persons);
         }
 
         Item::destroy(array_keys($items));

@@ -66,7 +66,7 @@ main {
        margin-bottom: 0;
     }
 
-    div.body, section.preamble, section.timeline, section.kids {
+    div.body, section.preamble, section.timeline, section.kids, section.fields {
         background-color: white;
         padding: 20px 16px;
         border-left: 1px solid #ddd;
@@ -220,4 +220,8 @@ dt:after {
 
 dd {
     margin-left: 16px;
+}
+
+ul.persons {
+    padding-left: 8px;
 }

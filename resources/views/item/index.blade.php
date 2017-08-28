@@ -27,6 +27,7 @@
                         @if ($show_done)
                             <th>Done</th>
                         @endif
+                        <th>Persons</th>
                         <th>Concept</th>
                         <th>Title</th>
                     </tr>
@@ -43,6 +44,13 @@
                         @if ($show_done)
                             <td style="white-space:nowrap">{{ $item->done_at ? strftime('%Y-%m-%d', strtotime($item->done_at)) : '' }}</td>
                         @endif
+                        <td>
+                            <ul class="persons">
+                            @foreach ($item->persons as $person)
+                                    <li><a href="{{ route('concept.show', $person->id) }}">{{$person->title}}</a></li>
+                            @endforeach
+                            </ul>
+                        </td>
                         <td><a href="{{ route('concept.show', $item->concept_id) }}">{{$item->concept->title}}</a></td>
                         <td width="50%">
                             {!! $item->title !!}

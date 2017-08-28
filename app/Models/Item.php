@@ -21,4 +21,10 @@ class Item extends Model
     {
         return $this->belongsTo(Concept::class);
     }
+
+    public function persons()
+    {
+        return $this->belongsToMany(Concept::class, 'item_person', 'item_id', 'person_id')
+            ->where('type', 'entangle:person');
+    }
 }

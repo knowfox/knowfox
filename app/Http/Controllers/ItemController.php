@@ -21,7 +21,7 @@ class ItemController extends Controller
             $items->withAllTags([$request->input('tag')]);
             $page_title .= ' with tag "' . $request->input('tag') . '"';
         }
-        $items->with('tagged')
+        $items->with('tagged', 'persons')
             ->where('owner_id', Auth::id());
 
         return view('item.index', [

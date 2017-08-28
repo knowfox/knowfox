@@ -5,6 +5,7 @@ namespace Knowfox\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Kalnoy\Nestedset\NodeTrait;
 use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
@@ -69,11 +70,104 @@ class Concept extends Model {
         $this->related()->sync($related);
     }
 
+    private function textEnd($html, $offs)
+    {
+        return strpos(substr($html, $offs), '<');
+    }
+
+    private function tagEnd($html, $offs)
+    {
+        $pos = strpos(substr($html, $offs), '>');
+    }
+
+    private function inALink($html, $offs)
+    {
+        return preg_match('#<(.{2})#', substr($html, $offs), $match)
+            && $match[1] == '/a';
+    }
+
+    private function replaceDates($html)
+    {
+        $segments = [];
+        $last = 0;
+        preg_match_all('/\d{4}-\d{2}-\d{2}/', $html, $matches, PREG_PATTERN_ORDER|PREG_OFFSET_CAPTURE);
+        foreach ($matches[0] as $match) {
+            if (in_array(substr($html, $match[1] - 1, 1), ['/', '>'])) {
+                // Already has/is a link
+                continue;
+            }
+
+            if ($this->inALink($html, $match[1])) {
+                continue;
+            }
+            $segments[] = $segment = substr($html, $last, $match[1] - $last);
+
+            $date = $match[0];
+            $last += strlen($segment) + strlen($date);
+
+            $segments[] = '<a href="/' . $date . '">' . $date . '</a>';
+        }
+        $segments[] = substr($html, $last);
+
+        return join('', $segments);
+    }
+
+    private function replaceTags($html)
+    {
+        $segments = [];
+        $last = 0;
+        preg_match_all('/#[[:alpha:]](\w*)/i', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        foreach ($matches as $match) {
+            if ($this->inALink($html, $match[0][1])) {
+                continue;
+            }
+            $segments[] = $segment = substr($html, $last, $match[0][1] - $last);
+
+            $tag = $match[1][0];
+            $last += strlen($segment) + strlen($match[0][0]);
+
+            $segments[] = '<a class="label label-default" href="/concepts?tag=' . Str::slug($tag) . '">' . ucfirst($tag) . '</a>';
+        }
+        $segments[] = substr($html, $last);
+
+        return join('', $segments);
+    }
+
+    private function replacePersons($html)
+    {
+        $segments = [];
+        $last = 0;
+        preg_match_all('/@(\w+)/', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        foreach ($matches as $match) {
+            if ($this->inALink($html, $match[0][1])) {
+                continue;
+            }
+            $segments[] = $segment = substr($html, $last, $match[0][1] - $last);
+
+            $person = $match[1][0];
+            $last += strlen($segment) + strlen($match[0][0]);
+
+            $segments[] = '<a class="label label-info" href="/person/' . $person . '">' . ucfirst($person) . '</a>';
+        }
+        $segments[] = substr($html, $last);
+
+        return join('', $segments);
+    }
+
     public function getRenderedBodyAttribute($value)
     {
         $parser = new MyGithubMarkdown();
         $parser->html5 = true;
-        return '<div class="body" data-uuid="' . $this->uuid . '">' . $parser->parse($this->body) . '</div>';
+
+        $html = $parser->parse($this->body);
+
+        $html = $this->replaceDates($html);
+
+        $html = $this->replaceTags($html);
+
+        $html = $this->replacePersons($html);
+
+        return '<div class="body" data-uuid="' . $this->uuid . '">' . $html . '</div>';
     }
 
     public function getConfigAttribute($value)
