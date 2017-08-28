@@ -82,13 +82,13 @@ class ConceptObserver
             /*
              * Match and remove tags
              */
-            preg_match_all('/#(\S+)/', $title, $tag_matches, PREG_PATTERN_ORDER);
+            preg_match_all('/#[[:alpha:]](\w*)/ui', $title, $tag_matches, PREG_PATTERN_ORDER);
             $title = trim(preg_replace('/\s*#\S+/', '', $title));
 
             /*
              * Extract persons
              */
-            preg_match_all('/@(\S+)/', $title, $person_matches, PREG_PATTERN_ORDER);
+            preg_match_all('/@(\w+)/u', $title, $person_matches, PREG_PATTERN_ORDER);
             $title = trim(preg_replace('/\s*@(\S+)/', '', $title));
 
             $persons = Concept::where('type', 'entangle:person')

@@ -116,7 +116,7 @@ class Concept extends Model {
     {
         $segments = [];
         $last = 0;
-        preg_match_all('/#[[:alpha:]](\w*)/i', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        preg_match_all('/#[[:alpha:]](\w*)/ui', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
             if ($this->inALink($html, $match[0][1])) {
                 continue;
@@ -137,7 +137,7 @@ class Concept extends Model {
     {
         $segments = [];
         $last = 0;
-        preg_match_all('/@(\w+)/', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        preg_match_all('/@(\w+)/u', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
             if ($this->inALink($html, $match[0][1])) {
                 continue;
