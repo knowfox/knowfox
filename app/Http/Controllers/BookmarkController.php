@@ -18,6 +18,7 @@
  */
 namespace Knowfox\Http\Controllers;
 
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use Knowfox\Models\Concept;
 use GuzzleHttp\Client;
@@ -64,15 +65,24 @@ class BookmarkController extends Controller
             'base_uri' => 'https://mercury.postlight.com/',
             'timeout'  => 10.0,
         ]);
-        $response = $client->get('parser', [
-            'query' => ['url' => $concept->source_url],
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'x-api-key' => config('knowfox.mercury_key'),
-            ]
-        ]);
 
-        if ($response->getStatusCode() == 200 && ($parsed = json_decode($response->getBody()))) {
+        $status = null;
+        $message = '';
+        try {
+            $response = $client->get('parser', [
+                'query' => ['url' => $concept->source_url],
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'x-api-key' => config('knowfox.mercury_key'),
+                ]
+            ]);
+            $status = $response->getStatusCode();
+        }
+        catch (ServerException $e) {
+            $message = 'Server error: ' . $e->getMessage();
+        }
+
+        if ($status == 200 && ($parsed = json_decode($response->getBody()))) {
 
             if (!empty($parsed->title)) {
                 $concept->title = $parsed->title;
@@ -88,6 +98,8 @@ class BookmarkController extends Controller
             if (!empty($parsed->content)) {
                 $concept->body .= $parsed->content;
             }
+
+            $message = 'Parsed URL';
         }
 
         if (empty($concept->title)) {
@@ -97,7 +109,7 @@ class BookmarkController extends Controller
 
         $concept->save();
 
-        return view('bookmark.show', ['concept' => $concept]);
+        return view('bookmark.show', ['concept' => $concept, 'message' => $message]);
     }
 }
 

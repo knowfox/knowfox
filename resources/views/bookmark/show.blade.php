@@ -4,6 +4,8 @@
     <title>Bookmarklet | Knowfox</title>
 </head>
 <body>
-    <a style="font-family:helvetica sans-serif" target="_top" href="https://knowfox.com/concept/{{$concept->id}}">Bookmarked "{{$concept->title}}"</a>
+    <p style="font-family:helvetica sans-serif">{{$message}} -
+        <a target="_top" href="https://knowfox.com/concept/{{$concept->id}}">Bookmarked "{{$concept->title}}"</a>
+    </p>
 </body>
 </html>
