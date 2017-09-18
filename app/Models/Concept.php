@@ -92,8 +92,8 @@ class Concept extends Model {
         $last = 0;
         preg_match_all('/\d{4}-\d{2}-\d{2}/', $html, $matches, PREG_PATTERN_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches[0] as $match) {
-            if (in_array(substr($html, $match[1] - 1, 1), ['/', '>'])) {
-                // Already has/is a link
+            if (preg_match('/\S/', substr($html, $match[1] - 1, 1))) {
+                // Not prefixed by whitespace
                 continue;
             }
 

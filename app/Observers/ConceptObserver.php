@@ -71,9 +71,9 @@ class ConceptObserver
              * Extract a due date
              */
             $due_at = null;
-            if (preg_match('/\d{4}-\d{2}-\d{2}/', $title, $match)) {
-                $due_at = $match[0];
-                $title = preg_replace('/\s*\d{4}-\d{2}-\d{2}/', '', $title, 1);
+            if (preg_match('/\s+(\d{4}-\d{2}-\d{2})/', $title, $match)) {
+                $due_at = $match[1];
+                $title = preg_replace('/\s+\d{4}-\d{2}-\d{2}/', '', $title, 1);
 
                 $due_concept = Concept::journal($due_at);
                 $new_due[$due_concept->id] = true;
