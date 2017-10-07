@@ -94,7 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/{concept}', function ($concept) {
         return redirect()->route('concept.show', [$concept]);
-    })->where('concept', '[0-9]+');
+    })->where('concept', '[0-9]+')->name('concept.short');
 
     Route::get('/uuid/{uuid}', [
         'as' => 'concept.uuid',

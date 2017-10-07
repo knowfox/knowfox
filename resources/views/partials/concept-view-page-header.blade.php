@@ -86,11 +86,12 @@
     </h1>
 
     <p class="meta">
+        Concept <a href="{{ route('concept.short', $concept) }}">{{$concept->id}}</a>,
         <?php
         $created = strftime('%Y-%m-%d', strtotime($concept->created_at));
         $updated = strftime('%Y-%m-%d', strtotime($concept->updated_at));
         ?>
-        Created {{ $created }}, @if ($created != $updated)
+        created {{ $created }}, @if ($created != $updated)
             updated {{ $updated }},
         @endif
         viewed {{$concept->viewed_count}} time{{$concept->viewed_count > 1 ? 's' : ''}}.
