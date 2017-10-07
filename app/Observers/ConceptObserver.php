@@ -148,7 +148,7 @@ class ConceptObserver
      * Parse items from the concept body
      * @param Concept $concept
      */
-    public function saving(Concept $concept)
+    public function saved(Concept $concept)
     {
         if (!$concept->timestamps) {
             return;
