@@ -38,4 +38,14 @@ class TagsController extends Controller
 
         return response()->json($tags->paginate());
     }
+
+    public function cloud()
+    {
+        $tags = Tag::orderBy('count', 'desc')->paginate();
+        return view('tag.cloud', [
+            'page_title' => 'Tags',
+            'sub_title' => $tags->firstItem() . ' &hellip; ' . $tags->lastItem() . ' of ' . $tags->total(),
+            'tags' => $tags
+        ]);
+    }
 }

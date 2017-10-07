@@ -52,6 +52,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'TagsController@index',
     ]);
 
+    Route::get('/tagcloud', [
+        'as' => 'tags.cloud',
+        'uses' => 'TagsController@cloud',
+    ]);
+
     Route::get('/concepts/toplevel', [
         'as' => 'concept.toplevel',
         'uses' => 'ConceptController@toplevel',

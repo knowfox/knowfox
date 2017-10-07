@@ -59,9 +59,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Concepts <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{route('concept.index')}}">All</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="{{route('concept.toplevel')}}">Toplevel</a></li>
                                 <li><a href="{{route('concept.popular')}}">Popular</a></li>
                                 <li><a href="{{route('concept.flagged')}}">Flagged</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{route('tags.cloud')}}">Tags</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="{{route('concept.shares')}}">Shared by me</a></li>
                                 <li><a href="{{route('concept.shared')}}">Shared with me</a></li>
                                 <li role="separator" class="divider"></li>
