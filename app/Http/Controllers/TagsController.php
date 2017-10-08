@@ -19,7 +19,10 @@
 namespace Knowfox\Http\Controllers;
 
 use Conner\Tagging\Model\Tag;
+use Conner\Tagging\Model\Tagged;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TagsController extends Controller
 {
@@ -39,13 +42,29 @@ class TagsController extends Controller
         return response()->json($tags->paginate());
     }
 
-    public function cloud()
+    public function cloud(Request $request)
     {
-        $tags = Tag::orderBy('count', 'desc')->paginate();
+        $order = $request->input('order', 'count');
+        $dir = $request->input('dir', 'desc');
+
+        $tags = Tagged::select(DB::raw("COUNT(tagging_tagged.id) AS count, tag_name AS name, tag_slug AS slug"))
+            ->leftJoin('concepts', function ($join) {
+                $join
+                    ->on('concepts.id', '=', 'tagging_tagged.taggable_id');
+            })
+            ->groupBy('tag_name', 'tag_slug')
+            ->where('taggable_type', '=', 'Knowfox\\Models\\Concept')
+            ->where('concepts.owner_id', '=', Auth::id())
+            ->orderBy($order, $dir)
+            ->paginate();
+
         return view('tag.cloud', [
             'page_title' => 'Tags',
             'sub_title' => $tags->firstItem() . ' &hellip; ' . $tags->lastItem() . ' of ' . $tags->total(),
-            'tags' => $tags
+            'tags' => $tags,
+            'order' => $order,
+            'dir_icon' => $dir == 'desc' ? 'sort-by-attributes-alt' : 'sort-by-attributes',
+            'other_dir' => $dir == 'desc' ? 'asc' : 'desc',
         ]);
     }
 }
