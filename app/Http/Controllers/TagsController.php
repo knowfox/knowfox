@@ -44,8 +44,8 @@ class TagsController extends Controller
 
     public function cloud(Request $request)
     {
-        $order = $request->input('order', 'count');
-        $dir = $request->input('dir', 'desc');
+        $order = $request->input('order', 'count') == 'count' ? 'count' : 'name';
+        $dir = $request->input('dir', 'desc') == 'desc' ? 'desc' : 'asc';
 
         $tags = Tagged::select(DB::raw("COUNT(tagging_tagged.id) AS count, tag_name AS name, tag_slug AS slug"))
             ->leftJoin('concepts', function ($join) {
