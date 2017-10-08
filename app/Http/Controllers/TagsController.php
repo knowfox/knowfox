@@ -56,7 +56,8 @@ class TagsController extends Controller
             ->where('taggable_type', '=', 'Knowfox\\Models\\Concept')
             ->where('concepts.owner_id', '=', Auth::id())
             ->orderBy($order, $dir)
-            ->paginate();
+            ->paginate()
+            ->appends($request->only(['order', 'dir']));
 
         return view('tag.cloud', [
             'page_title' => 'Tags',
