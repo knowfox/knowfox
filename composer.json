@@ -27,6 +27,7 @@
         "predis/predis": "^1.1",
         "ramsey/uuid": "^3.5",
         "rtconner/laravel-tagging": "^2.2",
+        "symfony/yaml": "^3.3",
         "vipnytt/opmlparser": "dev-master"
     },
     "require-dev": {
