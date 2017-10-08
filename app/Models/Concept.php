@@ -45,7 +45,7 @@ class Concept extends Model {
     protected $slugField = 'title';
     protected $fillable = ['type', 'title', 'summary', 'body', 'parent_id', 'source_url', 'todoist_id', 'slug', 'is_flagged', 'status', 'language', 'uuid', 'relations', 'data', 'owner_id'];
 
-    protected $events = [
+    protected $dispatchesEvents = [
         'saving' => ConceptObserver::class,
     ];
 

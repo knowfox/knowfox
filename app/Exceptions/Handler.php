@@ -42,11 +42,26 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        return parent::render($request, $exception);
-    }
+        if ($this->isHttpException($e)) {
+            return $this->renderHttpException($e);
+        }
+        else {
+            if (env('APP_DEBUG')) {
+                return parent::render($request, $e);
+            }
 
+            $type = preg_replace('/^.*\\\/', '', get_class($e));
+            switch ($type) {
+                case 'ModelNotFoundException':
+                    $model = lcfirst(preg_replace('/^.*\\\/', '', $e->getModel()));
+                    return redirect()->route('concept.index')->withErrors(['msg' => 'No such ' . $model]);
+            }
+
+            return response()->view('errors.500', [], 500);
+        }
+    }
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
