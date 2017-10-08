@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3965a50bae3bf3b8d46a85620b9286f8",
+    "content-hash": "55a1c398a654b2743f877b4c92e034de",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1054,6 +1054,51 @@
                 "react"
             ],
             "time": "2017-09-19T14:15:44+00:00"
+        },
+        {
+            "name": "genealabs/laravel-caffeine",
+            "version": "0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeneaLabs/laravel-caffeine.git",
+                "reference": "b1ab964f2f78463f58f003181e5eb30d3a9fba01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeneaLabs/laravel-caffeine/zipball/b1ab964f2f78463f58f003181e5eb30d3a9fba01",
+                "reference": "b1ab964f2f78463f58f003181e5eb30d3a9fba01",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/routing": "5.1.* || 5.3.* || 5.4.* || 5.5.*",
+                "illuminate/support": "5.1.* || 5.3.* || 5.4.* || 5.5.*",
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "GeneaLabs\\LaravelCaffeine\\Providers\\LaravelCaffeineService"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GeneaLabs\\LaravelCaffeine\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Bronner",
+                    "email": "hello@genealabs.com"
+                }
+            ],
+            "description": "Keeping Your Laravel Forms Awake",
+            "time": "2017-09-01T01:08:45+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

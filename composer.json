@@ -18,6 +18,7 @@
         "doctrine/dbal": "^2.5",
         "evernote/evernote": "^1.26",
         "folklore/graphql": "^1.0",
+        "genealabs/laravel-caffeine": "^0.5.0",
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.3",
         "knowfox/entangle": "^1.1",
