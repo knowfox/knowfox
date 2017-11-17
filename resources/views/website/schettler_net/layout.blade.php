@@ -9,6 +9,7 @@
     <link rel="canonical" href="https://schettler.net{{$concept->url}}" />
     <link rel="openid.server" href="https://id.schettler.net/MyID.config.php">
     <link rel="openid.delegate" href="https://id.schettler.net/MyID.config.php">
+    <link rel="me" href="https://micro.blog/olav">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
