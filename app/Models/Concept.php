@@ -323,31 +323,37 @@ class Concept extends Model {
 
     public function getPaginatedChildren($letter = null)
     {
-        if (!empty($this->config->sort) && $this->config->sort == 'alpha') {
-            $children = $this->children();
-            if ($letter) {
-                $letter = ucfirst(substr($letter, 0, 1));
-                if ($letter < 'A' || $letter > 'Z') {
-                    $children->where('title', '<', 'A');
+        if (!empty($this->config->sort)) {
+            if ($this->config->sort == 'alpha') {
+                $children = $this->children();
+                if ($letter) {
+                    $letter = ucfirst(substr($letter, 0, 1));
+                    if ($letter < 'A' || $letter > 'Z') {
+                        $children->where('title', '<', 'A');
+                    }
+                    else {
+                        $children
+                            ->where('title', '>=', $letter)
+                            ->where('title', '<', chr(ord($letter) + 1));
+                    }
                 }
-                else {
-                    $children
-                        ->where('title', '>=', $letter)
-                        ->where('title', '<', chr(ord($letter) + 1));
-                }
-            }
-            $children = $children
-                ->orderBy('title', 'asc')
-                ->paginate();
+                $children = $children
+                    ->orderBy('title', 'asc')
+                    ->paginate();
 
-            if ($letter) {
-                $children->appends('letter', $letter);
+                if ($letter) {
+                    $children->appends('letter', $letter);
+                }
+                return $children;
             }
-            return $children;
+            else
+            if ($this->config->sort == 'created') {
+                return $children
+                    ->orderBy('created_at', 'asc')
+                    ->paginate();
+            }
         }
-        else {
-            return $this->children()->defaultOrder()->paginate();
-        }
+        return $this->children()->defaultOrder()->paginate();
     }
 
     public function items()
