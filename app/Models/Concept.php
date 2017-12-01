@@ -349,7 +349,7 @@ class Concept extends Model {
             else
             if ($this->config->sort == 'created') {
                 return $children
-                    ->orderBy('created_at', 'asc')
+                    ->orderBy('created_at', 'desc')
                     ->paginate();
             }
         }
