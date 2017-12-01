@@ -324,8 +324,8 @@ class Concept extends Model {
     public function getPaginatedChildren($letter = null)
     {
         if (!empty($this->config->sort)) {
+            $children = $this->children();
             if ($this->config->sort == 'alpha') {
-                $children = $this->children();
                 if ($letter) {
                     $letter = ucfirst(substr($letter, 0, 1));
                     if ($letter < 'A' || $letter > 'Z') {
