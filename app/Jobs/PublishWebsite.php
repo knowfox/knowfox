@@ -182,6 +182,7 @@ class PublishWebsite implements ShouldQueue
         $domain_concept = $this->domain_concept;
 
         $target_dir = env('WEBSITE_' . $domain_concept->id);
+        error_log('Publishing "' . $domain_concept->title . '" to "' . $target_dir . '"' . "\n", 3, '/tmp/knowfox.log');
 
         if (empty($target_dir)) {
             throw new \Exception($domain_concept->title . ' is not a website');
