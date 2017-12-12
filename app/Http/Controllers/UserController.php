@@ -48,7 +48,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -59,7 +59,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -70,7 +70,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -81,8 +81,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -93,7 +93,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -122,8 +122,7 @@ class UserController extends Controller
 
             return redirect()->back()
                 ->with('message', "Du erhälst keine E-Mails mehr von uns");
-        }
-        else {
+        } else {
             if (in_array($what, [
                 'upcoming',
                 'comment',
@@ -139,8 +138,7 @@ class UserController extends Controller
                 return redirect()->back()
                     ->with('message', "Du erhälst keine E-Mails zu ' 
                     . ucfirst($what) . ' mehr von uns");
-            }
-            else {
+            } else {
                 return redirect()->back()
                     ->with('message', 'Zu diesem Thema versenden wir keine E-Mails');
             }
@@ -155,5 +153,13 @@ class UserController extends Controller
         $email_login = EmailLogin::createForEmail($email);
 
         return response()->json(['token' => $email_login->token]);
+    }
+
+    public function passport()
+    {
+        return view('auth.passport', [
+            'page_title' => 'Passport',
+            'sub_title' => 'Manage your API tokens',
+        ]);
     }
 }

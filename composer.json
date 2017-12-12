@@ -23,6 +23,7 @@
         "kalnoy/nestedset": "^4.3",
         "knowfox/entangle": "^1.1",
         "laravel/framework": "^5.5",
+        "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "mpociot/versionable": "^2.1",
         "predis/predis": "^1.1",

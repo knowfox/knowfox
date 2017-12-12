@@ -22,7 +22,21 @@ require('jqtree');
 window.snackbar = require('snackbar');
 
 Vue.component('shares', require('./components/Shares.vue'));
-//Vue.component('shares', require('./components/Example.vue'));
+
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
+);
 
 window.markdownEditor = function () {
     var simplemde = new SimpleMDE({

@@ -105,6 +105,9 @@
                                         <a id="generate-token" href="#">API-Token</a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('user.passport') }}">Passport</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -141,6 +144,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
     @yield('footer_scripts')
 </body>
 </html>

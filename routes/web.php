@@ -220,6 +220,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'UserController@token',
     ]);
 
+    Route::get('/passport', [
+        'as' => 'user.passport',
+        'uses' => 'UserController@passport',
+    ]);
+
     Route::get('/items', [
         'as' => 'item.index',
         'uses' => 'ItemController@index',
