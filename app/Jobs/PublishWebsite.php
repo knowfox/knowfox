@@ -107,7 +107,7 @@ class PublishWebsite implements ShouldQueue
         $by_date = false;
         $children = $concept->children();
         if (!empty($concept->config->sort)) {
-            if ($concept->config->sort == 'date') {
+            if ($concept->config->sort == 'created') {
                 $children->orderBy('created_at', 'desc');
                 $by_date = true;
             }
