@@ -167,7 +167,11 @@ class PictureService
 
         $dir = $this->imageDirectory($uuid);
 
-        $d = dir($dir);
+        $d = @dir($dir);
+        if (!$d) {
+            return [];
+        }
+        
         while (false !== ($entry = $d->read())) {
             if (strpos($entry, '.') === 0) {
                 continue;
