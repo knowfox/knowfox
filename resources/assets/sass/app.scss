@@ -225,3 +225,24 @@ dd {
 ul.persons {
     padding-left: 8px;
 }
+
+.card {
+    @extend .thumbnail;
+    padding: 0;
+
+    img {
+        width: 100%;
+    }
+}
+
+.card-columns-2 {
+    column-count: 2;
+    column-gap: 1.25rem;
+}
+
+.card-columns-2 .card {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: .75rem;
+}
+

@@ -22,7 +22,7 @@ class CreateAttachmentsTable extends Migration
             $table->boolean('is_default')->default(false);
             $table->string('name');
             $table->string('type');
-            $table->text('data')->nullable();
+            $table->text('data')->default('{}');
             $table->timestamps();
         });
     }

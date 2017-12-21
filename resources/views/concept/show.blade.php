@@ -76,6 +76,30 @@
 
                     @show
 
+                    @section('attachments')
+
+                        @if ($concept->attachments->count())
+
+                            <h2>Attachments</h2>
+
+                            <div class="card-columns-2 clearfix">
+                                @foreach ($concept->attachments as $attachment)
+                                    <div class="card">
+                                        <img src="{{$attachment->name}}?style=h80">
+                                        <div class="caption text-center">
+                                            <h4>{{$attachment->name}}</h4>
+
+                                            @if (strpos($attachment->type, 'image/') === 0)
+                                                <p>{{$attachment->data['width']}} x {{$attachment->data['width']}}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @endif
+                    @show
+
                     @section('children')
 
                         @if (!in_array($concept->type, ['folder', 'book list']) && $concept->children()->count())
@@ -113,7 +137,8 @@
 
                     @endif
 
-                    @if ($same_day_query = $concept->sameDay())
+                    @php $same_day_query = $concept->sameDay(); @endphp
+                    @if ($same_day_query->count())
 
                         <h2>Same day</h2>
 

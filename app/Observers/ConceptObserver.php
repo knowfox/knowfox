@@ -3,6 +3,7 @@
 namespace Knowfox\Observers;
 
 use Illuminate\Http\File;
+use Imagick;
 use Illuminate\Support\Facades\Auth;
 use Knowfox\Models\Attachment;
 use Knowfox\Models\Concept;
@@ -180,18 +181,22 @@ class ConceptObserver
                     ]);
             }
 
-            if (isset($attachments[$name]->original_id)) {
-                $filename = $attachments[$name]->original->name;
-            }
-            else {
+            if (!isset($attachments[$name]->original_id)) {
                 $filename = $attachments[$name]->name;
+
+                $path = $picture->imageDirectory($concept->uuid) . '/' . $filename;
+                $file = new File($path);
+                $attachments[$name]->type = $type = $file->getMimeType();
+
+                if (strpos($type, 'image/') === 0) {
+                    $image = new Imagick($path);
+
+                    $attachments[$name]->data = [
+                        'width' => $image->getImageWidth(),
+                        'height' => $image->getImageHeight(),
+                    ];
+                }
             }
-
-            $file = new File(
-                $picture->imageDirectory($concept->uuid) . '/' . $filename
-            );
-
-            $attachments[$name]->type = $file->getMimeType();
 
             $attachments[$name]->save();
         }
