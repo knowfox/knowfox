@@ -8,7 +8,7 @@
 
 <div id="images" class="clearfix"></div>
 
-<div class="form-group>
+<div class="form-group">
     <label for="body">Body</label>
     <textarea class="form-control" rows="10" name="body" id="body-input">{{$concept->body}}</textarea>
 </div>

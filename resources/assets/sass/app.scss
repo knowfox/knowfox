@@ -246,3 +246,15 @@ ul.persons {
     margin-bottom: .75rem;
 }
 
+.CodeMirror,
+.CodeMirror-scroll {
+    max-height: 500px;
+}
+
+.CodeMirror-fullscreen.CodeMirror {
+    max-height: none;
+}
+
+.CodeMirror-fullscreen .CodeMirror-scroll {
+    max-height: none;
+}
