@@ -32,15 +32,30 @@
 
             <table class="table">
                 <thead>
-                <tr>
-                    <th style="width:10%">Default</th>
-                    <th style="width:20%">Thumbnail</th>
-                    <th style="width:60%">Name</th>
-                    <th style="width:10%">Operations</th>
-                </tr>
+                    <tr>
+                        <th style="width:10%">Default</th>
+                        <th style="width:20%">Thumbnail</th>
+                        <th style="width:60%">Name</th>
+                        <th style="width:10%">Operations</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach ($attachments as $attachment)
+                @foreach ($concept->attachments as $attachment)
+                    <tr>
+                        <td><input type="checkbox"{!! $attachment->is_default ? ' checked="checked"' : '' !!}></td>
+                        <td><img src="{{$attachment->name}}?style=h80"></td>
+                        <td>
+                            <h4>{{$attachment->name}}</h4>
+
+                            @if (strpos($attachment->type, 'image/') === 0)
+                                <p>{{$attachment->data['width']}} x {{$attachment->data['width']}}</p>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="#" data-toggle="modal" data-target="#attachment-edit-form" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="#" title="Delete"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
                 @endforeach
                 </tbody>
             </table>

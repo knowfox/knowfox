@@ -146,6 +146,15 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@versions',
     ])->where('concept', '[0-9]+');
 
+    Route::get('{concept}/attachments', [
+        'as' => 'attachment.index',
+        'uses' => 'AttachmentController@index'
+    ])->where('concept', '[0-9]+');
+
+    Route::resource('attachment', 'AttachmentController', ['except' => [
+        'index'
+    ]]);
+
     Route::get('/{concept}/{filename}', [
         'as' => 'concept.image',
         'uses' => 'ConceptController@image',
@@ -239,14 +248,5 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'item.done',
         'uses' => 'ItemController@done',
     ]);
-
-    Route::get('attachments/{concept}', [
-        'as' => 'attachment.index',
-        'uses' => 'AttachmentController@index'
-    ]);
-
-    Route::resource('attachment', 'AttachmentController', ['except' => [
-        'index'
-    ]]);
 });
 

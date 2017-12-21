@@ -97,7 +97,7 @@
                                 @endforeach
                             </div>
 
-                            @endif
+                        @endif
                     @show
 
                     @section('children')
