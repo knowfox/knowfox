@@ -422,4 +422,9 @@ class Concept extends Model {
 
         return $concept;
     }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class)->orderBy('is_default', 'desc');
+    }
 }

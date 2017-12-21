@@ -2,11 +2,14 @@
 
 namespace Knowfox\Observers;
 
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
+use Knowfox\Models\Attachment;
 use Knowfox\Models\Concept;
 use Knowfox\Models\Item;
 use cebe\markdown\GithubMarkdown;
 use Knowfox\Models\Relationship;
+use Knowfox\Services\PictureService;
 
 class ConceptObserver
 {
@@ -144,8 +147,60 @@ class ConceptObserver
         $this->syncRelated($concept,'link', array_keys($new_link));
     }
 
+    private function syncAttachments($concept)
+    {
+        $picture = app(PictureService::class);
+
+        $files = $picture->images($concept->uuid);
+        $deleted = array_flip($files);
+
+        $default_attachment = null;
+
+        $attachments = $concept->attachments->mapWithKeys(function ($attachment) use (&$default_attachment) {
+
+            if (is_null($default_attachment) || $attachment->is_default) {
+                $default_attachment = $attachment;
+            }
+
+            return [ $attachment->name => $attachment ];
+        });
+
+        if (!is_null($default_attachment)) {
+            $default_attachment->is_default = true;
+        }
+
+        foreach ($files as $name) {
+            unset($deleted[$name]);
+
+            if (!isset($attachments[$name])) {
+                $attachments[$name] = (new Attachment())
+                    ->fill([
+                        'concept_id' => $concept->id,
+                        'name' => $name
+                    ]);
+            }
+
+            if (isset($attachments[$name]->original_id)) {
+                $filename = $attachments[$name]->original->name;
+            }
+            else {
+                $filename = $attachments[$name]->name;
+            }
+
+            $file = new File(
+                $picture->imageDirectory($concept->uuid) . '/' . $filename
+            );
+
+            $attachments[$name]->type = $file->getMimeType();
+
+            $attachments[$name]->save();
+        }
+
+        // $concept->attachments()->whereIn('name', array_keys($deleted))->delete();
+    }
+
     /**
-     * Parse items from the concept body
+     * Parse items from the concept body and sync attachments
      * @param Concept $concept
      */
     public function saved(Concept $concept)
@@ -160,5 +215,7 @@ class ConceptObserver
 
         $this->extractItems($concept);
         $this->extractLinks($concept);
+
+        $this->syncAttachments($concept);
     }
 }

@@ -33,6 +33,13 @@
                             @endif
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('attachment.index', [$concept]) }}">
+                            <i class="glyphicon glyphicon-paperclip"></i> Attachments
+                        </a>
+                    </li>
+
                     <li>
                         <a href="{{ route('concept.slides', [$concept]) }}">
                             <i class="glyphicon glyphicon-blackboard"></i> Slides

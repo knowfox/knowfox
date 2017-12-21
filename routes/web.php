@@ -239,5 +239,14 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'item.done',
         'uses' => 'ItemController@done',
     ]);
+
+    Route::get('attachments/{concept}', [
+        'as' => 'attachment.index',
+        'uses' => 'AttachmentController@index'
+    ]);
+
+    Route::resource('attachment', 'AttachmentController', ['except' => [
+        'index'
+    ]]);
 });
 
