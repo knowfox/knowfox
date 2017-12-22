@@ -4,6 +4,7 @@ namespace Knowfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Knowfox\Models\Concept;
+use Knowfox\Http\Resources\Concept as ConceptResource;
 
 class ApiController extends Controller
 {
@@ -38,8 +39,8 @@ class ApiController extends Controller
         }
 
         return [
-            'concept' => $concept,
-            'children' => $children->paginate(),
+            'concept' => new ConceptResource($concept),
+            'children' => ConceptResource::collection($children->paginate()),
         ];
     }
 }
