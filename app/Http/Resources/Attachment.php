@@ -21,7 +21,7 @@ class Attachment extends Resource
             'concept_id' => $this->concept_id,
             'is_default' => $this->is_default,
             'type' => $this->type,
-            'data' => json_decode($this->data),
+            'data' => $this->data,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
