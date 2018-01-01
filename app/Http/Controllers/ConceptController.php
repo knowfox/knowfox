@@ -364,6 +364,7 @@ class ConceptController extends Controller
 
     public function image(PictureService $picture, Request $request, Concept $concept, $filename)
     {
+        $this->middleware('auth:api');
         $this->authorize('view', $concept);
 
         $args = [];
