@@ -32,6 +32,7 @@ class Concept extends Resource
             'status' => $this->status,
             'is_flagged' => $this->is_flagged,
             'slug' => $this->slug,
+            'tags' => $this->tags,
             'data' => $this->config,
             'attachments' => Attachment::collection($this->attachments),
         ];
