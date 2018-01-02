@@ -20,4 +20,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
 
     Route::resource('concept', 'ApiController');
+
+    Route::get('{concept}/{filename}', [
+        'as' => 'concept.image',
+        'uses' => 'ConceptController@image',
+    ])->where('concept', '[0-9]+');
 });
