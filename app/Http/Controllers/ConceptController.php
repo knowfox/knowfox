@@ -68,10 +68,18 @@ class ConceptController extends Controller
      */
     public function index(Request $request, $special = false)
     {
-        $concepts = Concept::withDepth()
-            ->with('tagged');
-
-        $page_title = 'Concepts';
+        if ($request->has('concept_id')) {
+            $root = Concept::findOrFail($request->concept_id);
+            $concepts = $root->descendants()
+                ->withDepth()
+                ->with('tagged');
+            $page_title = 'Concepts in #' . $root->id . ', ' . $root->title;
+        }
+        else {
+            $concepts = Concept::withDepth()
+                ->with('tagged');
+            $page_title = 'Concepts';
+        }
 
         if ($special) {
             switch ($special) {
