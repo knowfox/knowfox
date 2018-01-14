@@ -36,9 +36,9 @@ class BookmarkController extends Controller
             'title' => $request->input('title'),
             'source_url' => $request->input('url'),
         ]);
-        return view('bookmark.create', ['concept' => $concept]);
-//            ->header('Access-Control-Allow-Origin', '*');
-
+        return response()
+          ->view('bookmark.create', ['concept' => $concept])
+          ->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -112,6 +112,3 @@ class BookmarkController extends Controller
         return view('bookmark.show', ['concept' => $concept, 'message' => $message]);
     }
 }
-
-
-
