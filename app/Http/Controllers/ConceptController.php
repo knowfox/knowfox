@@ -68,7 +68,7 @@ class ConceptController extends Controller
      */
     public function index(Request $request, $special = false)
     {
-        if ($request->has('concept_id')) {
+        if ($request->has('concept_id') && $request->concept_id) {
             $root = Concept::findOrFail($request->concept_id);
             $concepts = $root->descendants()
                 ->withDepth()
