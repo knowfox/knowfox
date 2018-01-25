@@ -12,7 +12,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    @foreach ($concept->ancestors()->get() as $ancestor)
+                    @foreach ($concept->ancestors()->get()->reverse() as $ancestor)
                         <li><a class="search-context" href="#" data-id="{{ $ancestor->id }}">&hellip; {{ $ancestor->title }}</a></li>
                     @endforeach
                     <li><a class="search-context" href="#">&hellip; globally</a></li>
