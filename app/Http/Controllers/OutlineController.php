@@ -54,7 +54,7 @@ class OutlineController extends Controller
             DB::transaction(function () use (&$count, &$fails, $outline, $concept, $data) {
                 list ($count, $fails) = $outline->update($concept, $data);
                 if ($fails) {
-                    throw \Exception("Not saved. " . count($fails) . ' fails.');
+                    throw new \Exception("Not saved. " . count($fails) . ' fails.');
                 }
             });
         }
