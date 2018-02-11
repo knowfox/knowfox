@@ -153,17 +153,25 @@
 
                     @section('siblings')
 
-                        @if ($concept->getSiblings()->count())
+                        @if ($siblings->count())
 
-                            <h2>Siblings</h2>
+                            <h2>Siblings
+                                @if ($siblings->total() > $siblings->lastItem())
+                                    <small>({{ $siblings->firstItem() }} &hellip; {{ $siblings->lastItem() }})</small>
+                                @endif
+                            </h2>
 
                             <ul>
-                                @foreach ($concept->siblings()->where('owner_id', Auth::id())->get() as $sibling)
+                                @foreach ($siblings as $sibling)
                                     <li><a href="{{route('concept.show', ['concept' => $sibling])}}">
                                             {{$sibling->title}} {{ ($descendents_count = $sibling->getDescendantCount()) ? "({$descendents_count})" : '' }}
                                         </a></li>
                                 @endforeach
                             </ul>
+
+                            <div class="text-center">
+                                {{ $siblings->links('pagination::simple-default') }}
+                            </div>
 
                         @endif
 

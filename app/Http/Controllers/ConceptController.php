@@ -18,6 +18,7 @@
  */
 namespace Knowfox\Http\Controllers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Knowfox\Http\Requests\ConceptRequest;
@@ -280,6 +281,12 @@ class ConceptController extends Controller
         $concept->timestamps = false;
         $concept->save();
 
+        /** @var Paginator $siblings */
+        $siblings = $concept
+            ->siblings()
+            ->where('owner_id', Auth::id())
+            ->paginate(null, ['*'], 'spage');
+
         return view($view_name, [
             'page_title' => $concept->title,
             'uuid' => $concept->uuid,
@@ -287,6 +294,7 @@ class ConceptController extends Controller
             'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
             'children' => $concept->getPaginatedChildren($request->letter),
+            'siblings' => $siblings,
         ]);
     }
 
