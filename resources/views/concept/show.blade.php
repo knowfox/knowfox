@@ -156,7 +156,7 @@
                         @if ($siblings->count())
 
                             <h2>Siblings
-                                @if ($siblings->currentPage() > 0 || $siblings->total() > $siblings->lastItem())
+                                @if ($siblings->currentPage() > 1 || $siblings->total() > $siblings->lastItem())
                                     <small>({{ $siblings->firstItem() }} &hellip; {{ $siblings->lastItem() }} of {{ $siblings->total() }})</small>
                                 @endif
                             </h2>
