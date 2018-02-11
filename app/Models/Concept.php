@@ -321,39 +321,42 @@ class Concept extends Model {
         return parent::newFromBuilder($attributes, $connection);
     }
 
-    public function getPaginatedChildren($letter = null)
+    /**
+     * @param $query
+     * @param null $letter
+     * @return mixed
+     */
+    public function getPaginated($query, $sort = null, $letter = null, $paginate_options = [])
     {
-        if (!empty($this->config->sort)) {
-            $children = $this->children();
-            if ($this->config->sort == 'alpha') {
+        if ($sort) {
+            if ($sort == 'alpha') {
                 if ($letter) {
                     $letter = ucfirst(substr($letter, 0, 1));
                     if ($letter < 'A' || $letter > 'Z') {
-                        $children->where('title', '<', 'A');
+                        $query->where('title', '<', 'A');
                     }
                     else {
-                        $children
+                        $query
                             ->where('title', '>=', $letter)
                             ->where('title', '<', chr(ord($letter) + 1));
                     }
                 }
-                $children = $children
-                    ->orderBy('title', 'asc')
-                    ->paginate();
+                $query->orderBy('title', 'asc');
+                $paginator = call_user_func_array([$query, 'paginate'], $paginate_options);
 
                 if ($letter) {
-                    $children->appends('letter', $letter);
+                    $paginator->appends('letter', $letter);
                 }
-                return $children;
+                return $paginator;
             }
             else
-            if ($this->config->sort == 'created') {
-                return $children
-                    ->orderBy('created_at', 'desc')
-                    ->paginate();
+            if ($sort == 'created') {
+                $query->orderBy('created_at', 'desc');
+                return call_user_func_array([$query, 'paginate'], $paginate_options);
             }
         }
-        return $this->children()->defaultOrder()->paginate();
+        $query->defaultOrder();
+        return call_user_func_array([$query, 'paginate'], $paginate_options);
     }
 
     public function items()

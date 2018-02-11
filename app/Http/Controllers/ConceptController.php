@@ -253,7 +253,7 @@ class ConceptController extends Controller
     {
         $this->authorize('view', $concept);
 
-        $concept->load('related', 'inverseRelated', 'tagged', 'shares');
+        $concept->load('related', 'inverseRelated', 'tagged', 'shares', 'parent');
 
         $view_name = 'concept.show';
         if ($concept->type != 'concept') {
@@ -284,8 +284,15 @@ class ConceptController extends Controller
         /** @var Paginator $siblings */
         $siblings = $concept
             ->siblings()
-            ->where('owner_id', Auth::id())
-            ->paginate(null, ['*'], 'spage');
+            ->where('owner_id', Auth::id());
+
+        $parent_sort = isset($concept->parent->config->sort)
+            ? $concept->parent->config->sort
+            : null;
+
+        $sort = isset($concept->config->sort)
+            ? $concept->config->sort
+            : null;
 
         return view($view_name, [
             'page_title' => $concept->title,
@@ -293,8 +300,17 @@ class ConceptController extends Controller
             'concept' => $concept,
             'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
-            'children' => $concept->getPaginatedChildren($request->letter),
-            'siblings' => $siblings,
+            'children' => $concept->getPaginated(
+                $concept->children(),
+                $sort,
+                $request->letter
+            ),
+            'siblings' => $concept->getPaginated(
+                $siblings,
+                $parent_sort,
+                $request->letter,
+                [ null, ['*'], 'spage' ]
+            )
         ]);
     }
 
