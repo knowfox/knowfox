@@ -5,7 +5,7 @@
 </head>
 <body>
     <p style="font-family:helvetica sans-serif">{{$message}} -
-        <a target="_top" href="https://knowfox.com/concept/{{$concept->id}}">Bookmarked "{{$concept->title}}"</a>
+        <a target="_top" href="{{ config('app.url') }}/concept/{{$concept->id}}">Bookmarked "{{$concept->title}}"</a>
     </p>
 </body>
 </html>
