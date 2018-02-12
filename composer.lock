@@ -1533,16 +1533,16 @@
         },
         {
             "name": "knowfox/entangle",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knowfox/entangle.git",
-                "reference": "459e01017751f81fde6fef20e8be884f49f93333"
+                "reference": "ce74d2f6c5af6843c107cf789dbc056fa2f9c584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knowfox/entangle/zipball/459e01017751f81fde6fef20e8be884f49f93333",
-                "reference": "459e01017751f81fde6fef20e8be884f49f93333",
+                "url": "https://api.github.com/repos/knowfox/entangle/zipball/ce74d2f6c5af6843c107cf789dbc056fa2f9c584",
+                "reference": "ce74d2f6c5af6843c107cf789dbc056fa2f9c584",
                 "shasum": ""
             },
             "require": {
@@ -1565,10 +1565,10 @@
             ],
             "description": "Entangled timelines. https://entangle.de as a Knowfox package.",
             "support": {
-                "source": "https://github.com/knowfox/entangle/tree/1.2.1",
+                "source": "https://github.com/knowfox/entangle/tree/1.2.2",
                 "issues": "https://github.com/knowfox/entangle/issues"
             },
-            "time": "2017-10-19T06:15:49+00:00"
+            "time": "2018-02-12T20:18:44+00:00"
         },
         {
             "name": "laravel/framework",
