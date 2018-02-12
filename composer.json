@@ -21,7 +21,7 @@
         "genealabs/laravel-caffeine": "^0.5.0",
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.3",
-        "knowfox/entangle": "^1.1",
+        "knowfox/entangle": "^1.2.2",
         "laravel/framework": "^5.5",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
