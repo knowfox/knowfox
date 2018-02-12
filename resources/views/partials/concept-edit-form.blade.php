@@ -61,7 +61,7 @@
             <div class="form-group">
                 <label for="title">Slug</label>
                 <div class="input-group">
-                    <span class="input-group-addon" id="slug-prefix">https://knowfox.com/concept/</span>
+                    <span class="input-group-addon" id="slug-prefix">{{ config('app.url') }}/concept/</span>
                     <input type="text" class="form-control" name="slug" value="{{$concept->slug}}" aria-describedby="slug-prefix">
                 </div>
             </div>

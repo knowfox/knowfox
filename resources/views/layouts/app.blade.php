@@ -133,7 +133,7 @@
         <div class="container">
             <p class="text-muted">
                 &copy; {{ date('Y') }} Dr. Olav Schettler |
-                <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='https://knowfox.com/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()"><i class="glyphicon glyphicon-bookmark"></i><span class="desktop-only"> Bookmarklet</span></a>
+                <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='{{ config('app.url') }}/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()"><i class="glyphicon glyphicon-bookmark"></i><span class="desktop-only"> Bookmarklet</span></a>
                 | <a href="https://addons.mozilla.org/de/firefox/addon/knowfox/">Firefox Extension</a>
                 | <a href="https://blog.knowfox.com">Blog</a>
                 | <a href="https://knowfox.com/presentation/47d6c8de/013c/11e7/8a8c/56847afe9799/index.html">Features</a>
