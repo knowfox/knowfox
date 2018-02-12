@@ -370,7 +370,7 @@ class Concept extends Model {
         if ($date_string) {
             $date = Carbon::createFromFormat('Y-m-d', $date_string);
             if (!$date) {
-                throw \Exception("{$date_string} is not a date");
+                throw new \Exception("{$date_string} is not a date");
             }
         }
         else {
@@ -379,7 +379,7 @@ class Concept extends Model {
 
         $root = self::whereIsRoot()->where('title', 'Journal')->first();
         if (!$root) {
-            throw \Exception('No "Journal" root');
+            throw new \Exception('No "Journal" root');
         }
 
         $year = self::firstOrCreate([
