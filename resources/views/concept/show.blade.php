@@ -204,7 +204,7 @@
     </div><!-- /.modal -->
 
     <div class="modal fade" id="concept-share-form" role="dialog" aria-labelledby="form-label">
-        <div id="app" class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document">
             <form v-on:submit.prevent="updateShares" class="modal-content" action="{{route('share', [$concept])}}" method="POST">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -246,33 +246,36 @@
                 $('#images').html(txt + '');
             });
         });
+    </script>
+@endsection
 
-        $('#concept-share-form').one('shown.bs.modal', function () {
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    shares: {!! json_encode($concept->shares) !!}
-                },
-                methods: {
-                    updateShares: function (e) {
-                        $.ajax({
-                            url: '/share/{{$concept->id}}',
-                            type: 'POST',
-                            dataType: 'json',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: {
-                                shares: this.shares
-                            },
-                            success: function (res) {
-                                location.href = '/{{$concept->id}}';
-                            }
-                        })
-                    }
+@push('scripts')
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                shares: {!! json_encode($concept->shares) !!}
+            },
+            methods: {
+                updateShares: function (e) {
+                    $.ajax({
+                        url: '/share/{{$concept->id}}',
+                        type: 'POST',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            shares: this.shares
+                        },
+                        success: function (res) {
+                            location.href = '/{{$concept->id}}';
+                        }
+                    })
                 }
-            });
+            }
         });
 
     </script>
-@endsection
+@endpush

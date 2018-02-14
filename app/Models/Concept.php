@@ -419,8 +419,8 @@ class Concept extends Model {
                 'title' => $date->format('Y-m-d l:') . ' Journal',
                 'owner_id' => Auth::id(),
                 'body' => $nav . "\n\n",
+                'type' => 'journal',
             ]);
-            $concept->tag('Journal');
         }
 
         return $concept;

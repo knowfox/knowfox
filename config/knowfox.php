@@ -12,6 +12,7 @@ return [
         'concept',
         'ebook',
         'book list',
+        'journal',
         'impact map',
         'folder',
         'feed item',
