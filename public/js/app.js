@@ -13745,8 +13745,6 @@ window.markdownEditor = function () {
     });
 };
 
-$('#concept-edit-form').one('shown.bs.modal', markdownEditor);
-
 $('#parent-input').selectize({
     persist: false,
     valueField: 'id',

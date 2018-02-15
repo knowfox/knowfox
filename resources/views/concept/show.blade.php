@@ -246,6 +246,9 @@
                 $('#images').html(txt + '');
             });
         });
+
+        $('#concept-edit-form').one('shown.bs.modal', markdownEditor);
+        
     </script>
 @endsection
 
