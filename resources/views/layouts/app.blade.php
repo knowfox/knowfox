@@ -127,9 +127,7 @@
         </nav>
     @show
 
-    <div id="app">
-        @yield('content')
-    </div>
+    @yield('content')
 
     <footer class="footer">
         <div class="container">

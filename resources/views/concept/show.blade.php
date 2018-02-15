@@ -24,7 +24,7 @@
 
 @section('content')
 
-    <main id="dropzone" class="container dropzone">
+    <main id="app" class="container dropzone">
 
         @include('partials.concept-view-page-header')
 
@@ -225,7 +225,7 @@
 
 @section ('footer_scripts')
     <script>
-        Dropzone.options.dropzone = {
+        Dropzone.options.app = {
             maxFilesize: 100,
             url: '/upload/{{$concept->uuid}}',
             headers: {
@@ -248,7 +248,7 @@
         });
 
         $('#concept-edit-form').one('shown.bs.modal', markdownEditor);
-        
+
     </script>
 @endsection
 
