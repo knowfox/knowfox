@@ -1,5 +1,8 @@
 @extends('concept.show')
 
-@section('siblings')
+@section('top-sidebar')
     <mini-calendar></mini-calendar>
+@endsection
+
+@section('siblings')
 @endsection

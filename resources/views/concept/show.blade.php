@@ -66,6 +66,8 @@
                 </div>
                 <div class="col-md-4">
 
+                    @yield('top-sidebar')
+
                     @section('config')
 
                         @if (!empty((array)$concept->config))
