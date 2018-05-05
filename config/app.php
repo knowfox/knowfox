@@ -173,6 +173,7 @@ return [
         Folklore\GraphQL\ServiceProvider::class,
 
         Knowfox\Entangle\ServiceProvider::class,
+        Knowfox\Drupal7\ServiceProvider::class,
 
         /*
          * Application Service Providers...

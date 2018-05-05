@@ -45,7 +45,8 @@
         ],
         "psr-4": {
             "Knowfox\\": "app/",
-            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/"
+            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/",
+            "Knowfox\\Drupal7\\": "packages/knowfox/drupal7/src/"
         }
     },
     "autoload-dev": {
