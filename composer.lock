@@ -1537,12 +1537,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/knowfox/drupal7.git",
-                "reference": "7157adc6bea25630ecb3d133887aaca35b37404c"
+                "reference": "1d4169e1a07767b3472794331e375bd26cefd90f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knowfox/drupal7/zipball/7157adc6bea25630ecb3d133887aaca35b37404c",
-                "reference": "7157adc6bea25630ecb3d133887aaca35b37404c",
+                "url": "https://api.github.com/repos/knowfox/drupal7/zipball/1d4169e1a07767b3472794331e375bd26cefd90f",
+                "reference": "1d4169e1a07767b3472794331e375bd26cefd90f",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1572,7 @@
                 }
             ],
             "description": "Import a Drupal7 website into Knowfox.",
-            "time": "2018-05-06 19:32:09"
+            "time": "2018-05-06 19:55:18"
         },
         {
             "name": "knowfox/entangle",
