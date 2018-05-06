@@ -1,0 +1,1 @@
+@extends('website.default.fragment')
