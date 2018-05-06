@@ -106,6 +106,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@uuid',
     ]);
 
+    Route::get('/uuid/{uuid}/image', [
+        'as' => 'concept.uuid-image',
+        'uses' => 'ConceptController@uuidImage',
+    ]);
+
     Route::get('/concept/{concept}', function ($concept) {
         return redirect()->route('concept.show', [$concept]);
     })->where('concept', '[0-9]+');

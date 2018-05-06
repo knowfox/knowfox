@@ -464,4 +464,18 @@ class ConceptController extends Controller
         $concept = Concept::where('uuid', $uuid)->firstOrFail();
         return redirect()->route('concept.show', [$concept]);
     }
+
+    public function uuidImage(Request $request, $uuid)
+    {
+        $concept = Concept::where('uuid', $uuid)->firstOrFail();
+        $image = $concept->config->image;
+        $url = '/' . $concept->id . '/' . $image;
+
+        $parameters = $request->all();
+        if ($parameters) {
+            $url .= '?' . http_build_query($parameters);
+        }
+
+        return redirect($url);
+    }
 }
