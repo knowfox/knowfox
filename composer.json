@@ -21,6 +21,7 @@
         "genealabs/laravel-caffeine": "^0.5.0",
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.3",
+        "knowfox/drupal7": "dev-master",
         "knowfox/entangle": "^1.2.2",
         "laravel/framework": "^5.5",
         "laravel/passport": "^4.0",
@@ -45,8 +46,7 @@
         ],
         "psr-4": {
             "Knowfox\\": "app/",
-            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/",
-            "Knowfox\\Drupal7\\": "packages/knowfox/drupal7/src/"
+            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/"
         }
     },
     "autoload-dev": {

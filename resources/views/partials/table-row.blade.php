@@ -1,5 +1,10 @@
 <tr>
-    <td>
+    <td rowspan="2">
+        @if (isset($concept->config->image))
+            <img src="/uuid/{{ $concept->uuid }}/image?width=100">
+        @endif
+    </td>
+    <td colspan="3">
         @if ($concept->depth == 0)
             <a href="{{route('concept.show', ['concept' => $concept])}}">
                 <strong>{{$concept->title}}</strong>
@@ -17,6 +22,9 @@
             <i class="glyphicon glyphicon-heart"></i>
         @endif
     </td>
+    <td>{{strftime('%Y-%m-%d', strtotime($concept->created_at))}}</td>
+</tr>
+<tr>
     <td>
         @if ($concept->type != 'concept')
             <span class="label label-info">{{ucfirst($concept->type)}}</span>

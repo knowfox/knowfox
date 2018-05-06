@@ -1,9 +1,13 @@
 <thead>
 <tr>
-    <th style="width:50%">Title</th>
-    <th style="width:20%">Tags</th>
-    <th style="width:5%">Kids</th>
-    <th style="width:5%">Viewed</th>
-    <th style="width:20%">Viewed / Updated</th>
+    <th rowspan="2" style="width:20%">Image</th>
+    <th colspan="3" style="width:70%">Title</th>
+    <th style="width:10%">Created</th>
+</tr>
+<tr>
+    <th>Tags</th>
+    <th>Kids</th>
+    <th>Viewed</th>
+    <th>Viewed / Updated</th>
 </tr>
 </thead>

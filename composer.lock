@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "88262de0b32e59a888b79e2831b812ee",
+    "content-hash": "b507aea1aaadf1b53f444c1fd278f4d6",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1530,6 +1530,49 @@
                 "nsm"
             ],
             "time": "2017-08-30T19:16:05+00:00"
+        },
+        {
+            "name": "knowfox/drupal7",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/knowfox/drupal7.git",
+                "reference": "7157adc6bea25630ecb3d133887aaca35b37404c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/knowfox/drupal7/zipball/7157adc6bea25630ecb3d133887aaca35b37404c",
+                "reference": "7157adc6bea25630ecb3d133887aaca35b37404c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Knowfox\\Drupal7\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knowfox\\Drupal7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Olav Schettler",
+                    "email": "olav@schettler.net"
+                }
+            ],
+            "description": "Import a Drupal7 website into Knowfox.",
+            "time": "2018-05-06 19:32:09"
         },
         {
             "name": "knowfox/entangle",
@@ -5930,6 +5973,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "knowfox/drupal7": 20,
         "vipnytt/opmlparser": 20
     },
     "prefer-stable": false,
