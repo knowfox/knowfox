@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#toolbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 8px;
+  background-color: #222;
+  color: #FFF;
+}
+
+main {
+  padding-top: 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+#tree {
+  flex-basis: 20%;
+  flex-grow: 1;
+  padding: 8px;
+  background-color: #EEE;
+}
+
+#tree nav {
+  padding-left: 4px;
+  font-size: 1.4rem;
+  width: 1.0rem;
+}
+
+/* Default wedge is empty & closed */
+#tree li > header nav {
+  color: #888;
+}
+
+#tree li.with-kids > header nav {
+  color: black;
+}
+
+#tree li > header .fa-angle-down {
+  display: none;
+}
+
+#tree li.open > header .fa-angle-down {
+    display: inline;
+}
+
+#tree li.open > header .fa-angle-right {
+    display: none;
+}
+
+#tree li > ul {
+    display: none;
+}
+
+#tree li.open > ul {
+    display: block;
+    /*border-left: solid 1px #FFF;*/
+}
+
+#tree h2 {
+  margin: 4px;
+  font-weight: normal;
+  font-size: 1.0rem;
+  white-space: nowrap;
+}
+
+#tree ul {
+  list-style-type: none;
+  margin-left: 10px;
+  margin-bottom: 4px;
+  padding-left: 0;
+}
+
+#tree li header {
+  margin-left: 0;
+  /*border-top: solid 1px #FFF;*/
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+#tree li.current > header h2 {
+  font-weight: bold;
+}
+
+#tree li:last-child {
+  /*border-bottom: solid 1px #FFF;*/
+}
+
+#breadcrumbs {
+    padding: 8px;
+}
+
+#editor {
+  flex-basis: 80%;
+  flex-grow: 2;
+
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+#editor h1 {
+  padding-left: 8px;
+  font-size: 1.4rem;
+}
+
+#editor article {
+  flex: 1;
+  padding: 8px;
+  font-size: 1.0rem;
+}
+
+#footer {
+  padding: 8px;
+  background-color: #EEE;
+}
