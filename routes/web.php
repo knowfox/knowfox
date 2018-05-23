@@ -253,5 +253,9 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'item.done',
         'uses' => 'ItemController@done',
     ]);
-});
 
+    Route::get('/ui', [
+        'as' => 'ui.index',
+        'uses' => 'UiController@index',
+    ]);
+});

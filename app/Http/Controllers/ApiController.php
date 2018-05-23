@@ -38,9 +38,10 @@ class ApiController extends Controller
             );
         }
 
-        return [
+        return response([
             'concept' => new ConceptResource($concept),
             'children' => ConceptResource::collection($children->paginate()),
-        ];
+            ])
+            ->header('Access-Control-Allow-Origin', 'authorization');
     }
 }
