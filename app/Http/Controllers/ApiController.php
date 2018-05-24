@@ -8,6 +8,11 @@ use Knowfox\Http\Resources\Concept as ConceptResource;
 
 class ApiController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        $this->setAuthMiddleware($request);
+    }
+
     public function show(Concept $concept, Request $request)
     {
         $this->authorize('view', $concept);

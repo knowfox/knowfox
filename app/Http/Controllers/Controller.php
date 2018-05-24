@@ -19,6 +19,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -36,5 +37,15 @@ class Controller extends BaseController
         Auth::login($email_login->user, /*remember*/true);
 
         return $email_login->user;
+    }
+
+    protected function setAuthMiddleWare(Request $request)
+    {
+        if ($request->hasHeader('authorization')) {
+            $this->middleware('auth:api');
+        }
+        else {
+            $this->middleware('web');
+        }
     }
 }

@@ -7,7 +7,16 @@
   <link rel="stylesheet" href="/ui/styles.css">
 </head>
 <body>
-  <nav id="toolbar">toolbar</nav>
+  <nav id="toolbar">
+    <div>
+      left
+    </div>
+    <div>
+      @if (Auth::check())
+        {{ Auth::user()->name }}
+      @endif
+    </div>
+  </nav>
   <main>
     <section id="tree"></section>
     <section id="editor">

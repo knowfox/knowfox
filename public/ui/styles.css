@@ -6,6 +6,8 @@ body {
 }
 
 #toolbar {
+  display: flex;
+  justify-content: space-between;
   position: fixed;
   width: 100%;
   top: 0;
@@ -13,6 +15,10 @@ body {
   padding: 8px;
   background-color: #222;
   color: #FFF;
+}
+
+#toolbar > div:last-child {
+  margin-right: 18px;
 }
 
 main {
