@@ -24,25 +24,15 @@ const Concepts = {
 
     storage: null,
 
-    load: function () {
+    loadNode: function (id, data) {
         //this.storage = this.getStorage();
 
-        $.ajax({
-            url: '/api/concept/18',
+        return $.ajax({
+            url: '/api/concept/' + id,
             type: 'GET',
             dataType: 'json',
-            data: {
-                tag: 'chefkoch2'
-            }
-        })
-            .then(data => {
-                this.title = data.concept.title;
-                this.current = data.concept;
-                this.tree = [ data.children ];
-
-                $(document).trigger('show-tree', this);
-                this.showCurrent();
-            });
+            data
+        });
     },
 
     downWedge: function () {
@@ -58,7 +48,7 @@ const Concepts = {
     renderKids: function (result, node, id) {
         let markup = '';
 
-        let nav = node.kids.length ? 'with-kids' : '';
+        let nav = node.children.length ? 'with-kids' : '';
         nav += node.open ? ' open' : '';
         nav += id == node.id ? ' current' : '';
 
@@ -66,15 +56,10 @@ const Concepts = {
             this.current = node;
         }
 
-        markup = '<li data-id="' + node.id + '" class="' + nav
-            + '"><header><nav>'
-            + this.downWedge()
-            + this.rightWedge()
-            + '</nav><h2>'
-            + node.title + '</h2></header>';
 
-        if (node.kids.length) {
-            markup += this.renderTree(node.kids, id);
+
+        if (node.children.length) {
+            markup += this.renderTree(node.children, id);
         }
         markup += '</li>';
 
@@ -83,7 +68,30 @@ const Concepts = {
 
     renderTree: function (tree, id) {
         return '<ul>'
-            + tree.reduce((acc, node) => this.renderKids(acc, node, id), '')
+            + tree.reduce((acc, node) => {
+
+                let nav = '';
+
+                acc += '<li data-id="' + node.id + '" class="' + nav
+                    + '"><header><nav>'
+                    + this.downWedge()
+                    + this.rightWedge()
+                    + '</nav><h2>'
+                    + node.title + '</h2></header>';
+
+                /*
+                if (typeof node.children === 'undefined') {
+                    this.loadNode(node.id, {})
+                        .then(data => {
+                            node.children = data.children;
+                            this.renderKids(acc, node, id);
+                        })
+                }
+                else {
+                    this.renderKids(acc, node, id);
+                }
+                */
+            }, '')
             + '</ul>';
     },
 
@@ -113,9 +121,9 @@ const Concepts = {
                 this.current = tree[i];
                 return true;
             }
-            if (tree[i].kids.length) {
+            if (tree[i].children.length) {
                 this.breadcrumbs.push(tree[i]);
-                if (this.updateCurrent(tree[i].kids, id)) {
+                if (this.updateCurrent(tree[i].children, id)) {
                     return true;
                 }
                 else {
@@ -133,8 +141,9 @@ const Concepts = {
 };
 
 $(document).on('show-tree', (event, concepts) => {
+    const markup = concepts.renderTree(concepts.tree, concepts.getId());
     $('#tree').html('');
-    $('#tree').append(concepts.renderTree(concepts.tree, concepts.getId()));
+    $('#tree').append(markup);
 });
 
 $(document).on('show-current', (event, concept) => {
@@ -150,12 +159,6 @@ $(document).on('show-current', (event, concept) => {
 
     $('#editor article')
         .html(concept.body);
-
-    if (concept.kids.length) {
-        const kids = concept.kids.reduce((acc, node) => acc + '<li><a href="/#id:' + node.id + '">' + node.title + '</a></li>', '');
-        $('#editor article')
-            .append('<ul id="kids">' + kids + '</ul>');
-    }
 
     $('#tree li.current').removeClass('current');
     $('#tree li[data-id="' + concept.id + '"]').addClass('current');
@@ -187,4 +190,13 @@ $(window).on('hashchange', function () {
     Concepts.showCurrent();
 })
 
-Concepts.load();
+Concepts.loadNode(18, {tag: 'chefkoch'})
+
+    .then(data => {
+        Concepts.title = data.concept.title;
+        Concepts.current = data.concept;
+        Concepts.tree = data.children;
+
+        $(document).trigger('show-tree', Concepts);
+        Concepts.showCurrent();
+    });

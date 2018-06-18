@@ -41,25 +41,8 @@ class BookmarkController extends Controller
           ->header('Access-Control-Allow-Origin', '*');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    private function parseContent($concept)
     {
-        $concept = new Concept([
-            'title' => $request->input('title'),
-            'source_url' => $request->input('source_url'),
-        ]);
-        $concept->owner_id = $request->user()->id;
-
-        $parent = Concept::whereIsRoot()->where('title', 'Bookmarks')->first();
-        if ($parent) {
-            $concept->appendToNode($parent);
-        }
-
         // https://mercury.postlight.com/web-parser/
         $client = new Client([
             'base_uri' => 'https://mercury.postlight.com/',
@@ -108,6 +91,44 @@ class BookmarkController extends Controller
         }
 
         $concept->save();
+
+        return $message;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $parent = Concept::whereIsRoot()->where('title', 'Bookmarks')->first();
+
+        $owner_id = $request->user()->id;
+        $source_url = $request->input('source_url');
+
+        $concept = Concept::where('owner_id', $owner_id)
+            ->where('parent_id', $parent->id)
+            ->where('source_url', $source_url)
+            ->first();
+
+        if ($concept === null) {
+            $concept = new Concept([
+                'title' => $request->input('title'),
+                'source_url' => $source_url,
+            ]);
+            $concept->owner_id = $owner_id;
+
+            if ($parent) {
+                $concept->appendToNode($parent);
+            }
+
+            $message = $this->parseContent($concept);
+        }
+        else {
+            $message = 'Already stored on ' . strftime('%Y-%m-%d', strtotime($concept->updated_at));
+        }
 
         return view('bookmark.show', ['concept' => $concept, 'message' => $message]);
     }
