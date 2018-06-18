@@ -97,6 +97,8 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ConceptController@store',
     ]);
 
+    // Route::resource('api/concept', 'ApiController');
+
     Route::get('/{concept}', function ($concept) {
         return redirect()->route('concept.show', [$concept]);
     })->where('concept', '[0-9]+')->name('concept.short');
@@ -253,5 +255,9 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'item.done',
         'uses' => 'ItemController@done',
     ]);
-});
 
+    Route::get('/ui', [
+        'as' => 'ui.index',
+        'uses' => 'UiController@index',
+    ]);
+});

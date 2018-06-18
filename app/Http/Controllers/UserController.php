@@ -25,6 +25,11 @@ use Knowfox\Models\EmailLogin;
 
 class UserController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        $this->setAuthMiddleware($request);
+    }
+
     /**
      * Display a listing of the resource.
      *
