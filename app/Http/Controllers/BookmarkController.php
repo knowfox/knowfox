@@ -106,11 +106,24 @@ class BookmarkController extends Controller
         $parent = Concept::whereIsRoot()->where('title', 'Bookmarks')->first();
 
         $owner_id = $request->user()->id;
+
         $source_url = $request->input('source_url');
+        $source_urls = [$source_url];
+
+        if (preg_match('#^https://#', $source_url)) {
+            $source_urls[] = preg_replace('#^https://#', 'http://', $source_url);
+        }
+
+        if (preg_match('#^http(s?)://www\.(.*)$#', $source_url, $matches)) {
+            $source_urls[] = 'http://' . $matches[2];
+            $source_urls[] = 'https://' . $matches[2];
+        }
+        error_log(json_encode($source_urls), 3, '/tmp/knowfox-bookmark.log');
 
         $concept = Concept::where('owner_id', $owner_id)
             ->where('parent_id', $parent->id)
-            ->where('source_url', $source_url)
+            ->whereIn('source_url', $source_urls)
+            ->orderBy('created_at', 'desc')
             ->first();
 
         if ($concept === null) {
