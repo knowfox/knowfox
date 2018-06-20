@@ -118,7 +118,6 @@ class BookmarkController extends Controller
             $source_urls[] = 'http://' . $matches[2];
             $source_urls[] = 'https://' . $matches[2];
         }
-        error_log(json_encode($source_urls), 3, '/tmp/knowfox-bookmark.log');
 
         $concept = Concept::where('owner_id', $owner_id)
             ->where('parent_id', $parent->id)
