@@ -1,34 +1,39 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "hot": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
-  },
-  "devDependencies": {
-    "axios": "^0.15.2",
-    "bootstrap-sass": "^3.3.7",
-    "jquery": "^3.1.0",
-    "laravel-mix": "^0.8.9",
-    "lodash": "^4.16.2",
-    "napa": "^2.3.0",
-    "v-calendar": "^0.6.2",
-    "vue": "^2.5.13"
-  },
-  "dependencies": {
-    "dropzone": "^4.3.0",
-    "epubjs": "^0.2.16",
-    "featherlight": "^1.7.5",
-    "fs": "0.0.1-security",
-    "grunt": "^1.0.1",
-    "jqtree": "^1.4.1",
-    "jquery-resizable": "^1.0.6",
-    "jquery-ui": "^1.12.1",
-    "pegjs": "^0.10.0",
-    "reveal": "0.0.4",
-    "selectize": "^0.12.4",
-    "simplemde": "^1.11.2",
-    "snackbar": "^1.0.2"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^0.18",
+        "bootstrap-sass": "^3.3.7",
+        "cross-env": "^5.1",
+        "dropzone": "^4.3.0",
+        "epubjs": "^0.4.2",
+        "featherlight": "^1.7.13",
+        "jqtree": "^1.4.7",
+        "jquery": "^3.3.1",
+        "jquery-resizable": "^1.0.6",
+        "jquery-ui": "^1.12.1",
+        "laravel-mix": "^2.1.11",
+        "lodash": "^4.17.10",
+        "popper.js": "^1.12",
+        "selectize": "^0.12.5",
+        "simplemde": "^1.11.2",
+        "snackbar": "^1.1.0",
+        "v-calendar": "^0.6.2",
+        "vue": "^2.5.16",
+        "vue-loader": "^14.2.3"
+    },
+    "dependencies": {
+        "fs": "0.0.1-security",
+        "grunt": "^1.0.3",
+        "pegjs": "^0.10.0",
+        "reveal": "0.0.4"
+    }
 }
