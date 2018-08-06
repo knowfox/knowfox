@@ -10,6 +10,8 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "ajv": "^6.5.2",
+        "ajv-keywords": "^3.2.0",
         "axios": "^0.18",
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.1",
@@ -23,7 +25,7 @@
         "laravel-mix": "^2.1.11",
         "lodash": "^4.17.10",
         "popper.js": "^1.12",
-        "selectize": "^0.12.5",
+        "selectize": "^0.12.6",
         "simplemde": "^1.11.2",
         "snackbar": "^1.1.0",
         "v-calendar": "^0.6.2",
