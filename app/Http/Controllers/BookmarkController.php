@@ -120,7 +120,6 @@ class BookmarkController extends Controller
         }
 
         $concept = Concept::where('owner_id', $owner_id)
-            ->where('parent_id', $parent->id)
             ->whereIn('source_url', $source_urls)
             ->orderBy('created_at', 'desc')
             ->first();
