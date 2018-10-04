@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b507aea1aaadf1b53f444c1fd278f4d6",
+    "content-hash": "d453e1537f906d7f0958b89f1a62448c",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1576,16 +1576,16 @@
         },
         {
             "name": "knowfox/entangle",
-            "version": "1.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knowfox/entangle.git",
-                "reference": "ce74d2f6c5af6843c107cf789dbc056fa2f9c584"
+                "reference": "d3179cae4b3048a5908685b33c93c03c9e556604"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knowfox/entangle/zipball/ce74d2f6c5af6843c107cf789dbc056fa2f9c584",
-                "reference": "ce74d2f6c5af6843c107cf789dbc056fa2f9c584",
+                "url": "https://api.github.com/repos/knowfox/entangle/zipball/d3179cae4b3048a5908685b33c93c03c9e556604",
+                "reference": "d3179cae4b3048a5908685b33c93c03c9e556604",
                 "shasum": ""
             },
             "require": {
@@ -1608,10 +1608,10 @@
             ],
             "description": "Entangled timelines. https://entangle.de as a Knowfox package.",
             "support": {
-                "source": "https://github.com/knowfox/entangle/tree/1.2.2",
+                "source": "https://github.com/knowfox/entangle/tree/master",
                 "issues": "https://github.com/knowfox/entangle/issues"
             },
-            "time": "2018-02-12T20:18:44+00:00"
+            "time": "2018-10-04T14:57:33+00:00"
         },
         {
             "name": "laravel/framework",
@@ -5974,6 +5974,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "knowfox/drupal7": 20,
+        "knowfox/entangle": 20,
         "vipnytt/opmlparser": 20
     },
     "prefer-stable": false,
