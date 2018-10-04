@@ -22,7 +22,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "kalnoy/nestedset": "^4.3",
         "knowfox/drupal7": "dev-master",
-        "knowfox/entangle": "^1.2.2",
+        "knowfox/entangle": "dev-master",
         "laravel/framework": "^5.5",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
