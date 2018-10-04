@@ -172,7 +172,7 @@ class Concept extends Model {
 
     public function getConfigAttribute($value)
     {
-        return (object)Yaml::parse($this->data);
+        return (object)Yaml::parse($this->data, Yaml::PARSE_DATETIME);
     }
 
     private function renderValue($value)
