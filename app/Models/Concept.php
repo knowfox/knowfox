@@ -116,14 +116,18 @@ class Concept extends Model {
     {
         $segments = [];
         $last = 0;
-        preg_match_all('/#([[:alpha:]][\w-]*)/ui', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        preg_match_all('/(\S*)#([[:alpha:]][\w-]*)/ui', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
             if ($this->inALink($html, $match[0][1])) {
                 continue;
             }
+            if (in_array($match[1][0], ['&amp;', '&'])) {
+                continue;
+            }
+
             $segments[] = $segment = substr($html, $last, $match[0][1] - $last);
 
-            $tag = $match[1][0];
+            $tag = $match[2][0];
             $last += strlen($segment) + strlen($match[0][0]);
 
             $segments[] = '<a class="label label-default" href="/concepts?tag=' . Str::slug($tag) . '">' . ucfirst($tag) . '</a>';
