@@ -1608,29 +1608,38 @@ pre code {
   }
 }
 
-.table {
+.table,
+section.body table {
   width: 100%;
   margin-bottom: 1rem;
   background-color: transparent;
 }
 
 .table th,
-.table td {
+section.body table th,
+.table td,
+section.body table td {
   padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
 
-.table thead th {
+.table thead th,
+section.body table thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #dee2e6;
 }
 
-.table tbody + tbody {
+.table tbody + tbody,
+section.body table tbody + tbody {
   border-top: 2px solid #dee2e6;
 }
 
-.table .table {
+.table .table,
+section.body table .table,
+.table section.body table,
+section.body .table table,
+section.body table table {
   background-color: #f8fafc;
 }
 
@@ -1859,13 +1868,15 @@ pre code {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
-.table .thead-dark th {
+.table .thead-dark th,
+section.body table .thead-dark th {
   color: #fff;
   background-color: #212529;
   border-color: #32383e;
 }
 
-.table .thead-light th {
+.table .thead-light th,
+section.body table .thead-light th {
   color: #495057;
   background-color: #e9ecef;
   border-color: #dee2e6;
@@ -10460,12 +10471,15 @@ a.text-dark:focus {
     border: 1px solid #000;
   }
 
-  .table {
+  .table,
+  section.body table {
     border-collapse: collapse !important;
   }
 
   .table td,
-  .table th {
+  section.body table td,
+  .table th,
+  section.body table th {
     background-color: #fff !important;
   }
 
@@ -10485,11 +10499,15 @@ a.text-dark:focus {
     border-color: #dee2e6;
   }
 
-  .table .thead-dark th {
+  .table .thead-dark th,
+  section.body table .thead-dark th {
     color: inherit;
     border-color: #dee2e6;
   }
 }
+
+/**
+ */
 
 /*!
  * Font Awesome Free 5.6.3 by @fontawesome - https://fontawesome.com
@@ -16123,8 +16141,255 @@ readers do not read off random characters that represent icons */
   font-family: "Font Awesome 5 Brands";
 }
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+/**
+// SimpleMDE
+@import "~simplemde/dist/simplemde.min";
+
+// Selectize
+@import "~selectize/dist/css/selectize";
+@import "~selectize/dist/css/selectize.bootstrap3";
+
+@import "~dropzone/dist/min/dropzone.min";
+
+@import "~jquery-ui/themes/base/autocomplete";
+
+@import "~jquery-resizable/resizable";
+
+@import "~featherlight/release/featherlight.min";
+
+@import "~jqtree/jqtree.scss";
+
+@import "~snackbar/dist/snackbar";
+
+@import '~v-calendar/lib/v-calendar.min';
+*/
+
+html {
+  background: url("/img/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  /* Sticky footer */
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: transparent;
+  /* Sticky footer
+     Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.navbar-default {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+main {
+  background-color: rgba(245, 248, 250, 0.8);
+  padding-bottom: 20px;
+}
+
+main img {
+  max-width: 100%;
+}
+
+main .nav.nav-tabs {
+  margin-bottom: 0;
+}
+
+main div.body,
+main section.preamble,
+main section.timeline,
+main section.kids,
+main section.fields {
+  background-color: white;
+  padding: 20px 16px;
+  border-left: 1px solid #ddd;
+}
+
+h1 i.glyphicon {
+  vertical-align: bottom;
+}
+
+p.summary {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.dropzone {
+  border: none;
+  background-color: rgba(245, 248, 250, 0.8);
+  padding: 0 15px;
+}
+
+.dropzone.dz-drag-hover {
+  border: dashed 4px #CCC;
+}
+
+.nav-tabs {
+  margin-bottom: 20px;
+}
+
+.divOutlinerContainer {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid gainsboro;
+  min-height: 300px;
+  max-height: 500px;
+  overflow: auto;
+  padding: 6px;
+  background-color: white;
+}
+
+.home.container {
+  margin-top: 100px;
+}
+
+ul.ui-autocomplete {
+  z-index: 1001;
+  background: white;
+  border: solid 1px #EEE;
+  list-style-type: none;
+  padding: 0 12px;
+}
+
+@media (min-width: 576px) {
+  .not-home .collapse.navbar-collapse {
+    display: flex !important;
+  }
+
+  .navbar-form {
+    flex-grow: 1;
+  }
+
+  .navbar-form .input-group {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+.meta .label {
+  margin-left: 4px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #f5f5f5;
+  margin-top: 20px;
+}
+
+.footer .container .text-muted {
+  margin: 20px 0;
+}
+
+.footer .text-muted {
+  color: #777;
+}
+
+ul.letters {
+  padding: 0;
+  list-style-type: none;
+}
+
+ul.letters li {
+  float: left;
+  margin-left: 0.8em;
+}
+
+ul.letters li:before {
+  content: " | ";
+}
+
+ul.letters li:first-child:before {
+  content: "";
+}
+
+/* horizontal panel*/
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid silver;
+  overflow: hidden;
+  /* avoid browser level touch actions */
+  xtouch-action: none;
+}
+
+.panel-left {
+  flex: 0 0 auto;
+  /* only manually resize */
+  width: 300px;
+  min-height: 200px;
+  min-width: 150px;
+  white-space: nowrap;
+  color: white;
+}
+
+.panel-right {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+  background: #eee;
+}
+
+dt:after {
+  content: ": ";
+}
+
+dd {
+  margin-left: 16px;
+}
+
+ul.persons {
+  padding-left: 8px;
+}
+
+/** @todo Port to bootstrap 4
+.card {
+    @extend .thumbnail;
+    padding: 0;
+
+    img {
+        width: 100%;
+    }
+}
+
+.card-columns-2 {
+    column-count: 2;
+    column-gap: 1.25rem;
+}
+
+.card-columns-2 .card {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: .75rem;
+}
+*/
+
+.CodeMirror,
+.CodeMirror-scroll {
+  max-height: 100em;
+}
+
+.CodeMirror-fullscreen.CodeMirror {
+  max-height: none;
+}
+
+.CodeMirror-fullscreen .CodeMirror-scroll {
+  max-height: none;
+}
+
+.mini-calendar {
+  margin: 10px auto;
 }
 
