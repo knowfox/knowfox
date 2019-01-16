@@ -25,7 +25,7 @@
       if [[ -n $old ]]; then echo $old | xargs rm -r; fi
     fi
     cd {{ $root_dir }};
-    git clone git clone --single-branch --branch with-packages --recurse-submodules {{ $repo }} {{ $release_dir }};
+    git clone --single-branch --branch with-packages --recurse-submodules {{ $repo }} {{ $release_dir }};
     cd {{ $release_dir }};
 
     rm -rf storage
