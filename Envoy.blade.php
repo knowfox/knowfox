@@ -1,7 +1,7 @@
 @servers(['web' => 'olav.net'])
 
 @setup
-    $repo = 'ssh://gogs@code.schettler.net:8222/olav/knowfox.git';
+    $repo = 'git@github.com:oschettler/knowfox.git';
     $root_dir = '/var/www/knowfox19';
     $releases_dir = "{$root_dir}/releases";
     $now = strftime('%Y%m%d-%H%M%S');
