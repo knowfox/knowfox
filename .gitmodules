@@ -1,0 +1,6 @@
+[submodule "packages/knowfox/core"]
+	path = packages/knowfox/core
+	url = git@github.com:knowfox/core.git
+[submodule "packages/knowfox/passwordless"]
+	path = packages/knowfox/passwordless
+	url = git@github.com:knowfox/passwordless.git

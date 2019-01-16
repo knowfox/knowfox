@@ -4,7 +4,9 @@
 // Variables
 @import 'variables';
 
+@import '../../packages/knowfox/core/resources/assets/sass/register';
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import '../../packages/knowfox/core/resources/assets/sass/knowfox';
+@import '../../packages/knowfox/core/resources/assets/sass/boot';
