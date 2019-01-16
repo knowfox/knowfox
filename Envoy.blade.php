@@ -2,7 +2,7 @@
 
 @setup
     $repo = 'ssh://gogs@code.schettler.net:8222/olav/knowfox.git';
-    $root_dir = '/var/www/19';
+    $root_dir = '/var/www/knowfox19';
     $releases_dir = "{$root_dir}/releases";
     $now = strftime('%Y%m%d-%H%M%S');
     $release_dir = "{$releases_dir}/{$now}";
@@ -25,10 +25,8 @@
       if [[ -n $old ]]; then echo $old | xargs rm -r; fi
     fi
     cd {{ $root_dir }};
-    git clone {{ $repo }} {{ $release_dir }};
+    git clone git clone --single-branch --branch with-packages --recurse-submodules {{ $repo }} {{ $release_dir }};
     cd {{ $release_dir }};
-
-    git checkout with-packages
 
     rm -rf storage
     rm -rf bootstrap/cache
