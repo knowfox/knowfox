@@ -34,15 +34,16 @@
     rm -rf storage
     rm -rf bootstrap/cache
     ln -s {{ $root_dir }}/shared/storage storage
+
+    ln -s {{ $prod_dir }}/shared/uploads storage/uploads
+
     ln -s {{ $root_dir }}/shared/storage/app/public public/storage
     ln -s {{ $root_dir }}/shared/cache bootstrap/cache
     ln -s {{ $root_dir }}/shared/{{ $env }} .env
     rm -rf public/system
  
     ln -s {{ $root_dir }}/shared/presentation public/presentation
-
-    ln -s {{ $prod_dir }}/shared/uploads public/uploads
-    # ln -s {{ $root_dir }}/shared/uploads public/uploads
+    ln -s {{ $root_dir }}/shared/uploads public/uploads
 
     composer install --ignore-platform-reqs
 
