@@ -34,9 +34,6 @@
     rm -rf storage
     rm -rf bootstrap/cache
     ln -s {{ $root_dir }}/shared/storage storage
-
-    ln -s {{ $prod_dir }}/shared/uploads storage/uploads
-
     ln -s {{ $root_dir }}/shared/storage/app/public public/storage
     ln -s {{ $root_dir }}/shared/cache bootstrap/cache
     ln -s {{ $root_dir }}/shared/{{ $env }} .env
