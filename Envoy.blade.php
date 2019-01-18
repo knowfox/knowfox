@@ -2,7 +2,10 @@
 
 @setup
     $repo = 'git@github.com:oschettler/knowfox.git';
+
     $root_dir = '/var/www/knowfox19';
+    $prod_dir = '/var/www/knowfox';
+
     $releases_dir = "{$root_dir}/releases";
     $now = strftime('%Y%m%d-%H%M%S');
     $release_dir = "{$releases_dir}/{$now}";
@@ -35,8 +38,11 @@
     ln -s {{ $root_dir }}/shared/cache bootstrap/cache
     ln -s {{ $root_dir }}/shared/{{ $env }} .env
     rm -rf public/system
-    ln -s {{ $root_dir }}/shared/uploads public/uploads
+ 
     ln -s {{ $root_dir }}/shared/presentation public/presentation
+
+    ln -s {{ $prod_dir }}/shared/uploads public/uploads
+    # ln -s {{ $root_dir }}/shared/uploads public/uploads
 
     composer install --ignore-platform-reqs
 
