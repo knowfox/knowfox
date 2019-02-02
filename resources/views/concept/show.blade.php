@@ -259,6 +259,9 @@
 
         var app = new Vue({
             el: '#app',
+        });
+        var sharesApp = new Vue({
+            el: '#concept-share-form',
             data: {
                 shares: {!! json_encode($concept->shares) !!}
             },
