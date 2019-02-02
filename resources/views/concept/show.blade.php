@@ -270,13 +270,15 @@
                     $.ajax({
                         url: '/share/{{$concept->id}}',
                         type: 'POST',
+                        contentType: 'application/json',
                         dataType: 'json',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        data: {
+                        processData: false,
+                        data: JSON.stringify({
                             shares: this.shares
-                        },
+                        }),
                         success: function (res) {
                             location.href = '/{{$concept->id}}';
                         }
