@@ -1,0 +1,42 @@
+version: '3.1'
+
+services:
+  knowfox:
+    build: .
+    ports:
+      - "8000:8000"
+    command: sh -c "
+      while ! nc -z db 3306; do sleep 3; done
+      && export DB_PASSWORD=$$(cat /run/secrets/knowfox_db_password)
+      && php artisan migrate
+      && php artisan serve --host 0.0.0.0
+      "
+    depends_on:
+      - db
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: knowfox
+      DB_USERNAME: knowfoxapp
+    secrets:
+      - knowfox_db_password
+  db:
+    image: mariadb
+    ports:
+      - "3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: knowfox
+      MYSQL_USER: knowfoxapp
+      MYSQL_PASSWORD_FILE: /run/secrets/knowfox_db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/root_db_password
+    secrets:
+      - root_db_password
+      - knowfox_db_password
+
+secrets:
+  knowfox_db_password:
+    file: secrets/knowfox_db_password
+  root_db_password:
+    file: secrets/root_db_password
