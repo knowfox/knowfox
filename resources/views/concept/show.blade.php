@@ -155,7 +155,7 @@
 
                     @section('siblings')
 
-                        @if ($siblings->count())
+                        @if (isset($siblings) && $siblings->count())
 
                             <h2>Siblings
                                 @if ($siblings->currentPage() > 1 || $siblings->total() > $siblings->lastItem())
