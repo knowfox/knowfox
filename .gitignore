@@ -3,6 +3,7 @@
 /public/hot
 /public/css/app.css
 /public/js/app.js
+/public/js/ui.js
 /storage/*.key
 /storage/debugbar
 /vendor
