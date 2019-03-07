@@ -38,6 +38,7 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue')
 );
 
+/*
 import VCalendar from 'v-calendar';
 Vue.use(VCalendar, {
     firstDayOfWeek: 2
@@ -47,6 +48,7 @@ Vue.component(
     'mini-calendar',
     require('./components/Calendar.vue')
 );
+*/
 
 window.markdownEditor = function () {
     var simplemde = new SimpleMDE({

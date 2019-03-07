@@ -60,6 +60,7 @@
             }
         },
         mounted: function () {
+            console.log('Shares mounted');
             $('[name=emails]', this.$el).selectize({
                 delimiter: ',',
                 persist: false,

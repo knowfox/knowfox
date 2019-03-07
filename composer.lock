@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "d453e1537f906d7f0958b89f1a62448c",
@@ -1572,7 +1572,7 @@
                 }
             ],
             "description": "Import a Drupal7 website into Knowfox.",
-            "time": "2018-05-06 19:55:18"
+            "time": "2018-05-06T19:55:18+00:00"
         },
         {
             "name": "knowfox/entangle",
@@ -1580,12 +1580,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/knowfox/entangle.git",
-                "reference": "d3179cae4b3048a5908685b33c93c03c9e556604"
+                "reference": "c59fdb1a14c158a8677c59704277de37261af095"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knowfox/entangle/zipball/d3179cae4b3048a5908685b33c93c03c9e556604",
-                "reference": "d3179cae4b3048a5908685b33c93c03c9e556604",
+                "url": "https://api.github.com/repos/knowfox/entangle/zipball/c59fdb1a14c158a8677c59704277de37261af095",
+                "reference": "c59fdb1a14c158a8677c59704277de37261af095",
                 "shasum": ""
             },
             "require": {
@@ -1611,7 +1611,7 @@
                 "source": "https://github.com/knowfox/entangle/tree/master",
                 "issues": "https://github.com/knowfox/entangle/issues"
             },
-            "time": "2018-10-04T14:57:33+00:00"
+            "time": "2019-03-07T09:01:54+00:00"
         },
         {
             "name": "laravel/framework",

@@ -6,6 +6,9 @@
 
 <script>
     export default {
+        mounted() {
+            console.log('Component mounted.')
+        },
         methods: {
             dayclick: function (event) {
                 let month = event.month.toString(),
