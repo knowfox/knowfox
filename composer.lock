@@ -1599,16 +1599,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.2.0",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a"
+                "reference": "5221f49a608808c1e4d436df32884cbc1b821ac0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
-                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/5221f49a608808c1e4d436df32884cbc1b821ac0",
+                "reference": "5221f49a608808c1e4d436df32884cbc1b821ac0",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1646,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-01-12T16:31:37+00:00"
+            "time": "2019-02-16T20:54:15+00:00"
         },
         {
             "name": "opis/closure",
@@ -2196,28 +2196,28 @@
         },
         {
             "name": "rtconner/laravel-tagging",
-            "version": "3.0.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtconner/laravel-tagging.git",
-                "reference": "6f58920a2146d520de34d858ad93fe9af2012256"
+                "reference": "2b151ba2962b6ae6cc1499b5983b95c5174787d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtconner/laravel-tagging/zipball/6f58920a2146d520de34d858ad93fe9af2012256",
-                "reference": "6f58920a2146d520de34d858ad93fe9af2012256",
+                "url": "https://api.github.com/repos/rtconner/laravel-tagging/zipball/2b151ba2962b6ae6cc1499b5983b95c5174787d9",
+                "reference": "2b151ba2962b6ae6cc1499b5983b95c5174787d9",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": ">= 5.0",
-                "illuminate/support": ">= 5.0",
-                "php": ">=5.5.0"
+                "illuminate/database": "^5.0",
+                "illuminate/support": "^5.0",
+                "php": ">= 7.0"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~4.0",
-                "vlucas/phpdotenv": "~2.0"
+                "mockery/mockery": "~1.2",
+                "orchestra/testbench": "~3.8",
+                "phpunit/phpunit": "7.5.*",
+                "vlucas/phpdotenv": "~3.3"
             },
             "type": "library",
             "extra": {
@@ -2239,7 +2239,7 @@
             "authors": [
                 {
                     "name": "Robert Conner",
-                    "email": "rtconner@smarter.bz"
+                    "email": "rtconner+gh@smarter.bz"
                 }
             ],
             "description": "Use PHP traits to extend Laravel Eloquent Models to allow Tags. Models can be marked as Taggable.",
@@ -2254,7 +2254,7 @@
                 "tagging",
                 "tags"
             ],
-            "time": "2018-08-13T16:25:54+00:00"
+            "time": "2019-03-21T01:31:09+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3392,16 +3392,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.2.2",
+            "version": "v4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6"
+                "reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d0aa6c0ea484087927b49fd513383a7d36190ca6",
-                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
+                "reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
                 "shasum": ""
             },
             "require": {
@@ -3447,7 +3447,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-03-30T15:58:42+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -3613,27 +3613,29 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda"
+                "reference": "a2c590166b2133a4633738648b6b064edae0814a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/a2c590166b2133a4633738648b6b064edae0814a",
+                "reference": "a2c590166b2133a4633738648b6b064edae0814a",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
             },
             "require-dev": {
-                "athletic/athletic": "~0.1.8",
+                "doctrine/coding-standard": "^6.0",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpunit/phpunit": "^6.2.3",
-                "squizlabs/php_codesniffer": "^3.0.2"
+                "phpbench/phpbench": "^0.13",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-shim": "^0.11",
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "extra": {
@@ -3658,12 +3660,12 @@
                 }
             ],
             "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/doctrine/instantiator",
+            "homepage": "https://www.doctrine-project.org/projects/instantiator.html",
             "keywords": [
                 "constructor",
                 "instantiate"
             ],
-            "time": "2017-07-22T11:58:36+00:00"
+            "time": "2019-03-17T17:37:11+00:00"
         },
         {
             "name": "filp/whoops",
@@ -3826,16 +3828,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.2.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "100633629bf76d57430b86b7098cd6beb996a35a"
+                "reference": "0eb0b48c3f07b3b89f5169ce005b7d05b18cf1d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/100633629bf76d57430b86b7098cd6beb996a35a",
-                "reference": "100633629bf76d57430b86b7098cd6beb996a35a",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/0eb0b48c3f07b3b89f5169ce005b7d05b18cf1d2",
+                "reference": "0eb0b48c3f07b3b89f5169ce005b7d05b18cf1d2",
                 "shasum": ""
             },
             "require": {
@@ -3844,7 +3846,7 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.7.10|~6.5|~7.0"
+                "phpunit/phpunit": "~5.7.10|~6.5|~7.0|~8.0"
             },
             "type": "library",
             "extra": {
@@ -3887,20 +3889,20 @@
                 "test double",
                 "testing"
             ],
-            "time": "2018-10-02T21:52:37+00:00"
+            "time": "2019-02-13T09:37:52+00:00"
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.8.1",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
@@ -3935,7 +3937,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-06-11T23:09:50+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "nunomaduro/collision",
@@ -4474,16 +4476,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "2.0.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "8b8454ea6958c3dee38453d3bd571e023108c91f"
+                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b8454ea6958c3dee38453d3bd571e023108c91f",
-                "reference": "8b8454ea6958c3dee38453d3bd571e023108c91f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b389aebe1b8b0578430bda0c7c95a829608e059",
+                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059",
                 "shasum": ""
             },
             "require": {
@@ -4495,7 +4497,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -4519,7 +4521,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2018-02-01T13:07:23+00:00"
+            "time": "2019-02-20T10:12:59+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -4572,16 +4574,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.1",
+            "version": "7.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c23d78776ad415d5506e0679723cb461d71f488f"
+                "reference": "c29c0525cf4572c11efe1db49a8b8aee9dfac58a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c23d78776ad415d5506e0679723cb461d71f488f",
-                "reference": "c23d78776ad415d5506e0679723cb461d71f488f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c29c0525cf4572c11efe1db49a8b8aee9dfac58a",
+                "reference": "c29c0525cf4572c11efe1db49a8b8aee9dfac58a",
                 "shasum": ""
             },
             "require": {
@@ -4599,7 +4601,7 @@
                 "phpunit/php-code-coverage": "^6.0.7",
                 "phpunit/php-file-iterator": "^2.0.1",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-timer": "^2.0",
+                "phpunit/php-timer": "^2.1",
                 "sebastian/comparator": "^3.0",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^4.0",
@@ -4652,7 +4654,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-12T07:20:32+00:00"
+            "time": "2019-03-26T13:23:54+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4765,23 +4767,23 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "366541b989927187c4ca70490a35615d3fef2dce"
+                "reference": "720fcc7e9b5cf384ea68d9d930d480907a0c1a29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/366541b989927187c4ca70490a35615d3fef2dce",
-                "reference": "366541b989927187c4ca70490a35615d3fef2dce",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/720fcc7e9b5cf384ea68d9d930d480907a0c1a29",
+                "reference": "720fcc7e9b5cf384ea68d9d930d480907a0c1a29",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.0",
+                "phpunit/phpunit": "^7.5 || ^8.0",
                 "symfony/process": "^2 || ^3.3 || ^4"
             },
             "type": "library",
@@ -4817,32 +4819,35 @@
                 "unidiff",
                 "unified diff"
             ],
-            "time": "2018-06-10T07:54:39+00:00"
+            "time": "2019-02-04T06:01:07+00:00"
         },
         {
             "name": "sebastian/environment",
-            "version": "4.0.1",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f"
+                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/febd209a219cea7b56ad799b30ebbea34b71eb8f",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6fda8ce1974b62b14935adc02a9ed38252eca656",
+                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.4"
+                "phpunit/phpunit": "^7.5"
+            },
+            "suggest": {
+                "ext-posix": "*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -4867,7 +4872,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2018-11-25T09:31:21+00:00"
+            "time": "2019-02-01T05:27:49+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -5219,16 +5224,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b"
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/cb2f008f3f05af2893a87208fe6a6c4985483f8b",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
                 "shasum": ""
             },
             "require": {
@@ -5255,7 +5260,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2017-04-07T12:08:54+00:00"
+            "time": "2019-04-04T09:56:43+00:00"
         },
         {
             "name": "webmozart/assert",
