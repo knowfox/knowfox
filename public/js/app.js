@@ -1971,7 +1971,7 @@ __webpack_require__.r(__webpack_exports__);
     revoke: function revoke(token) {
       var _this2 = this;
 
-      axios.delete('/oauth/tokens/' + token.id).then(function (response) {
+      axios["delete"]('/oauth/tokens/' + token.id).then(function (response) {
         _this2.getTokens();
       });
     }
@@ -2310,7 +2310,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         form.redirect = '';
         form.errors = [];
         $(modal).modal('hide');
-      }).catch(function (error) {
+      })["catch"](function (error) {
         if (_typeof(error.response.data) === 'object') {
           form.errors = _.flatten(_.toArray(error.response.data));
         } else {
@@ -2325,7 +2325,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     destroy: function destroy(client) {
       var _this3 = this;
 
-      axios.delete('/oauth/clients/' + client.id).then(function (response) {
+      axios["delete"]('/oauth/clients/' + client.id).then(function (response) {
         _this3.getClients();
       });
     }
@@ -2592,7 +2592,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _this3.tokens.push(response.data.token);
 
         _this3.showAccessToken(response.data.accessToken);
-      }).catch(function (error) {
+      })["catch"](function (error) {
         if (_typeof(error.response.data) === 'object') {
           _this3.form.errors = _.flatten(_.toArray(error.response.data));
         } else {
@@ -2636,7 +2636,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     revoke: function revoke(token) {
       var _this4 = this;
 
-      axios.delete('/oauth/personal-access-tokens/' + token.id).then(function (response) {
+      axios["delete"]('/oauth/personal-access-tokens/' + token.id).then(function (response) {
         _this4.getTokens();
       });
     }
@@ -65464,7 +65464,7 @@ __webpack_require__(/*! ../../packages/knowfox/core/resources/assets/js/knowfox 
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
+Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -65492,7 +65492,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 try {
-  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
+  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
