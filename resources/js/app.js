@@ -6,7 +6,10 @@
 
 require('./bootstrap');
 
+/*global Vue*/
 window.Vue = require('vue');
+
+require('../../packages/knowfox/core/resources/assets/js/knowfox');
 
 /**
  * The following block of code may be used to automatically register your

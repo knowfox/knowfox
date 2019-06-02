@@ -43,6 +43,7 @@
         "psr-4": {
             "App\\": "app/",
             "Knowfox\\Core\\": "packages/knowfox/core/",
+            "Knowfox\\Lab\\": "packages/knowfox/lab/",
             "Knowfox\\Passwordless\\": "packages/knowfox/passwordless/"
         },
         "classmap": [

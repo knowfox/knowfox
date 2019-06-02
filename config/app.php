@@ -165,7 +165,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Knowfox\Passwordless\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -177,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Knowfox\Core\ServiceProvider::class,
+        Knowfox\Passwordless\ServiceProvider::class,
 
     ],
 

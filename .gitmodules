@@ -4,3 +4,6 @@
 [submodule "packages/knowfox/passwordless"]
 	path = packages/knowfox/passwordless
 	url = git@github.com:knowfox/passwordless
+[submodule "packages/knowfox/lab"]
+	path = packages/knowfox/lab
+	url = git@github.com:knowfox/lab
