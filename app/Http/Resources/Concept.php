@@ -14,7 +14,7 @@ class Concept extends Resource
      */
     public function toArray($request)
     {
-        return [
+        $base = [
             'id' => $this->id,
             'type' => $this->type,
             'uuid' => $this->uuid,
@@ -36,5 +36,17 @@ class Concept extends Resource
             'data' => $this->config,
             'attachments' => Attachment::collection($this->attachments),
         ];
+
+        if ($this->type != 'concept') {
+            $type = $this->type;
+            $scoped_type = preg_split('/:\s*/', $this->type, 2);
+            if (count($scoped_type) > 1) {
+                $package = $scoped_type[0];
+                $type = $scoped_type[1];
+            }
+            $base[$type] = $this->{$type};
+        }
+
+        return $base;
     }
 }

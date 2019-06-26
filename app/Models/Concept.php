@@ -317,7 +317,6 @@ class Concept extends Model {
 
                     $instance->setRawAttributes((array) $attributes, true);
                     $instance->setConnection($connection ?: $this->getConnectionName());
-
                     return $instance;
                 }
             }
