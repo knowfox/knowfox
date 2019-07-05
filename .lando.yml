@@ -1,0 +1,16 @@
+name: knowfox
+recipe: laravel
+config:
+  webroot: public
+services:
+  node:
+    type: node
+tooling:
+    npm:
+      service: node
+    node:
+      service: node
+    phpunit:
+      service: appserver
+      description: "Run PHP Unit tests: lando phpunit"
+      cmd: /app/vendor/bin/phpunit

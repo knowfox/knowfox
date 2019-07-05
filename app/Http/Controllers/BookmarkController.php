@@ -22,6 +22,7 @@ use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use Knowfox\Models\Concept;
 use GuzzleHttp\Client;
+use Goose\Client as GooseClient;
 
 class BookmarkController extends Controller
 {
@@ -42,6 +43,43 @@ class BookmarkController extends Controller
     }
 
     private function parseContent($concept)
+    {
+        $goose = new GooseClient();
+        $article = $goose->extractContent($concept->source_url);
+
+        // dd($article->getCleanedArticleText());
+
+        $message = '';
+
+        // if (!empty($article->getTitle())) {
+            $concept->title = $article->getTitle();
+        // }
+        // if (!empty($article->getMetaDescription())) {
+            $concept->summary = $article->getMetaDescription();
+        // }
+
+        // if (!empty($article->getTopImage())) {
+            $img = $article->getTopImage();
+            $concept->body = '![Lead image](' . $img->getImageSrc() . ")\n";
+        // }
+
+        // if (!empty($article->getCleanedArticleText())) {
+            $concept->body .= $article->getCleanedArticleText();
+        // }
+
+        $message = 'Parsed URL';
+
+        if (empty($concept->title)) {
+            $url = parse_url($request->input('source_url'));
+            $concept->title = $url['host'] . $url['path'];
+        }
+
+        $concept->save();
+
+        return $message;
+    }
+
+    private function parseContentOld($concept)
     {
         // https://mercury.postlight.com/web-parser/
         $client = new Client([
