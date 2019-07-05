@@ -1,9 +1,7 @@
 <?php
 
 return [
-    'relationships' => [
-        'similar' => [ 'similar to', 'similar to' ]
-    ],
+    'relationships' => [],
 
     'languages' => [
         'de',
