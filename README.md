@@ -2,6 +2,8 @@
 
 Knowfox is my Personal Knowledge Management system. Having been an keen Evernote user since 2012, I finally got around to taking my precious notes to my own server.
 
+[![Gitter](https://badges.gitter.im/knowfox-personal-knowledge-management/community.svg)](https://gitter.im/knowfox-personal-knowledge-management/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 ## I want
 
 * Hierarchies. Inspired by Dave Winer's Worldoutline and Fargo, I want my knowledge base to have a deep structure, not be only two stories tall.
