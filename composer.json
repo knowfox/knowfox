@@ -30,6 +30,7 @@
         "predis/predis": "^1.1",
         "ramsey/uuid": "^3.5",
         "rtconner/laravel-tagging": "^2.2",
+        "scotteh/php-goose": "^1.0",
         "symfony/yaml": "^3.3",
         "vipnytt/opmlparser": "dev-master"
     },

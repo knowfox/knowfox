@@ -18,10 +18,11 @@
  */
 namespace Knowfox\Http\Controllers;
 
+use Goose\Client as GooseClient;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use Knowfox\Models\Concept;
-use GuzzleHttp\Client;
 
 class BookmarkController extends Controller
 {
@@ -37,16 +38,39 @@ class BookmarkController extends Controller
             'source_url' => $request->input('url'),
         ]);
         return response()
-          ->view('bookmark.create', ['concept' => $concept])
-          ->header('Access-Control-Allow-Origin', '*');
+            ->view('bookmark.create', ['concept' => $concept])
+            ->header('Access-Control-Allow-Origin', '*');
     }
 
     private function parseContent($concept)
     {
+        $goose = new GooseClient();
+        $article = $goose->extractContent($concept->source_url);
+
+        $concept->title = $article->getTitle();
+        $concept->summary = $article->getMetaDescription();
+        $img = $article->getTopImage();
+        $concept->body = '![Lead image](' . $img->getImageSrc() . ")\n";
+        $concept->body .= $article->getCleanedArticleText();
+
+        $message = 'Parsed URL';
+
+        if (empty($concept->title)) {
+            $url = parse_url($request->input('source_url'));
+            $concept->title = $url['host'] . $url['path'];
+        }
+
+        $concept->save();
+
+        return $message;
+    }
+
+    private function parseContentOld($concept)
+    {
         // https://mercury.postlight.com/web-parser/
         $client = new Client([
             'base_uri' => 'https://mercury.postlight.com/',
-            'timeout'  => 10.0,
+            'timeout' => 10.0,
         ]);
 
         $status = null;
@@ -57,11 +81,10 @@ class BookmarkController extends Controller
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'x-api-key' => config('knowfox.mercury_key'),
-                ]
+                ],
             ]);
             $status = $response->getStatusCode();
-        }
-        catch (ServerException $e) {
+        } catch (ServerException $e) {
             $message = 'Server error: ' . $e->getMessage();
         }
 
@@ -136,8 +159,7 @@ class BookmarkController extends Controller
             }
 
             $message = $this->parseContent($concept);
-        }
-        else {
+        } else {
             $message = 'Already stored on ' . strftime('%Y-%m-%d', strtotime($concept->updated_at));
         }
 

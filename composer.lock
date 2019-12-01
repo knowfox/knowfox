@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d453e1537f906d7f0958b89f1a62448c",
+    "content-hash": "fbb23d6c3ca158fcbdd2cbd0e1da441b",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1112,12 +1112,12 @@
             "version": "v1.0.29",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Folkloreatelier/laravel-graphql.git",
+                "url": "https://github.com/folkloreinc/laravel-graphql.git",
                 "reference": "4db2901cdf102f82afb9f8f03299bfd996ec85af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Folkloreatelier/laravel-graphql/zipball/4db2901cdf102f82afb9f8f03299bfd996ec85af",
+                "url": "https://api.github.com/repos/folkloreinc/laravel-graphql/zipball/4db2901cdf102f82afb9f8f03299bfd996ec85af",
                 "reference": "4db2901cdf102f82afb9f8f03299bfd996ec85af",
                 "shasum": ""
             },
@@ -1389,6 +1389,39 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "jakeasmith/http_build_url",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakeasmith/http_build_url.git",
+                "reference": "93c273e77cb1edead0cf8bcf8cd2003428e74e37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakeasmith/http_build_url/zipball/93c273e77cb1edead0cf8bcf8cd2003428e74e37",
+                "reference": "93c273e77cb1edead0cf8bcf8cd2003428e74e37",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/http_build_url.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jake A. Smith",
+                    "email": "theman@jakeasmith.com"
+                }
+            ],
+            "description": "Provides functionality for http_build_url() to environments without pecl_http.",
+            "time": "2017-05-01T15:36:40+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -3072,6 +3105,125 @@
                 "tags"
             ],
             "time": "2017-09-06T03:49:28+00:00"
+        },
+        {
+            "name": "scotteh/php-dom-wrapper",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scotteh/php-dom-wrapper.git",
+                "reference": "f627c9369e57b7cb0607f9713b6a22b7e46cb7e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scotteh/php-dom-wrapper/zipball/f627c9369e57b7cb0607f9713b6a22b7e46cb7e4",
+                "reference": "f627c9369e57b7cb0607f9713b6a22b7e46cb7e4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "lib-libxml": ">=2.7.7",
+                "php": ">=7.1.0",
+                "symfony/css-selector": "^3.1"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "^6.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DOMWrap\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Scott",
+                    "email": "andrew@andrewscott.net.au"
+                }
+            ],
+            "description": "Simple DOM wrapper to select nodes using either CSS or XPath expressions and manipulate results quickly and easily.",
+            "homepage": "https://github.com/scotteh/php-dom-wrapper",
+            "keywords": [
+                "css",
+                "dom",
+                "html",
+                "parser",
+                "wrapper"
+            ],
+            "time": "2018-02-15T06:11:58+00:00"
+        },
+        {
+            "name": "scotteh/php-goose",
+            "version": "1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scotteh/php-goose.git",
+                "reference": "a7756e5e93be5d5f7ae61252d6eacc6ffc0948d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scotteh/php-goose/zipball/a7756e5e93be5d5f7ae61252d6eacc6ffc0948d1",
+                "reference": "a7756e5e93be5d5f7ae61252d6eacc6ffc0948d1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^6.0",
+                "jakeasmith/http_build_url": "1.0.*",
+                "lib-libxml": ">=2.7.7",
+                "php": ">=7.1.0",
+                "scotteh/php-dom-wrapper": "^1.0"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Goose\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Scott",
+                    "email": "andrew@andrewscott.net.au"
+                }
+            ],
+            "description": "Readability / Html Content / Article Extractor & Web Scrapping library written in PHP",
+            "homepage": "https://github.com/scotteh/php-goose",
+            "keywords": [
+                "content",
+                "extractor",
+                "http",
+                "readability",
+                "scraper",
+                "scraping",
+                "text",
+                "website"
+            ],
+            "time": "2018-12-09T11:41:48+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
