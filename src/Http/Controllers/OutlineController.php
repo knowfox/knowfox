@@ -76,7 +76,7 @@ class OutlineController extends Controller
 
         $concept->load('related', 'inverseRelated', 'tagged');
 
-        return view('concept.outline', [
+        return view('knowfox::concept.outline', [
             'page_title' => $concept->title,
             'concept' => $concept,
             'is_owner' => $concept->owner_id == $request->user()->id,

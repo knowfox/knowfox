@@ -59,7 +59,7 @@ class TagsController extends Controller
             ->paginate()
             ->appends($request->only(['order', 'dir']));
 
-        return view('tag.cloud', [
+        return view('knowfox::tag.cloud', [
             'page_title' => 'Tags',
             'sub_title' => $tags->firstItem() . ' &hellip; ' . $tags->lastItem() . ' of ' . $tags->total(),
             'tags' => $tags,

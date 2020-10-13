@@ -37,7 +37,7 @@ class BookmarkController extends Controller
             'source_url' => $request->input('url'),
         ]);
         return response()
-          ->view('bookmark.create', ['concept' => $concept])
+          ->view('knowfox::bookmark.create', ['concept' => $concept])
           ->header('Access-Control-Allow-Origin', '*');
     }
 
@@ -141,6 +141,6 @@ class BookmarkController extends Controller
             $message = 'Already stored on ' . strftime('%Y-%m-%d', strtotime($concept->updated_at));
         }
 
-        return view('bookmark.show', ['concept' => $concept, 'message' => $message]);
+        return view('knowfox::bookmark.show', ['concept' => $concept, 'message' => $message]);
     }
 }

@@ -24,7 +24,7 @@ class ItemController extends Controller
         $items->with('tagged', 'persons')
             ->where('owner_id', Auth::id());
 
-        return view('item.index', [
+        return view('knowfox::item.index', [
             'page_title' => $page_title,
             'items' => $items->paginate(),
             'show_done' => $show_done,

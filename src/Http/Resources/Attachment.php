@@ -2,9 +2,9 @@
 
 namespace Knowfox\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class Attachment extends Resource
+class Attachment extends JsonResource
 {
     /**
      * Transform the resource into an array.

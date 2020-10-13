@@ -20,7 +20,7 @@ class AttachmentController extends Controller
             ->orderBy('is_default', 'desc')
             ->paginate();
 
-        return view('attachment.index', [
+        return view('knowfox::attachment.index', [
             'concept' => $concept,
             'attachments' => $attachments,
             'page_title' => 'Attachments',

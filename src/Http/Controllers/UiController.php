@@ -24,6 +24,6 @@ class UiController extends Controller
 {
     public function index()
     {
-        return view('ui');
+        return view('knowfox::ui');
     }
 }

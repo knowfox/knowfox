@@ -16,7 +16,7 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('home');
     }
-    return view('welcome');
+    return view('knowfox::welcome');
 });
 
 Route::get('cancel/{what}/{email}', [

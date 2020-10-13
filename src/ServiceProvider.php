@@ -50,6 +50,11 @@ class ServiceProvider extends IlluminateServiceProvider
 
         //Route::model('concept', Concept::class);
 
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(__DIR__ . '/../routes/api.php');
+
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(__DIR__ . '/../routes/web.php');

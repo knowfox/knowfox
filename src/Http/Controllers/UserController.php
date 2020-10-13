@@ -162,7 +162,7 @@ class UserController extends Controller
 
     public function passport()
     {
-        return view('auth.passport', [
+        return view('knowfox::auth.passport', [
             'page_title' => 'Passport',
             'sub_title' => 'Manage your API tokens',
         ]);
