@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{$lang or 'en'}}"{!! $html_attr or '' !!}>
+<html lang="{{ isset($lang) ? $lang : 'en'}}"{!! isset($html_attr) ? $html_attr : '' !!}>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name="description" content="{{$config->subtitle}}">
-    <meta name="author" content="{{$config->author or 'Dr. Olav Schettler'}}">
+    <meta name="author" content="{{ isset($config->author) ? $config->author : 'Dr. Olav Schettler'}}">
     <meta name="generator" content="https://knowfox.com">
     <link rel="icon" href="/favicon.ico">
 
@@ -49,13 +49,13 @@
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
-                <h4>{{$config->about_title or 'About'}}</h4>
+                <h4>{{ isset($config->about_title) ? $config->about_title : 'About'}}</h4>
                 <p>{!! $config->about !!}</p>
             </div>
 
             @if (!empty($config->links))
                 <div class="sidebar-module">
-                    <h4>{{$config->link_title or 'Elsewhere'}}</h4>
+                    <h4>{{ isset($config->link_title) ? $config->link_title : 'Elsewhere'}}</h4>
                     <ol class="list-unstyled">
                     @foreach ($config->links as $link)
                         <li><a href="{{$link['url']}}">{{$link['title']}}</a></li>
@@ -68,7 +68,7 @@
 </div><!-- /.container -->
 
 <footer class="blog-footer">
-    <p>&copy; {{date('Y')}} by {{$config->author or 'Dr. Olav Schettler'}}.</p>
+    <p>&copy; {{date('Y')}} by {{ isset($config->author) ? $config->author : 'Dr. Olav Schettler'}}.</p>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
