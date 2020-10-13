@@ -22,17 +22,16 @@
         "ramsey/uuid": "^4.0",
         "symfony/yaml": "^4.3",
         "vipnytt/opmlparser": "dev-master",
-        "barryvdh/laravel-debugbar": "^2.3",
+        "barryvdh/laravel-debugbar": "^3.5",
         "evernote/evernote": "^1.26",
-        "folklore/graphql": "^1.0",
-        "genealabs/laravel-caffeine": "^0.5.0",
-        "knowfox/drupal7": "dev-master",
-        "knowfox/entangle": "dev-master"
+        "genealabs/laravel-caffeine": "^8.0",
+        "knowfox/drupal7": "dev-minimal-change",
+        "knowfox/entangle": "dev-minimal-change"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Knowfox\\Frontend\\ServiceProvider"
+                "Knowfox\\ServiceProvider"
             ]
         }
     },

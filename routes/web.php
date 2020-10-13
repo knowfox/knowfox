@@ -24,7 +24,7 @@ Route::get('cancel/{what}/{email}', [
     'uses' => 'UserController@cancel',
 ]);
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('auth/email-authenticate/{token}/{cid?}', [
     'as' => 'auth.email-authenticate',

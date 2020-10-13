@@ -19,7 +19,7 @@ use Knowfox\Frontend\Livewire\Children;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
-    protected $namespace = '\Knowfox\Frontend\Controllers';
+    protected $namespace = '\Knowfox\Http\Controllers';
 
     /**
      * Register services.
@@ -29,7 +29,7 @@ class ServiceProvider extends IlluminateServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../frontend.php', 'frontend'
+            __DIR__ . '/../config/knowfox.php', 'knowfox'
         );
     }
 
@@ -54,7 +54,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../views', 'frontend');
 
         $this->publishes([
-            __DIR__ . '/../frontend.php' => config_path('frontend.php'),
+            __DIR__ . '/../config/knowfox.php' => config_path('knowfox.php'),
         ]);
     }
 }
