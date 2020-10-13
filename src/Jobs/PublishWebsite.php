@@ -152,7 +152,7 @@ class PublishWebsite implements ShouldQueue
             'show_date' => $by_date,
             'concepts' => $this->publishChildren($children, $by_date, $url_prefix, $website_dir, $target_dir),
             'url_prefix' => $url_prefix,
-            'fragment_view' => 'website.' . $website_dir . '.fragment',
+            'fragment_view' => 'knowfox::website.' . $website_dir . '.fragment',
         ])->render();
 
         file_put_contents($target_dir . '/index.html',
