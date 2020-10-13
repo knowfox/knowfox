@@ -104,7 +104,7 @@ class PictureService
                 break;
 
             default:
-                $config_prefix = 'styles.' . $style_name;
+                $config_prefix = 'knowfox.styles.' . $style_name;
                 $style_width = config($config_prefix . '.width');
                 $style_height = config($config_prefix . '.height');
 
