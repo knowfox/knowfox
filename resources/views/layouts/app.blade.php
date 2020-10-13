@@ -102,6 +102,9 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a href="{{ route('dashboard') }}">Dashboard</a>
+                                    </li>
+                                    <li>
                                         <a id="generate-token" href="#">API-Token</a>
                                     </li>
                                     <li>
