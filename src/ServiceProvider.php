@@ -6,16 +6,16 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use Barryvdh\Cors\HandleCors;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Livewire\Livewire;
 
-use Knowfox\Core\Models\Concept;
-use Knowfox\Core\Policies\ConceptPolicy;
+use Knowfox\Models\Concept;
+use Knowfox\Observers\ConceptObserver;
+use Knowfox\Policies\ConceptPolicy;
+use Knowfox\Models\Item;
+use Knowfox\Observers\ItemObserver;
 
-use Knowfox\Frontend\ViewComposers\AlphaIndexComposer;
-use Knowfox\Frontend\ViewComposers\ImpactMapComposer;
-use Knowfox\Frontend\Livewire\Children;
+use Knowfox\ViewComposers\AlphaIndexComposer;
+use Knowfox\ViewComposers\ImpactMapComposer;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -40,10 +40,13 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function boot()
     {
-        View::composer('concept.show-impact-map', ImpactMapComposer::class);
-        View::composer('partials.alpha-nav', AlphaIndexComposer::class);
+        Concept::observe(ConceptObserver::class);
+        Item::observe(ItemObserver::class);
+        View::composer('knowfox::concept.show-impact-map', ImpactMapComposer::class);
+        View::composer('knowfox::partials.alpha-nav', AlphaIndexComposer::class);
 
-        Livewire::component('children', Children::class);
+        // Because mpociot/versionable does not specify it
+        $this->loadMigrationsFrom(__DIR__ . '/../../vendor/mpociot/versionable/src/migrations');
 
         //Route::model('concept', Concept::class);
 

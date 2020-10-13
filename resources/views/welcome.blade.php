@@ -97,7 +97,7 @@
 
             <div class="content">
 
-                @include('partials.messages')
+                @include('knowfox::partials.messages')
 
                 <div class="title m-b-md">
                     Knowfox

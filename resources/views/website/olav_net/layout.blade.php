@@ -1,4 +1,4 @@
-@extends('website.default.layout')
+@extends('knowfox::website.default.layout')
 
 @push('header')
     <meta name="google-site-verification" content="{{$config->google_site or 'YOU NEED TO DEFINE google_site'}}" />

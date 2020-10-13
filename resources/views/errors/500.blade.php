@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('knowfox::layouts.app')
 
 @section('content')
 
@@ -8,7 +8,7 @@
 
             <h1>Error 500</h1>
 
-            @include('partials.messages')
+            @include('knowfox::partials.messages')
 
         </section>
 
