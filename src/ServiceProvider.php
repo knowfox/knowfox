@@ -51,7 +51,7 @@ class ServiceProvider extends IlluminateServiceProvider
             ->namespace($this->namespace)
             ->group(__DIR__ . '/../routes/web.php');
 
-        $this->loadViewsFrom(__DIR__ . '/../views', 'frontend');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'knowfox');
 
         $this->publishes([
             __DIR__ . '/../config/knowfox.php' => config_path('knowfox.php'),

@@ -39,6 +39,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', ['search_term' => '']);
+        return view('knowfox::home', ['search_term' => '']);
     }
 }
