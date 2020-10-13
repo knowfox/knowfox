@@ -191,10 +191,10 @@ class PublishWebsite implements ShouldQueue
         $website_dir = str_replace('.', '_', $domain_concept->title);
 
         @mkdir($target_dir . '/css', 0755, true);
-        copy(base_path('package/knowfox/knowfox/resources/views/website/' . $website_dir . '/css/blog.css'), $target_dir . '/css/blog.css');
+        copy(base_path('packages/knowfox/knowfox/resources/views/website/' . $website_dir . '/css/blog.css'), $target_dir . '/css/blog.css');
 
         @mkdir($target_dir . '/icons', 0755, true);
-        $icons = glob(base_path('package/knowfox/knowfox/resources/views/website/' . $website_dir . '/icons/*'));
+        $icons = glob(base_path('packages/knowfox/knowfox/resources/views/website/' . $website_dir . '/icons/*'));
         foreach ($icons as $icon) {
             copy($icon, $target_dir . '/icons/' . basename($icon));
         }
