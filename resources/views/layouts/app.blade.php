@@ -20,7 +20,7 @@
     <link rel=”icon” type=”image/png” href=”/img/knowfox-icon.png”>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/knowfox.css') }}" rel="stylesheet">
 
     @yield('header_scripts')
 
@@ -145,7 +145,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/knowfox.js') }}"></script>
     @stack('scripts')
     @yield('footer_scripts')
 </body>
