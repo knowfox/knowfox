@@ -114,6 +114,6 @@
         @endif
     </p>
 
-    @include('partials.messages')
+    @include('knowfox::partials.messages')
 
 </section>

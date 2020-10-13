@@ -85,7 +85,7 @@
                     </ul>
 
                     @if (Auth::check() && Route::currentRouteName() != 'home')
-                        @include('partials.search-form', ['class' => 'desktop-only navbar-form navbar-left'])
+                        @include('knowfox::partials.search-form', ['class' => 'desktop-only navbar-form navbar-left'])
                     @endif
 
                     <!-- Right Side Of Navbar -->

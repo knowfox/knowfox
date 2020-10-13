@@ -11,7 +11,7 @@ use cebe\markdown\GithubMarkdown;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Knowfox\Observers\ConceptObserver;
-use Knowfox\User;
+use App\Models\User;
 use Symfony\Component\Yaml\Yaml;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -176,7 +176,7 @@ class Concept extends Model {
 
     public function getConfigAttribute($value)
     {
-        return (object)Yaml::parse($this->data, Yaml::PARSE_DATETIME);
+        return (object)Yaml::parse($this->data ? $this->data : '', Yaml::PARSE_DATETIME);
     }
 
     private function renderValue($value)
@@ -221,7 +221,7 @@ class Concept extends Model {
 
     public function getRenderedConfigAttribute($value)
     {
-        $data = (object)Yaml::parse($this->data);
+        $data = (object)Yaml::parse($this->data ? $this->data : '');
         return $this->renderData($data);
     }
 

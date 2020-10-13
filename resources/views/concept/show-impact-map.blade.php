@@ -1,4 +1,4 @@
-@extends('concept.show')
+@extends('knowfox::concept.show')
 
 @section('full-content')
 

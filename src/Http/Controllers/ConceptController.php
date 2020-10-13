@@ -170,7 +170,7 @@ class ConceptController extends Controller
                 ->paginate()
                 ->appends($request->except(['page']));
 
-            return view('concept.index', [
+            return view('knowfox::concept.index', [
                 'concepts' => $result,
                 'page_title' => $page_title,
                 'sub_title' => $result->firstItem() . ' &hellip; ' . $result->lastItem() . ' of ' . $result->total(),
@@ -197,7 +197,7 @@ class ConceptController extends Controller
             $concept->appendToNode($parent);
         }
 
-        return view('concept.create', [
+        return view('knowfox::concept.create', [
             'concept' => $concept,
         ]);
     }
@@ -255,10 +255,10 @@ class ConceptController extends Controller
 
         $concept->load('related', 'inverseRelated', 'tagged', 'shares', 'parent');
 
-        $view_name = 'concept.show';
+        $view_name = 'knowfox::concept.show';
         if ($concept->type != 'concept') {
 
-            $view_name = 'concept.show';
+            $view_name = 'knowfox::concept.show';
 
             $scoped_type = preg_split('/:\s*/', $concept->type, 2);
             if (count($scoped_type) == 1) {
@@ -452,7 +452,7 @@ class ConceptController extends Controller
 
     public function versions(Request $request, Concept $concept)
     {
-        return view('concept.versions', [
+        return view('knowfox::concept.versions', [
             'concept' => $concept,
             'is_owner' => $concept->owner_id == $request->user()->id,
             'can_update' => $request->user()->can('update', $concept),
