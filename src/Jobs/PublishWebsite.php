@@ -81,7 +81,7 @@ class PublishWebsite implements ShouldQueue
             file_put_contents(
                 $path,
 
-                view ('website.' . $website_dir . '.fragments', [
+                view ('knowfox::website.' . $website_dir . '.fragments', [
                     'show_date' => $show_date,
                     'concepts' => $children_page,
                     'url_prefix' => $url_prefix,
@@ -148,7 +148,7 @@ class PublishWebsite implements ShouldQueue
             return in_array('Post', $concept->tagNames());
         });
 
-        $page0_children =  view ('website.' . $website_dir . '.fragments', [
+        $page0_children =  view('knowfox::website.' . $website_dir . '.fragments', [
             'show_date' => $by_date,
             'concepts' => $this->publishChildren($children, $by_date, $url_prefix, $website_dir, $target_dir),
             'url_prefix' => $url_prefix,
@@ -156,7 +156,7 @@ class PublishWebsite implements ShouldQueue
         ])->render();
 
         file_put_contents($target_dir . '/index.html',
-            view( 'website.' . $website_dir . '.concept', [
+            view('knowfox::website.' . $website_dir . '.concept', [
                 'page_title' => $title,
                 'rendered_body' => $this->picture_service->extractPictures($concept->rendered_body, $target_dir),
                 'concept' => $concept,
