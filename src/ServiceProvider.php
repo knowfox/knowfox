@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 
+//use Laravel\Passport\Passport;
+
 use Knowfox\Models\Concept;
 use Knowfox\Observers\ConceptObserver;
 use Knowfox\Policies\ConceptPolicy;
@@ -45,6 +47,8 @@ class ServiceProvider extends IlluminateServiceProvider
         View::composer('knowfox::concept.show-impact-map', ImpactMapComposer::class);
         View::composer('knowfox::partials.alpha-nav', AlphaIndexComposer::class);
 
+        Gate::policy(Concept::class, ConceptPolicy::class);
+
         // Because mpociot/versionable does not specify it
         $this->loadMigrationsFrom(__DIR__ . '/../../vendor/mpociot/versionable/src/migrations');
 
@@ -58,6 +62,8 @@ class ServiceProvider extends IlluminateServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(__DIR__ . '/../routes/web.php');
+
+        //Passport::routes();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'knowfox');
 
