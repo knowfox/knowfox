@@ -2,8 +2,9 @@
 
 namespace Knowfox\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Knowfox\User;
+use App\Models\User;
 use Carbon\Carbon;
 
 
@@ -20,7 +21,7 @@ class EmailLogin extends Model
     {
         return self::create([
             'email' => $email,
-            'token' => str_random(20)
+            'token' => Str::random(20)
         ]);
     }
 

@@ -21,34 +21,25 @@ require('jqtree');
 
 window.snackbar = require('snackbar');
 
-Vue.component('shares', require('./components/Shares.vue'));
+import Shares from './components/Shares.vue';
+Vue.component('shares', Shares);
 
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue')
-);
+import Clients from './components/passport/Clients.vue';
+Vue.component('passport-clients', Clients);
 
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue')
-);
+import AuthorizedClients from './components/passport/AuthorizedClients.vue';
+Vue.component('passport-authorized-clients', AuthorizedClients);
 
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue')
-);
+import PersonalAccessTokens from './components/passport/PersonalAccessTokens.vue';
+Vue.component('passport-personal-access-tokens', PersonalAccessTokens);
 
-/*
 import VCalendar from 'v-calendar';
 Vue.use(VCalendar, {
     firstDayOfWeek: 2
 });
 
-Vue.component(
-    'mini-calendar',
-    require('./components/Calendar.vue')
-);
-*/
+import Calendar from './components/Calendar.vue';
+Vue.component('mini-calendar', Calendar);
 
 window.markdownEditor = function () {
     var simplemde = new SimpleMDE({

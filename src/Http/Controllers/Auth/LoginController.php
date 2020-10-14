@@ -60,14 +60,14 @@ class LoginController extends Controller
             ->with('status', 'We have sent you an email. It contains a link for you to login.');
     }
 
-    public function authenticateEmail($token, $cid = null)
+    public function authenticateEmail(Request $request, $token, $cid = null)
     {
         $emailLogin = EmailLogin::validFromToken($token);
 
         Auth::login($emailLogin->user, /*remember*/true);
 
-        if ($cid) {
-            return redirect()->route('concept.show', [$cid]);
+        if ($request->input('concept')) {
+            return redirect()->route('concept.show', [$request->input('concept')]);
         }
         else {
             return redirect()->route('home');

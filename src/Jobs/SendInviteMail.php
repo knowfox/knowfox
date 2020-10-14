@@ -42,7 +42,7 @@ class SendInviteMail extends Job implements ShouldQueue
         $concept = $this->concept;
         $url = $this->url;
 
-        Mail::send('email.invited', [
+        Mail::send('knowfox::email.invited', [
             'owner' => $owner,
             'user' => $user,
             'concept' => $concept,

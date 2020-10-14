@@ -36,7 +36,7 @@ class SendLoginMail extends Job implements ShouldQueue
         $user = $this->user;
         $url = $this->url;
 
-        Mail::send('auth.emails.email-login', [
+        Mail::send('knowfox::auth.emails.email-login', [
             'user' => $user,
             'url' => $url,
         ], function ($m) use ($user) {

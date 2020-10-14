@@ -33,7 +33,7 @@ class SendRegisterMail extends Job implements ShouldQueue
     {
         $user = $this->user;
 
-        Mail::send('email.getting-started', [
+        Mail::send('knowfox::email.getting-started', [
             'user' => $user,
         ], function ($m) use ($user) {
             $m->from('hello@post.knowfox.com', 'Knowfox');

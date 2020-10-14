@@ -19,7 +19,7 @@
 namespace Knowfox\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Knowfox\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Knowfox\Models\EmailLogin;
 

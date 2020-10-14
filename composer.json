@@ -15,6 +15,7 @@
         "cebe/markdown": "^1.2",
         "kalnoy/nestedset": "^5.0",
         "laravel/framework": "^8.0",
+        "laravel/ui": "^3.0",
         "mpociot/versionable": "@dev",
         "rtconner/laravel-tagging": "^3.2",
         "doctrine/dbal": "^2.9",

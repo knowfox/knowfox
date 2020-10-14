@@ -20,7 +20,7 @@ namespace Knowfox\Http\Controllers;
 
 use Knowfox\Models\Concept;
 use Knowfox\Models\EmailLogin;
-use Knowfox\User;
+use App\Models\User;
 use Knowfox\Jobs\SendInviteMail;
 use Illuminate\Http\Request;
 

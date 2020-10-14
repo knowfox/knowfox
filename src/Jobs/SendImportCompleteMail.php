@@ -43,7 +43,7 @@ class SendImportCompleteMail implements ShouldQueue
         $notebook_name = $this->notebook_name;
         $info = $this->info;
 
-        Mail::send('email.import-complete', [
+        Mail::send('knowfox::email.import-complete', [
             'user' => $user,
             'notebook_name' => $notebook_name,
             'info' => Yaml::dump($info),

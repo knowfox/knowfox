@@ -41,7 +41,7 @@
                         </td></tr>
                 </table>
 
-                @include('partials.email.footer')
+                @include('knowfox::partials.email.footer')
 
             </center>
         </td>

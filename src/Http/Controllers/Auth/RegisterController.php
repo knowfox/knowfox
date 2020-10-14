@@ -2,7 +2,7 @@
 
 namespace Knowfox\Http\Controllers\Auth;
 
-use Knowfox\User;
+use App\Models\User;
 use Knowfox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
