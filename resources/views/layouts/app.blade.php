@@ -105,6 +105,9 @@
                                         <a href="{{ route('dashboard') }}">Dashboard</a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('pocket') }}">Pocket</a>
+                                    </li>
+                                    <li>
                                         <a id="generate-token" href="#">API-Token</a>
                                     </li>
                                     <li>
