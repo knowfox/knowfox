@@ -148,6 +148,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'BookController@reader',
     ])->where('concept', '[0-9]+');
 
+    Route::get('/{concept}/canvas', [
+        'as' => 'concept.canvas',
+        'uses' => 'CanvasController@canvas',
+    ])->where('concept', '[0-9]+');
+
     Route::get('/{concept}/versions', [
         'as' => 'concept.versions',
         'uses' => 'ConceptController@versions',

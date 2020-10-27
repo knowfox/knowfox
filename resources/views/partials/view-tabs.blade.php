@@ -4,6 +4,7 @@
 $tabs = [
     'view' => 'Standard',
     'outline' => 'Outline',
+    'canvas' => 'Canvas',
 ];
 if (!empty($concept->config->epub)) {
     $tabs['^reader'] = 'Reader';
