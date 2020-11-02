@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Pagination\Paginator;
 
 //use Laravel\Passport\Passport;
 
@@ -71,6 +72,8 @@ class ServiceProvider extends IlluminateServiceProvider
         //Passport::routes();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'knowfox');
+
+        Paginator::defaultView('knowfox::partials.pagination');
 
         $this->publishes([
             __DIR__ . '/../config/knowfox.php' => config_path('knowfox.php'),
