@@ -7,25 +7,47 @@ use Illuminate\Support\Str;
 
 trait SluggableTrait
 {
+    private static function makeSlug($model, $attempt) {
+        if ($attempt > 0) {
+            if (preg_match('/^(.*-)(\d+)$/', $model->slug, $matches)) {
+                return $matches[1] . $attempt;
+            }
+            else {
+                return $model->slug . '-' . $attempt;
+            }
+        }
+        else {
+            $slug_field = $model->slugField;
+            return Str::slug($model->{$slug_field});
+        }
+    }
+
     public static function bootSluggableTrait()
     {
+        static::saving(function ($model) {
+            if (empty($model->slug)) {
+                return;
+            }
+            $attempt = 1; // start at one. We already have an initial slug
+            do {
+                $model->slug = self::makeSlug($model, $attempt);
+                $attempt++;
+
+                if (0 == $model->where('slug', $model->slug)
+                    ->where('parent_id', $model->parent_id)
+                    ->count()) {
+                    break;
+                }
+            }
+            while (true);
+        });
+    
         static::created(function ($model) {
             if (empty($model->slug)) {
-                $slug_field = $model->slugField;
-
-                $model->slug = Str::slug($model->{$slug_field});
-
                 $attempt = 0;
                 $success = false;
                 do {
-                    if ($attempt > 0) {
-                        if (preg_match('/^(.*_)(\d+)$/', $model->slug, $matches)) {
-                            $model->slug = $matches[1] . $attempt;
-                        }
-                        else {
-                            $model->slug .= '-' . $attempt;
-                        }
-                    }
+                    $model->slug = self::makeSlug($model, $attempt);
                     $attempt++;
 
                     try {
