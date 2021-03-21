@@ -16,7 +16,8 @@ use Symfony\Component\Yaml\Yaml;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Versionable\VersionableTrait;
-
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class MyGithubMarkdown extends GithubMarkdown
 {
@@ -63,8 +64,34 @@ class Concept extends Model {
 
     public function setRelationsAttribute($value)
     {
-        $related = Yaml::parse($value);
-        if (empty($related)) {
+        if ($value) {
+            try {
+                $related = Yaml::parse($value);
+            }
+            catch (ParseException $e) {
+                Session::flash('error', 'Relationships: ' . $e->getMessage());
+                return;
+            }
+            if (!is_array($related)) {
+                Session::flash('error', 'Relationships: Not an array');
+                return;
+            }
+            foreach ($related as $id => $type) {
+                if (!is_numeric($id)) {
+                    Session::flash('error', "Relationships: Key {$id} ist not numeric");
+                    return;
+                }
+                if (!array_key_exists('type', $type)) {
+                    Session::flash('error', "Relationships: Key {$id} has no type");
+                    return;
+                }
+                if (!is_string($type['type'])) {
+                    Session::flash('error', "Relationships: Type of {$id} is not a string");
+                    return;
+                }
+            }
+        }
+        if (!$value || empty($related)) {
             $related = [];
         }
         $this->related()->sync($related);
