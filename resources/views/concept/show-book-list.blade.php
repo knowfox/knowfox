@@ -21,7 +21,7 @@
                 @endif
             </td>
             <td>{{$book->config->author or ''}}</td>
-            <td><a href="{{route('concept.show', ['concept' => $book])}}">
+            <td><div><a href="{{route('concept.show', ['concept' => $book])}}">
                     {{$book->title}}
                 </a>
                 @if ($book->is_flagged)
@@ -32,6 +32,8 @@
                     {!! $sep !!}<a href="{{route('concept.index', ['tag' => $tag->slug])}}" class="label label-default">{{$tag->name}}</a>
                     <?php $sep = ''; ?>
                 @endforeach
+                </div>
+                <div>{{ $book->summary }}</div>
             </td>
             <td>{{$book->config->year or ''}}</td>
         </tr>
