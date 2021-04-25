@@ -14,10 +14,10 @@ class CreateAttachmentsTable extends Migration
     public function up()
     {
         Schema::create('attachments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('concept_id')->unsigned();
+            $table->id();
+            $table->bigInteger('concept_id')->unsigned();
             $table->foreign('concept_id')->references('id')->on('concepts');
-            $table->integer('original_id')->unsigned()->nullable();
+            $table->bigInteger('original_id')->unsigned()->nullable();
             $table->foreign('original_id')->references('id')->on('attachments');
             $table->boolean('is_default')->default(false);
             $table->string('name');

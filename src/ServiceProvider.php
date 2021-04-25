@@ -56,7 +56,8 @@ class ServiceProvider extends IlluminateServiceProvider
         Gate::policy(Concept::class, ConceptPolicy::class);
 
         // Because mpociot/versionable does not specify it
-        $this->loadMigrationsFrom(__DIR__ . '/../../vendor/mpociot/versionable/src/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../../../../vendor/mpociot/versionable/src/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         //Route::model('concept', Concept::class);
 
