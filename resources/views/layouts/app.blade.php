@@ -22,14 +22,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/knowfox.css') }}" rel="stylesheet">
 
-    @yield('header_scripts')
-
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
+    @yield('header_scripts')
 </head>
 <body class="{{ str_replace('.', '-', Route::currentRouteName()) }}{{ Route::currentRouteName() != 'home' ? ' not-home' : '' }}">
     @section('navbar')
@@ -154,3 +154,4 @@
     @yield('footer_scripts')
 </body>
 </html>
+

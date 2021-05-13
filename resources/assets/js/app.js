@@ -8,8 +8,11 @@
 require('./bootstrap');
 require('selectize');
 
-var SimpleMDE = require('simplemde/dist/simplemde.min');
-window.Dropzone = require('dropzone');
+//var SimpleMDE = require('simplemde/dist/simplemde.min');
+import * as SimpleMDE from 'simplemde/dist/simplemde.min';
+
+//window.Dropzone = require('dropzone');
+import * as Dropzone from 'dropzone';
 
 require('jquery-ui/ui/widgets/autocomplete');
 
@@ -20,6 +23,9 @@ require('featherlight');
 require('jqtree');
 
 window.snackbar = require('snackbar');
+
+import Vue from 'vue';
+window.Vue = Vue;
 
 import Shares from './components/Shares.vue';
 Vue.component('shares', Shares);
