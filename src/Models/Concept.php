@@ -359,6 +359,17 @@ class Concept extends Model {
     public function getPaginated($query, $sort = null, $letter = null, $paginate_options = [])
     {
         if ($sort) {
+            $sort_options = preg_split('/\W+/', $sort, 2);
+            if (count($sort_options) > 1) {
+                $sort = $sort_options[0];
+                $order = $sort_options[1] == 'desc'
+                    ? 'desc' : ($sort == 'alpha' ? 'asc' : 'desc');
+            }
+            else {
+                $sort = $sort_options[0];
+                $order = $sort == 'alpha' ? 'asc' : 'desc';
+            }
+
             if ($sort == 'alpha') {
                 if ($letter) {
                     $letter = ucfirst(substr($letter, 0, 1));
@@ -371,7 +382,7 @@ class Concept extends Model {
                             ->where('title', '<', chr(ord($letter) + 1));
                     }
                 }
-                $query->orderBy('title', 'asc');
+                $query->orderBy('title', $order);
                 $paginator = call_user_func_array([$query, 'paginate'], $paginate_options);
 
                 if ($letter) {
@@ -381,7 +392,7 @@ class Concept extends Model {
             }
             else
             if ($sort == 'created') {
-                $query->orderBy('created_at', 'desc');
+                $query->orderBy('created_at', $order);
                 return call_user_func_array([$query, 'paginate'], $paginate_options);
             }
         }
