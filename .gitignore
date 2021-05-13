@@ -12,3 +12,4 @@ Homestead.yaml
 .env
 /packages/knowfox/
 secrets
+*~

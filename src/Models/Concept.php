@@ -168,7 +168,7 @@ class Concept extends Model {
     {
         $segments = [];
         $last = 0;
-        preg_match_all('/\W(@(\w+))/u', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        preg_match_all('/\W(@([-\w]+))/u', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
             if ($this->inALink($html, $match[1][1])) {
                 continue;

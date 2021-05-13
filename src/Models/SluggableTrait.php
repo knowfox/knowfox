@@ -24,24 +24,24 @@ trait SluggableTrait
 
     public static function bootSluggableTrait()
     {
-        static::saving(function ($model) {
+        static::updating(function ($model) {
             if (empty($model->slug)) {
                 return;
             }
             $attempt = 1; // start at one. We already have an initial slug
             do {
-                $model->slug = self::makeSlug($model, $attempt);
-                $attempt++;
-
                 if (0 == $model->where('slug', $model->slug)
                     ->where('parent_id', $model->parent_id)
+                    ->where('id', '!=', $model->id)
                     ->count()) {
                     break;
                 }
+                $model->slug = self::makeSlug($model, $attempt);
+                $attempt++;
             }
             while (true);
         });
-    
+
         static::created(function ($model) {
             if (empty($model->slug)) {
                 $attempt = 0;
