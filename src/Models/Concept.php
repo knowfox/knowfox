@@ -143,7 +143,7 @@ class Concept extends Model {
     {
         $segments = [];
         $last = 0;
-        preg_match_all('/(\S*)#([[:alpha:]][\w-]*)/ui', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        preg_match_all('/\W(#([[:alpha:]]\w*(-\w+)?))/u', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
             if ($this->inALink($html, $match[0][1])) {
                 continue;
@@ -153,11 +153,15 @@ class Concept extends Model {
             }
 
             $segments[] = $segment = substr($html, $last, $match[0][1] - $last);
-
-            $tag = $match[2][0];
             $last += strlen($segment) + strlen($match[0][0]);
 
-            $segments[] = '<a class="label label-default" href="/concepts?tag=' . Str::slug($tag) . '">' . ucfirst($tag) . '</a>';
+            if ($match[0][0][0] == '\\') {
+                $segments[] = $match[1][0];
+            }
+            else {
+                $tag = $match[2][0];
+                $segments[] = $match[0][0][0] . '<a class="label label-default" href="/concepts?tag=' . Str::slug($tag) . '">' . ucfirst($tag) . '</a>';
+            }
         }
         $segments[] = substr($html, $last);
 
@@ -168,17 +172,21 @@ class Concept extends Model {
     {
         $segments = [];
         $last = 0;
-        preg_match_all('/\W(@([-\w]+))/u', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
+        preg_match_all('/\W(@(\w+(-\w+)?))/u', $html, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
         foreach ($matches as $match) {
-            if ($this->inALink($html, $match[1][1])) {
+            if ($this->inALink($html, $match[0][1])) {
                 continue;
             }
-            $segments[] = $segment = substr($html, $last, $match[1][1] - $last);
+            $segments[] = $segment = substr($html, $last, $match[0][1] - $last);
+            $last += strlen($segment) + strlen($match[0][0]);
 
-            $person = $match[2][0];
-            $last += strlen($segment) + strlen($match[1][0]);
-
-            $segments[] = '<a class="label label-info" href="/person/' . $person . '">' . ucfirst($person) . '</a>';
+            if ($match[0][0][0] == '\\') {
+                $segments[] = $match[1][0];
+            }
+            else {
+                $person = $match[2][0];
+                $segments[] = $match[0][0][0] . '<a class="label label-info" href="/person/' . $person . '">' . ucfirst($person) . '</a>';
+            }
         }
         $segments[] = substr($html, $last);
 
