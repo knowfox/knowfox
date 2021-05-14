@@ -158,7 +158,7 @@ class PublishWebsite implements ShouldQueue
         file_put_contents($target_dir . '/index.html',
             view('knowfox::website.' . $website_dir . '.concept', [
                 'page_title' => $title,
-                'rendered_body' => $this->picture_service->extractPictures($concept->rendered_body, $target_dir),
+                'rendered_body' => $this->picture_service->extractPictures($concept->rendered_body, $target_dir, false),
                 'concept' => $concept,
                 'breadcrumbs' => array_slice($breadcrumbs, 1),
                 'url_prefix' => $url_prefix,
