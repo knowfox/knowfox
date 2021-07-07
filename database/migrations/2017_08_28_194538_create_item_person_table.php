@@ -14,10 +14,10 @@ class CreateItemPersonTable extends Migration
     public function up()
     {
         Schema::create('item_person', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('item_id')->unsigned();
+            $table->id();
+            $table->bigInteger('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('items');
-            $table->integer('person_id')->unsigned();
+            $table->bigInteger('person_id')->unsigned();
             $table->foreign('person_id')->references('id')->on('concepts');
         });
     }

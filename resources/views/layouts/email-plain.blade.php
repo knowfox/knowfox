@@ -1,3 +1,3 @@
 @yield('content')
 
-@include('partials.email.footer-plain')
+@include('knowfox::partials.email.footer-plain')

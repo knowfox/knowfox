@@ -1,13 +1,13 @@
 <template>
     <div class="mini-calendar">
-        <v-calendar v-on:dayclick="dayclick" :attributes="calendar"></v-calendar>
+        <v-calendar v-on:dayclick="dayclick" :attributes="calendar" :first-day-of-week="2"></v-calendar>
     </div>
 </template>
 
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            console.log('Calendar mounted.')
         },
         methods: {
             dayclick: function (event) {

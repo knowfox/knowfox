@@ -94,7 +94,7 @@
                     <div class="form-group">
                         <label for="title">Language</label>
 
-                        @include('partials.select', [
+                        @include('knowfox::partials.select', [
                             'name' => 'language',
                             'selected' => $concept->language,
                             'options' => config('knowfox.languages')
@@ -110,7 +110,7 @@
                     <div class="form-group">
                         <label for="title">Status</label>
 
-                        @include('partials.select', [
+                        @include('knowfox::partials.select', [
                             'name' => 'status',
                             'selected' => $concept->status,
                             'options' => ['private', 'public']
@@ -119,7 +119,7 @@
                     <div class="form-group">
                         <label for="title">Type</label>
 
-                        @include('partials.select', [
+                        @include('knowfox::partials.select', [
                             'name' => 'type',
                             'selected' => $concept->type,
                             'options' => config('knowfox.types')

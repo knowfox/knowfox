@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('knowfox::layouts.app')
 
 @section('content')
 <div class="container">

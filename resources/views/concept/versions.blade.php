@@ -1,4 +1,4 @@
-@extends('concept.show')
+@extends('knowfox::concept.show')
 
 <?php use \Illuminate\Support\Facades\Input; ?>
 

@@ -1,4 +1,4 @@
-@extends('layouts.email')
+@extends('knowfox::layouts.email')
 
 @section('content')
 Hi,

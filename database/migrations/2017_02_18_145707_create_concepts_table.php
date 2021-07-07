@@ -15,7 +15,7 @@ class CreateConceptsTable extends Migration
     public function up()
     {
         Schema::create('concepts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('title');
             $table->text('summary')->nullable();
 
@@ -23,14 +23,14 @@ class CreateConceptsTable extends Migration
             $table->string('body_format')->default('markdown');
 
             $table->string('language')->default('de');
-            $table->integer('translation_id')->unsigned()->nullable();
+            $table->bigInteger('translation_id')->unsigned()->nullable();
             $table->foreign('translation_id')->references('id')->on('concepts');
 
             NestedSet::columns($table);
 
             $table->string('source_url')->nullable();
 
-            $table->integer('owner_id')->unsigned();
+            $table->bigInteger('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users');
 
             $table->timestamps();

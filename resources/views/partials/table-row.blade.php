@@ -5,6 +5,7 @@
         @endif
     </td>
     <td colspan="3">
+        <div>
         @if ($concept->depth == 0)
             <a href="{{route('concept.show', ['concept' => $concept])}}">
                 <strong>{{$concept->title}}</strong>
@@ -21,6 +22,7 @@
         @if ($concept->is_flagged)
             <i class="glyphicon glyphicon-heart"></i>
         @endif
+        </div><div>{{ $concept->summary }}</div>
     </td>
     <td>{{strftime('%Y-%m-%d', strtotime($concept->created_at))}}</td>
 </tr>

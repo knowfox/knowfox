@@ -1,3 +1,3 @@
-@extends('website.schettler_net.layout')
+@extends('knowfox::website.schettler_net.layout')
 
-@include('website.default._concept')
+@include('knowfox::website.default._concept')

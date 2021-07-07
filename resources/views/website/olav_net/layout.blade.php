@@ -1,4 +1,4 @@
-@extends('website.default.layout')
+@extends('knowfox::website.default.layout')
 
 @push('header')
     <meta name="google-site-verification" content="{{$config->google_site or 'YOU NEED TO DEFINE google_site'}}" />
@@ -55,22 +55,5 @@
         ga('create', '{{$config->google_analytics or 'YOU NEED TO DEFINE google_analytics'}}', 'auto');
         ga('send', 'pageview');
 
-    </script>
-@endpush
-
-@push('scripts')
-    <script>
-        window.productHuntUpcoming = {
-            appId: 1433,
-            position: 'bottomLeft',
-        };
-
-        (function(doc, scr, src, a, b) {
-            a = doc.createElement(scr);
-            b = doc.getElementsByTagName(scr)[0];
-            a.async = true;
-            a.src = src;
-            b.parentNode.insertBefore(a, b);
-        })(document, 'script', 'https://assets.producthunt.com/assets/upwigloader.js');
     </script>
 @endpush

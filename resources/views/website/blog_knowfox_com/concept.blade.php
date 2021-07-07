@@ -1,3 +1,3 @@
-@extends('website.blog_knowfox_com.layout')
+@extends('knowfox::website.blog_knowfox_com.layout')
 
-@include('website.default._concept')
+@include('knowfox::website.default._concept')

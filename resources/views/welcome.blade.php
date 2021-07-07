@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Tinkerthon</title>
+        <title>Knowfox</title>
 
         <meta name="description" content="Personal knowledge management">
         <meta name="google-site-verification" content="{{env('GOOGLE_SITE')}}" />
@@ -97,7 +97,7 @@
 
             <div class="content">
 
-                @include('partials.messages')
+                @include('knowfox::partials.messages')
 
                 <div class="title m-b-md">
                     Knowfox

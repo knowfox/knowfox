@@ -14,11 +14,11 @@ class CreateRelationshipsTable extends Migration
     public function up()
     {
         Schema::create('relationships', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('type');
-            $table->integer('source_id')->unsigned();
+            $table->bigInteger('source_id')->unsigned();
             $table->foreign('source_id')->references('id')->on('concepts');
-            $table->integer('target_id')->unsigned();
+            $table->bigInteger('target_id')->unsigned();
             $table->foreign('target_id')->references('id')->on('concepts');
             $table->timestamps();
         });
