@@ -355,6 +355,7 @@ class ConceptController extends Controller
             }
         });
 
+        /** @todo this will no longer work. There is no handleUpload() */
         $filename = '';
         if ($request->hasFile('upload')) {
             $filename = $picture->handleUpload(
@@ -419,10 +420,11 @@ class ConceptController extends Controller
         $concept = Concept::where('uuid', $uuid)->firstOrFail();
         $this->authorize('update', $concept);
 
-        $path = $picture->upload($request->file('file'), $uuid);
+        $uploaded_file = $request->file('file');
+        $mime_type = $uploaded_file->getMimeType();
+        $path = $picture->upload($uploaded_file, $uuid);
 
-        $file = new File($path);
-        if (strpos($file->getMimeType(), 'image/') === 0) {
+        if (strpos($mime_type, 'image/') === 0) {
             $parts = pathinfo($path);
 
             if (strpos($concept->body, $parts['basename']) === false) {

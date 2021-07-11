@@ -10,12 +10,20 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use \Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Storage;
+
 use DOMDocument;
 use DOMXpath;
 use Exception;
 
 class PictureService
 {
+    private $upload_fs;
+
+    public function __construct()
+    {
+        $this->upload_fs = env('UPLOAD_FS', 'local');
+    }
     public function autoRotateImage(Imagick $image)
     {
         $orientation = $image->getImageOrientation();
@@ -69,7 +77,11 @@ class PictureService
 
     public function imageDirectory($uuid)
     {
-        return storage_path('uploads') . '/' . str_replace('-', '/', $uuid);
+        $path = '';
+        if ($this->upload_fs == 'local') {
+            $path .= storage_path('uploads');
+        }
+        return $path . '/' . str_replace('-', '/', $uuid);
     }
 
     public function upload(UploadedFile $file, $uuid)
@@ -78,14 +90,35 @@ class PictureService
         $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
             . '.' . $file->guessExtension();
 
-        $file = $file->move($directory, $filename);
-        $path = $file->getPathname();
+        if ($this->upload_fs == 'local') {
+            $file = $file->move($directory, $filename);
+            $path = $file->getPathname();
+        }
+        else {
+            $path = $file->storeAs(
+                $directory, $filename, 
+                'upload' // disk name
+            );
+        }
 
         if (strpos($file->getMimeType(), 'image') === 0) {
-            $image = new Imagick($path);
+            if ($this->upload_fs == 'local') {
+                $image = new Imagick($path);
+            }
+            else {
+                $image = new Imagick();
+                $image->readImageBlob(
+                    Storage::disk('upload')->get($path));
+            }
             $this->autoRotateImage($image);
 
-            $image->writeImage($path);
+            if ($this->upload_fs == 'local') {
+                $image->writeImage($path);
+            }
+            else {
+                Storage::disk('upload')->put($path, 
+                    $image->getImageBlob());
+            }
         }
 
         return $path;
@@ -93,7 +126,14 @@ class PictureService
 
     public function imageData($path, $style_name, $args = [])
     {
-        $image = new Imagick($path);
+        if ($this->upload_fs == 'local') {
+            $image = new Imagick($path);
+        }
+        else {
+            $image = new Imagick();
+            $image->readImageBlob(
+                Storage::disk('upload')->get($path));
+        }
 
         switch ($style_name) {
             case 'original':
@@ -117,8 +157,14 @@ class PictureService
     public function image($uuid, $filename, $style_name, $args)
     {
         $path = $this->imageDirectory($uuid) . '/' . $filename;
-        $file = new File($path);
-        $type = $file->getMimeType();
+
+        if ($this->upload_fs == 'local') {
+            $file = new File($path);
+            $type = $file->getMimeType();
+        }
+        else {
+            $type = Storage::disk('upload')->mimeType($path);
+        }
 
         if (strpos($type, 'image/') === 0) {
             return new Response($this->imageData($path, $style_name, $args), 200, [
@@ -135,7 +181,13 @@ class PictureService
             ]);
         }
         else {
-            return new Response(file_get_contents($path), 200, [
+            if ($this->upload_fs == 'local') {
+                $blob = file_get_contents($path);
+            }
+            else {
+                $blob = Storage::disk('upload')->get(path);
+            }
+            return new Response($blob, 200, [
                 "Content-Type" => $type,
             ]);
         }
