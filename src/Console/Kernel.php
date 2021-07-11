@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\ImportEvernote::class,
         Commands\PublishWebsite::class,
 	Commands\RestoreParents::class,
+	Commands\MoveAttachments::class,
     ];
 
     /**

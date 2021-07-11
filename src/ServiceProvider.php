@@ -23,6 +23,12 @@ use Knowfox\Listeners\AuthListener;
 use Knowfox\ViewComposers\AlphaIndexComposer;
 use Knowfox\ViewComposers\ImpactMapComposer;
 
+use Knowfox\Console\Commands\ImportEbooks;
+use Knowfox\Console\Commands\ImportEvernote;
+use Knowfox\Console\Commands\PublishWebsite;
+use Knowfox\Console\Commands\RestoreParents;
+use Knowfox\Console\Commands\MoveAttachments;
+
 class ServiceProvider extends IlluminateServiceProvider
 {
     protected $namespace = '\Knowfox\Http\Controllers';
@@ -69,6 +75,16 @@ class ServiceProvider extends IlluminateServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(__DIR__ . '/../routes/web.php');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ImportEbooks::class,
+                ImportEvernote::class,
+                PublishWebsite::class,
+                RestoreParents::class,
+                MoveAttachments::class,
+            ]);
+	}
 
         //Passport::routes();
 

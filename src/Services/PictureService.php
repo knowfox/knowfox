@@ -81,7 +81,13 @@ class PictureService
         if ($this->upload_fs == 'local') {
             $path .= storage_path('uploads');
         }
-        return $path . '/' . str_replace('-', '/', $uuid);
+	else {
+            $flat = str_replace('-', '', $uuid);
+            for ($i = 0; $i < strlen($flat); $i += 2) {
+                $path .= '/' . substr($flat, $i, 2);
+            } 
+	}
+	return $path;
     }
 
     public function upload(UploadedFile $file, $uuid)
