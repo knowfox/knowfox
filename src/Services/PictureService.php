@@ -75,19 +75,33 @@ class PictureService
         $image->resizeImage($resize_w, $resize_h, Imagick::FILTER_LANCZOS, 0.9);
     }
 
+    public function dirs($flat)
+    {
+        $path = '';
+        $len = strlen($flat);
+        
+        // Split the first 8 characters into directories
+        for ($i = 0; $i < min(8, $len); $i += 2) {
+            $path .= '/' . substr($flat, $i, 2);
+        }
+
+        // Append the remaining characters
+        if ($i < $len) {
+            $path .= '/' . substr($flat, $i);
+        }
+        return $path;
+    }
+
     public function imageDirectory($uuid)
     {
         $path = '';
         if ($this->upload_fs == 'local') {
             $path .= storage_path('uploads');
         }
-	else {
-            $flat = str_replace('-', '', $uuid);
-            for ($i = 0; $i < strlen($flat); $i += 2) {
-                $path .= '/' . substr($flat, $i, 2);
-            } 
-	}
-	return $path;
+        else {
+            $path .= $this->dirs(str_replace('-', '', $uuid));
+	    }
+	    return $path;
     }
 
     public function upload(UploadedFile $file, $uuid)

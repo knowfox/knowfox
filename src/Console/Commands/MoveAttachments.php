@@ -6,9 +6,12 @@ use Illuminate\Console\Command;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 
+use Knowfox\Services\PictureService;
+
 class MoveAttachments extends Command
 {
     private $start_at = 0;
+    private $picture;
 
     /**
      * The name and signature of the console command.
@@ -24,29 +27,32 @@ class MoveAttachments extends Command
      */
     protected $description = 'Move attachments to more structured directories';
 
+    public function __construct(PictureService $picture)
+    {
+        parent::__construct();
+        $this->picture = $picture;
+    }
+
     protected function move($dir)
     {
         //$this->info(' d ' . $dir);
         foreach (scandir($dir) as $entry) {
-	    if ($entry[0] == '.') {
-	        continue;
+            if ($entry[0] == '.') {
+                continue;
             }
-	    $path = $dir . '/' . $entry;
-	    if (is_dir($path)) {
-	        $this->move($path);
-	    }
-	    else {
-                $new_dir = '';
-		$flat = str_replace('/', '', substr($dir, $this->start_at));
-                for ($i = 0; $i < strlen($flat); $i += 2) {
-                    $new_dir .= '/' . substr($flat, $i, 2);
-                } 
+            $path = $dir . '/' . $entry;
+            if (is_dir($path)) {
+                $this->move($path);
+            }
+            else {
+                $flat = str_replace('/', '', substr($dir, $this->start_at));
+                $new_dir = $this->picture->dirs($flat);
 
-	        $this->info(' - ' . $path . ' -> ' . $new_dir);
+                $this->info(' - ' . $path . ' -> ' . $new_dir);
                 Storage::drive('upload')->putFileAs($new_dir,
-		    new File($path), $entry);
+                    new File($path), $entry);
             }
-	}
+	    }
     }
 
     /**
@@ -56,10 +62,10 @@ class MoveAttachments extends Command
      */
     public function handle()
     {
-        $root = storage_path('uploads-UNUSED');
-	$this->start_at = strlen(storage_path('uploads-UNUSED'));
-	$this->info('Moving ' . $root);
-	$this->move($root);
+        $root = storage_path('uploads');
+	    $this->start_at = strlen($root);
+	    $this->info('Moving ' . $root);
+	    $this->move($root);
         return 0;
     }
 }
