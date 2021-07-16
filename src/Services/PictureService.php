@@ -205,7 +205,7 @@ class PictureService
                 $blob = file_get_contents($path);
             }
             else {
-                $blob = Storage::disk('upload')->get(path);
+                $blob = Storage::disk('upload')->get($path);
             }
             return new Response($blob, 200, [
                 "Content-Type" => $type,
