@@ -122,14 +122,7 @@ class PictureService
         }
 
         if (strpos($file->getMimeType(), 'image') === 0) {
-            if ($this->upload_fs == 'local') {
-                $image = new Imagick($path);
-            }
-            else {
-                $image = new Imagick();
-                $image->readImageBlob(
-                    Storage::disk('upload')->get($path));
-            }
+            $image = $this->imagick($path);
             $this->autoRotateImage($image);
 
             if ($this->upload_fs == 'local') {
@@ -144,7 +137,7 @@ class PictureService
         return $path;
     }
 
-    public function imageData($path, $style_name, $args = [])
+    public function imagick($path)
     {
         if ($this->upload_fs == 'local') {
             $image = new Imagick($path);
@@ -154,6 +147,12 @@ class PictureService
             $image->readImageBlob(
                 Storage::disk('upload')->get($path));
         }
+        return $image;
+    }
+
+    public function imageData($path, $style_name, $args = [])
+    {
+        $image = $this->imagick($path);
 
         switch ($style_name) {
             case 'original':
@@ -174,10 +173,8 @@ class PictureService
         return $image->getImageBlob();
     }
 
-    public function image($uuid, $filename, $style_name, $args)
+    public function mimeType($path)
     {
-        $path = $this->imageDirectory($uuid) . '/' . $filename;
-
         if ($this->upload_fs == 'local') {
             $file = new File($path);
             $type = $file->getMimeType();
@@ -185,6 +182,18 @@ class PictureService
         else {
             $type = Storage::disk('upload')->mimeType($path);
         }
+        return $type;
+    }
+
+    public function path($uuid, $filename)
+    {
+        return $this->imageDirectory($uuid) . '/' . $filename;
+    }
+
+    public function image($uuid, $filename, $style_name, $args)
+    {
+        $path = $this->path($uuid, $filename);
+        $type = $this->mimeType($path);
 
         if (strpos($type, 'image/') === 0) {
             return new Response($this->imageData($path, $style_name, $args), 200, [
@@ -239,20 +248,14 @@ class PictureService
 
         $dir = $this->imageDirectory($uuid);
 
-        $d = @dir($dir);
-        if (!$d) {
+        $images = Storage::disk('upload')->files($dir);
+        if (!$images) {
             return [];
         }
         
-        while (false !== ($entry = $d->read())) {
-            if (strpos($entry, '.') === 0) {
-                continue;
-            }
-            $images[] = $entry;
-        }
-        $d->close();
-
-        return $images;
+        return collect($images)->map(function ($item) {
+            return basename($item);
+        });
     }
 
     /**
@@ -311,7 +314,7 @@ class PictureService
                     }
             }
 
-            $source_path = $this->imageDirectory($uuid) . '/' . $filename;
+            $source_path = $this->path($uuid, $filename);
             copy($source_path, $target_directory . '/' . $filename);
 
             $suffix = $style;
