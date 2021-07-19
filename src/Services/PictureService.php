@@ -255,7 +255,7 @@ class PictureService
         
         return collect($images)->map(function ($item) {
             return basename($item);
-        });
+        })->toArray();
     }
 
     /**
