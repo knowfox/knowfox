@@ -13,7 +13,7 @@
     "require": {
         "fruitcake/laravel-cors": "^2.0",
         "cebe/markdown": "^1.2",
-        "kalnoy/nestedset": "^5.0",
+        "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^8.0",
         "laravel/ui": "^3.0",
         "mpociot/versionable": "@dev",
