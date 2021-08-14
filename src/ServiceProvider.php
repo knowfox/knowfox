@@ -28,6 +28,7 @@ use Knowfox\Console\Commands\ImportEvernote;
 use Knowfox\Console\Commands\PublishWebsite;
 use Knowfox\Console\Commands\RestoreParents;
 use Knowfox\Console\Commands\MoveAttachments;
+use Knowfox\Console\Commands\ExportConcepts;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -83,6 +84,7 @@ class ServiceProvider extends IlluminateServiceProvider
                 PublishWebsite::class,
                 RestoreParents::class,
                 MoveAttachments::class,
+                ExportConcepts::class,
             ]);
 	}
 
