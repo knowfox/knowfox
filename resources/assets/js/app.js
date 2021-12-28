@@ -48,12 +48,14 @@ import Calendar from './components/Calendar.vue';
 Vue.component('mini-calendar', Calendar);
 
 window.markdownEditor = function () {
+    var uuid = $('meta[name="uuid"]').attr('content')
+        + '-' + $('meta[name="updated"]').attr('content').replace(/[-: ]/g, '');
     var simplemde = new SimpleMDE({
         element: $("#body-input")[0],
         autofocus: true,
         autosave: {
             enabled: true,
-            uniqueId: $('meta[name="uuid"]').attr('content')
+            uniqueId: uuid
         },
         spellChecker: false,
         toolbar: [

@@ -13,6 +13,9 @@
     @if (!empty($uuid))
         <meta name="uuid" content="{{$uuid}}">
     @endif
+    @if (!empty($concept))
+        <meta name="updated" content="{{$concept->updated_at}}">
+    @endif
 
     <title>@if (!empty($page_title)){{$page_title}} | @endif{{ config('app.name', 'Laravel') }}</title>
 
