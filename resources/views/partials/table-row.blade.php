@@ -15,7 +15,7 @@
             @endforeach
             <br>
             <a href="{{route('concept.show', ['concept' => $concept])}}">
-                {{$concept->title}}
+                {{$concept->title ? $concept->title : "id: $concept->id"}}
             </a>
         @endif
         @if ($concept->is_flagged)
