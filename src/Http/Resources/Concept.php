@@ -44,7 +44,7 @@ class Concept extends JsonResource
                 $package = $scoped_type[0];
                 $type = $scoped_type[1];
             }
-            $base[$type] = $this->{$type};
+            //$base[$type] = $this->{$type};
         }
 
         return $base;
