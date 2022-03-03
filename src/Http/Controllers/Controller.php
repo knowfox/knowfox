@@ -42,7 +42,7 @@ class Controller extends BaseController
     protected function setAuthMiddleWare(Request $request)
     {
         if ($request->hasHeader('authorization')) {
-            $this->middleware('auth:api');
+            $this->middleware('auth:sanctum');
         }
         else {
             $this->middleware('web');
