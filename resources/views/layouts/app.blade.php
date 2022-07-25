@@ -13,6 +13,9 @@
     @if (!empty($uuid))
         <meta name="uuid" content="{{$uuid}}">
     @endif
+    @if (!empty($concept))
+        <meta name="updated" content="{{$concept->updated_at}}">
+    @endif
 
     <title>@if (!empty($page_title)){{$page_title}} | @endif{{ config('app.name', 'Laravel') }}</title>
 
@@ -20,9 +23,7 @@
     <link rel=”icon” type=”image/png” href=”/img/knowfox-icon.png”>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    @yield('header_scripts')
+    <link href="{{ asset('css/knowfox.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -30,6 +31,8 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
+    @yield('header_scripts')
 </head>
 <body class="{{ str_replace('.', '-', Route::currentRouteName()) }}{{ Route::currentRouteName() != 'home' ? ' not-home' : '' }}">
     @section('navbar')
@@ -85,7 +88,7 @@
                     </ul>
 
                     @if (Auth::check() && Route::currentRouteName() != 'home')
-                        @include('partials.search-form', ['class' => 'desktop-only navbar-form navbar-left'])
+                        @include('knowfox::partials.search-form', ['class' => 'desktop-only navbar-form navbar-left'])
                     @endif
 
                     <!-- Right Side Of Navbar -->
@@ -101,6 +104,12 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ route('dashboard') }}">Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('pocket') }}">Pocket</a>
+                                    </li>
                                     <li>
                                         <a id="generate-token" href="#">API-Token</a>
                                     </li>
@@ -132,9 +141,7 @@
     <footer class="footer">
         <div class="container">
             <p class="text-muted">
-                &copy; {{ date('Y') }} Dr. Olav Schettler |
-                <a href="javascript:(function(){d=document.createElement('iframe');d.style='position:fixed;z-index:9999;top:10px;right:10px;width:200px;height:200px;background:#FFF;';d.src='{{ config('app.url') }}/bookmark?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);document.body.appendChild(d);})()"><i class="glyphicon glyphicon-bookmark"></i><span class="desktop-only"> Bookmarklet</span></a>
-                | <a href="https://addons.mozilla.org/de/firefox/addon/knowfox/">Firefox Extension</a>
+                &copy; {{ date('Y') }} Dr. Olav Schettler
                 | <a href="https://blog.knowfox.com">Blog</a>
                 | <a href="https://knowfox.com/presentation/47d6c8de/013c/11e7/8a8c/56847afe9799/index.html">Features</a>
                 | <a href="https://github.com/oschettler/knowfox/wiki">Getting started</a>
@@ -145,8 +152,9 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/knowfox.js') }}"></script>
     @stack('scripts')
     @yield('footer_scripts')
 </body>
 </html>
+

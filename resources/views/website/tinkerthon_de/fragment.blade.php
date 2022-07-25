@@ -1,1 +1,1 @@
-@extends('website.default.fragment')
+@extends('knowfox::website.default.fragment')
