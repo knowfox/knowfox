@@ -1,4 +1,4 @@
-
+/***/
 // Fonts
 //@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 @import url(https://cdn.jsdelivr.net/font-hack/2.020/css/hack-extended.min.css);
@@ -10,6 +10,19 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+/***/
+
+/***
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+***/
 
 // SimpleMDE
 @import "node_modules/simplemde/dist/simplemde.min";
@@ -18,7 +31,7 @@
 @import "node_modules/selectize/dist/css/selectize";
 @import "node_modules/selectize/dist/css/selectize.bootstrap3";
 
-@import "node_modules/dropzone/dist/min/dropzone.min";
+@import "~dropzone/dist/dropzone";
 
 @import "node_modules/jquery-ui/themes/base/autocomplete";
 

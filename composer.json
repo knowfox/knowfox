@@ -11,24 +11,24 @@
     "license": "GPLv3",
     "type": "laravel-package",
     "require": {
-        "fruitcake/laravel-cors": "^2.0",
+        "fruitcake/laravel-cors": "^2.2",
         "cebe/markdown": "^1.2",
         "kalnoy/nestedset": "^6.0",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^9.0",
         "laravel/ui": "^3.0",
         "mpociot/versionable": "@dev",
         "rtconner/laravel-tagging": "^3.2",
         "doctrine/dbal": "^2.9",
         "guzzlehttp/guzzle": "^7.0",
         "ramsey/uuid": "^4.0",
-        "symfony/yaml": "^4.3",
+        "symfony/yaml": "^6.3",
         "vipnytt/opmlparser": "dev-master",
         "barryvdh/laravel-debugbar": "^3.5",
         "evernote/evernote": "^1.26",
-        "genealabs/laravel-caffeine": "^8.0",
-        "knowfox/drupal7": "dev-minimal-change",
-        "knowfox/entangle": "dev-minimal-change",
-        "knowfox/pocket": "dev-minimal-change"
+        "genealabs/laravel-caffeine": "^9.0",
+        "knowfox/drupal7": "dev-main",
+        "knowfox/entangle": "dev-main",
+        "knowfox/pocket": "dev-main"
     },
     "extra": {
         "laravel": {

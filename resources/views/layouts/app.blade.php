@@ -105,7 +105,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('dashboard') }}">Dashboard</a>
+                                        <a href="{{ route('home') }}">Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('pocket') }}">Pocket</a>

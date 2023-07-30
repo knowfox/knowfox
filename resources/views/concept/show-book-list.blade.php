@@ -20,7 +20,7 @@
                     <img src="/{{$book->id}}/{{$book->config->image}}?style=thumbnail">
                 @endif
             </td>
-            <td>{{$book->config->author or ''}}</td>
+            <td>{{$book->config->author ?? ''}}</td>
             <td><div><a href="{{route('concept.show', ['concept' => $book])}}">
                     {{$book->title}}
                 </a>
@@ -35,7 +35,7 @@
                 </div>
                 <div>{{ $book->summary }}</div>
             </td>
-            <td>{{$book->config->year or ''}}</td>
+            <td>{{$book->config->year ?? ''}}</td>
         </tr>
     @endforeach
     </tbody>
