@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('knowfox::layouts.app')
 
 @section('content')
 
     <main class="container">
 
-        @include('partials.concept-view-page-header')
-        @include('partials.view-tabs', ['active' => 'outline'])
+        @include('knowfox::partials.concept-view-page-header')
+        @include('knowfox::partials.view-tabs', ['active' => 'outline'])
 
         <div class="panel-container">
 

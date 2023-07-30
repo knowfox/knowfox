@@ -1,79 +1,45 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "type": "project",
-    "repositories": [
+    "name": "knowfox/knowfox",
+    "authors": [
         {
-            "type": "vcs",
-            "url": "https://github.com/knowfox/entangle"
+            "name": "Olav Schettler",
+            "email": "olav@schettler.net"
         }
     ],
+    "description": "Knowfox. A personal knowledge management system.",
+    "keywords": ["knowfox", "personal knowledge management"],
+    "license": "GPLv3",
+    "type": "laravel-package",
     "require": {
-        "php": ">=5.6.4",
-        "barryvdh/laravel-debugbar": "^2.3",
-        "bugsnag/bugsnag-laravel": "2.0",
-        "cebe/markdown": "^1.1",
-        "doctrine/dbal": "^2.5",
+        "fruitcake/laravel-cors": "^2.2",
+        "cebe/markdown": "^1.2",
+        "kalnoy/nestedset": "^6.0",
+        "laravel/framework": "^9.0",
+        "laravel/ui": "^3.0",
+        "mpociot/versionable": "@dev",
+        "rtconner/laravel-tagging": "^3.2",
+        "doctrine/dbal": "^2.9",
+        "guzzlehttp/guzzle": "^7.0",
+        "ramsey/uuid": "^4.0",
+        "symfony/yaml": "^6.3",
+        "vipnytt/opmlparser": "dev-master",
+        "barryvdh/laravel-debugbar": "^3.5",
         "evernote/evernote": "^1.26",
-        "folklore/graphql": "^1.0",
-        "genealabs/laravel-caffeine": "^0.5.0",
-        "guzzlehttp/guzzle": "^6.2",
-        "kalnoy/nestedset": "^4.3",
-        "knowfox/drupal7": "dev-master",
-        "knowfox/entangle": "dev-master",
-        "laravel/framework": "^5.5",
-        "laravel/passport": "^4.0",
-        "laravel/tinker": "~1.0",
-        "mpociot/versionable": "^2.1",
-        "predis/predis": "^1.1",
-        "ramsey/uuid": "^3.5",
-        "rtconner/laravel-tagging": "^2.2",
-        "symfony/yaml": "^3.3",
-        "vipnytt/opmlparser": "dev-master"
+        "genealabs/laravel-caffeine": "^9.0",
+        "knowfox/drupal7": "dev-main",
+        "knowfox/entangle": "dev-main",
+        "knowfox/pocket": "dev-main"
     },
-    "require-dev": {
-        "filp/whoops": "~2.0",
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "^6.4",
-        "symfony/dom-crawler": "^3.2"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Knowfox\\ServiceProvider"
+            ]
+        }
     },
     "autoload": {
-        "classmap": [
-            "database"
-        ],
         "psr-4": {
-            "Knowfox\\": "app/",
-            "Knowfox\\Entangle\\": "packages/knowfox/entangle/src/"
+            "Knowfox\\": "src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
-        ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
     }
 }

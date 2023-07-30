@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('knowfox::layouts.app')
 
 @section('content')
 
@@ -10,9 +10,9 @@
                 <li class="active">Tags</li>
             </ol>
 
-            <h1>{{$page_title}} <small>{{$sub_title}}</small></h1>
+            <h1>{{$page_title}} <small>{!! $sub_title !!}</small></h1>
 
-            @include('partials.messages')
+            @include('knowfox::partials.messages')
 
         </section>
 

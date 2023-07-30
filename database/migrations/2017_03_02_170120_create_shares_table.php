@@ -14,10 +14,10 @@ class CreateSharesTable extends Migration
     public function up()
     {
         Schema::create('shares', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('concept_id')->unsigned();
+            $table->id();
+            $table->bigInteger('concept_id')->unsigned();
             $table->foreign('concept_id')->references('id')->on('concepts');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->tinyInteger('permissions')->default(0);
             $table->timestamps();
