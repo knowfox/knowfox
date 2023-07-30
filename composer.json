@@ -26,9 +26,9 @@
         "barryvdh/laravel-debugbar": "^3.5",
         "evernote/evernote": "^1.26",
         "genealabs/laravel-caffeine": "^9.0",
-        "knowfox/drupal7": "dev-main",
-        "knowfox/entangle": "dev-main",
-        "knowfox/pocket": "dev-main"
+        "knowfox/drupal7": "dev-master",
+        "knowfox/entangle": "dev-master",
+        "knowfox/pocket": "dev-master"
     },
     "extra": {
         "laravel": {
