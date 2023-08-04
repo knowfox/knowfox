@@ -28,7 +28,7 @@
         "genealabs/laravel-caffeine": "^9.0",
         "knowfox/drupal7": "dev-master",
         "knowfox/entangle": "dev-master",
-        "knowfox/pocket": "dev-master"
+        "knowfox/pocket": "dev-minimal-change"
     },
     "extra": {
         "laravel": {
